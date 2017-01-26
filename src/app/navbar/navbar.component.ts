@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
+
+import { BioModalService } from '../utils/modal/modal.service';
+import { LoginModalComponent } from '../login-modal/login-modal.component';
 
 @Component({
   selector: 'bio-navbar',
@@ -7,9 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private modalService: BioModalService, private viewContainerRef: ViewContainerRef) { }
 
   ngOnInit() {
+  }
+
+  openLoginModal() {
+    this.modalService.openComponentDialog(LoginModalComponent, this.viewContainerRef);
   }
 
 }

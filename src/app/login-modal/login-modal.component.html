@@ -1,0 +1,39 @@
+<div class='modal fade' bsModal #modal='bs-modal' tabindex='-1' role='dialog' aria-labelledby='Login modal dialog'>
+  <div class='modal-dialog'>
+    <div class='modal-content'>
+
+      <!-- Header -->
+      <div class='modal-header'>
+        <h4 class='modal-title'>Connexion</h4>
+      </div>
+
+      <form #loginForm='ngForm' (ngSubmit)='onSubmit()' novalidate>
+
+        <div class='modal-body'>
+
+          <!-- E-mail field -->
+          <div class='form-group'>
+            <label for='user-email' class='control-label'>Adresse e-mail</label>
+            <input type='text' id='user-email' class='form-control' required autofocus />
+          </div>
+
+          <!-- Password field -->
+          <div class='form-group'>
+            <label for='user-password' class='control-label'>Mot de passe</label>
+            <input type='text' id='user-password' class='form-control' required />
+          </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class='modal-footer'>
+          <div class='btn-group'>
+            <button type='button' class='btn btn-default' (click)='modal.hide()'>Annuler</button>
+            <button type='submit' class='btn btn-primary'>Connecter</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

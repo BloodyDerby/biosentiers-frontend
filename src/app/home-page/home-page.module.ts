@@ -8,6 +8,8 @@ import { HomePageComponent } from './home-page.component';
     CommonModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePageComponent]
+  declarations: [
+    HomePageComponent
+  ]
 })
 export class HomePageModule { }
