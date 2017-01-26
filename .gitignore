@@ -1,0 +1,22 @@
+# compiled output
+/dist
+/tmp
+
+# dependencies
+/node_modules
+
+# editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+
+# logs and other outputs
+/coverage/*
+npm-debug.log
+
+# e2e
+/e2e/*.js
+/e2e/*.map
