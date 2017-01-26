@@ -1,36 +1,53 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalDirective } from 'ng2-bootstrap/modal';
 
 import { BioAuthService } from '../auth/auth.service';
-import { BioModal } from '../utils/modal/modal';
 
 @Component({
   selector: 'bio-login-modal',
   templateUrl: './login-modal.component.html',
   styleUrls: ['./login-modal.component.styl']
 })
-export class LoginModalComponent implements BioModal, OnInit {
+export class LoginModalComponent implements OnInit {
 
+  private loginForm: FormGroup;
+  @ViewChild('email') private email: ElementRef;
   @ViewChild('modal') public modal: ModalDirective;
 
-  constructor(private authService: BioAuthService) { }
+  constructor(private authService: BioAuthService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      email: [
+        '',
+        Validators.required
+      ],
+      password: [
+        '',
+        Validators.required
+      ]
+    });
+  }
+
+  onModalShown() {
+    this.email.nativeElement.focus();
   }
 
   open() {
     this.modal.show();
   }
 
-  onSubmit() {
+  logIn(event) {
+    event.preventDefault();
 
-    var credentials = {
-      email: 'foo',
-      password: 'bar'
-    };
+    if (!this.loginForm.valid) {
+      return;
+    }
 
-    this.authService.authenticate(credentials).map((res) => res.json()).subscribe(function(authData) {
-      console.log(authData);
+    var credentials = this.loginForm.value;
+    this.authService.authenticate(credentials).subscribe((user) => {
+      this.close();
     });
   }
 

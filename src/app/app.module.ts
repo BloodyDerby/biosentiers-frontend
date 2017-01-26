@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { ModalModule  } from 'ng2-bootstrap/modal';
 
@@ -11,6 +11,7 @@ import { NavbarModule } from './navbar/navbar.module';
 
 import { Observable  } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 
 @NgModule({
@@ -25,7 +26,8 @@ import 'rxjs/add/operator/map';
     ModalModule.forRoot(),
     AppRoutingModule,
     HomePageModule,
-    NavbarModule
+    NavbarModule,
+    ReactiveFormsModule
   ],
   providers: []
 })

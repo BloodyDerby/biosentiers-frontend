@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { BioModalModule } from '../utils/modal/modal.module';
+import { BioAuthModule } from '../auth/auth.module';
 import { LoginModalModule } from '../login-modal/login-modal.module';
 import { NavbarComponent } from './navbar.component';
 
 @NgModule({
   imports: [
-    BioModalModule,
+    BioAuthModule,
     CommonModule,
     LoginModalModule
   ],

@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 
-import { BioModalService } from '../utils/modal/modal.service';
+import { BioAuthService } from '../auth/auth.service';
 import { LoginModalComponent } from '../login-modal/login-modal.component';
+import { User } from '../models/user';
 
 @Component({
   selector: 'bio-navbar',
@@ -10,13 +11,23 @@ import { LoginModalComponent } from '../login-modal/login-modal.component';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private modalService: BioModalService, private viewContainerRef: ViewContainerRef) { }
+  private user: User;
+  @ViewChild(LoginModalComponent) loginModal: LoginModalComponent;
+
+  constructor(private auth: BioAuthService) { }
 
   ngOnInit() {
+    this.auth.user$.subscribe((user) => {
+      this.user = user;
+    })
   }
 
   openLoginModal() {
-    this.modalService.openComponentDialog(LoginModalComponent, this.viewContainerRef);
+    this.loginModal.open();
+  }
+
+  logOut() {
+    this.auth.unauthenticate();
   }
 
 }

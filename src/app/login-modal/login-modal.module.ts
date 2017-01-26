@@ -1,4 +1,4 @@
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalModule } from 'ng2-bootstrap/modal';
@@ -10,14 +10,15 @@ import { LoginModalComponent } from './login-modal.component';
   declarations: [
     LoginModalComponent
   ],
-  entryComponents: [
+  exports: [
     LoginModalComponent
   ],
   imports: [
     BioAuthModule,
     CommonModule,
     FormsModule,
-    ModalModule
+    ModalModule,
+    ReactiveFormsModule
   ]
 })
 export class LoginModalModule { }

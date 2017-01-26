@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 
 import { BioAuthService } from './auth.service';
+import { BioStorageModule } from '../utils/storage/storage.module';
 
 @NgModule({
   imports: [
-    CommonModule
+    BioStorageModule
   ],
   providers: [
     BioAuthService

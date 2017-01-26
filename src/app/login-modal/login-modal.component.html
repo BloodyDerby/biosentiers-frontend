@@ -1,4 +1,4 @@
-<div class='modal fade' bsModal #modal='bs-modal' tabindex='-1' role='dialog' aria-labelledby='Login modal dialog'>
+<div class='modal fade' bsModal #modal='bs-modal' tabindex='-1' role='dialog' aria-labelledby='Login modal dialog' (onShown)='onModalShown()'>
   <div class='modal-dialog'>
     <div class='modal-content'>
 
@@ -7,20 +7,21 @@
         <h4 class='modal-title'>Connexion</h4>
       </div>
 
-      <form #loginForm='ngForm' (ngSubmit)='onSubmit()' novalidate>
+      <!-- Login form -->
+      <form [formGroup]='loginForm' (ngSubmit)='logIn($event)' novalidate>
 
         <div class='modal-body'>
 
           <!-- E-mail field -->
           <div class='form-group'>
-            <label for='user-email' class='control-label'>Adresse e-mail</label>
-            <input type='text' id='user-email' class='form-control' required autofocus />
+            <label for='user-email' class='control-label' #email>Adresse e-mail</label>
+            <input type='email' id='user-email' class='form-control' formControlName='email' required autofocus />
           </div>
 
           <!-- Password field -->
           <div class='form-group'>
             <label for='user-password' class='control-label'>Mot de passe</label>
-            <input type='text' id='user-password' class='form-control' required />
+            <input type='text' id='user-password' class='form-control' formControlName='password' required />
           </div>
 
         </div>
@@ -29,7 +30,7 @@
         <div class='modal-footer'>
           <div class='btn-group'>
             <button type='button' class='btn btn-default' (click)='modal.hide()'>Annuler</button>
-            <button type='submit' class='btn btn-primary'>Connecter</button>
+            <button type='submit' class='btn btn-primary' [disabled]='loginForm.invalid'>Connecter</button>
           </div>
         </div>
 

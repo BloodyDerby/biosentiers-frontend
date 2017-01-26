@@ -1,3 +1,4 @@
+<bio-login-modal></bio-login-modal>
 <div class='nav navbar navbar-default navbar-fixed-top'>
   <div class='container'>
 
@@ -15,10 +16,22 @@
     <!-- Login/logout buttons -->
     <div class='collapse navbar-collapse'>
       <ul class='nav navbar-nav navbar-right'>
-        <li>
+        <li *ngIf='user'>
+          <a href='#'>
+            <span class='glyphicon glyphicon-user'></span>
+            {{ user.email }}
+          </a>
+        </li>
+        <li *ngIf='!user'>
           <a href='#' (click)='openLoginModal()'>
             <span class='glyphicon glyphicon-log-in'></span>
             Connexion
+          </a>
+        </li>
+        <li *ngIf='user'>
+          <a href='#' (click)='logOut()'>
+            <span class='glyphicon glyphicon-log-out'></span>
+            Déconnexion
           </a>
         </li>
       </ul>
