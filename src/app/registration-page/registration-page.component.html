@@ -1,0 +1,33 @@
+<div class='container'>
+  <div class='page-header'>
+    <h1>Nouveau compte</h1>
+  </div>
+
+  <div class='col-lg-4 col-md-6 col-sm-8 col-xs-12' *ngIf='invitation && !existingUser'>
+    <form novalidate [formGroup]='registrationForm' (ngSubmit)='invite($event)'>
+
+      <div class='form-group'>
+        <label for='user-email' class='control-label'>Adresse e-mail</label>
+        <input type='text' id='user-email' class='form-control' formControlName='email' />
+      </div>
+
+      <div class='form-group'>
+        <label for='user-password' class='control-label'>Mot de passe</label>
+        <input type='text' id='user-password' class='form-control' formControlName='password' required />
+      </div>
+
+      <button type='submit' class='btn btn-primary btn-lg' [disabled]='registrationForm.invalid'>Créer mon compte</button>
+
+    </form>
+  </div>
+
+  <!-- Error: user is already logged in -->
+  <p class='alert alert-danger' *ngIf='existingUser'>
+    Déconnectez-vous pour créer un nouveau compte.
+  </p>
+
+  <!-- Error: invitation link is invalid or has expired -->
+  <p class='alert alert-danger' *ngIf='invitationInvalid && !existingUser'>
+    Le lien d'invitation que vous avez suivi a expiré ou n'est pas valide.
+  </p>
+</div>

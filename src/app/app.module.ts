@@ -8,12 +8,14 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomePageModule } from './home-page/home-page.module';
 import { NavbarModule } from './navbar/navbar.module';
+import { RegistrationPageModule } from './registration-page/registration-page.module';
 import { UsersPageModule } from './users-page/users-page.module';
 
 import { Observable  } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
 
 @NgModule({
   bootstrap: [ AppComponent ],
@@ -29,6 +31,7 @@ import 'rxjs/add/operator/map';
     HomePageModule,
     NavbarModule,
     ReactiveFormsModule,
+    RegistrationPageModule,
     UsersPageModule
   ],
   providers: []
