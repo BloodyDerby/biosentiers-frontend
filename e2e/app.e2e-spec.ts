@@ -7,8 +7,8 @@ describe('biosentiers-frontend App', function() {
     page = new BiosentiersFrontendPage();
   });
 
-  it('should display message saying app works', () => {
+  it('should display the title', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('bio works!');
+    expect(page.getParagraphText()).toEqual('BioSentiers');
   });
 });

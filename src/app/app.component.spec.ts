@@ -2,16 +2,21 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+
 import { AppComponent } from './app.component';
+import { HomePageModule } from './home-page/home-page.module';
+import { NavbarComponent } from './navbar/navbar.component';
 
 describe('AppComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
+        HomePageModule
       ],
       declarations: [
-        AppComponent
+        AppComponent,
+        NavbarComponent
       ],
     });
     TestBed.compileComponents();
@@ -23,16 +28,9 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   }));
 
-  it(`should have as title 'bio works!'`, async(() => {
+  it(`should have the correct title`, async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('bio works!');
-  }));
-
-  it('should render title in a h1 tag', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('bio works!');
+    expect(app.title).toEqual('BioSentiers');
   }));
 });

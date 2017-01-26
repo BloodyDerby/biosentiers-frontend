@@ -6,6 +6,6 @@ export class BiosentiersFrontendPage {
   }
 
   getParagraphText() {
-    return element(by.css('bio-root h1')).getText();
+    return element(by.css('bio-root bio-navbar .navbar-brand')).getText();
   }
 }
