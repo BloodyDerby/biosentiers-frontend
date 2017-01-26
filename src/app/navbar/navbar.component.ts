@@ -22,11 +22,13 @@ export class NavbarComponent implements OnInit {
     })
   }
 
-  openLoginModal() {
+  openLoginModal(event) {
+    event.preventDefault();
     this.loginModal.open();
   }
 
-  logOut() {
+  logOut(event) {
+    event.preventDefault();
     this.auth.unauthenticate();
   }
 

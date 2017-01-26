@@ -47,6 +47,7 @@ export class LoginModalComponent implements OnInit {
 
     var credentials = this.loginForm.value;
     this.authService.authenticate(credentials).subscribe((user) => {
+      this.loginForm.reset();
       this.close();
     });
   }

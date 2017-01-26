@@ -10,11 +10,27 @@
         <span class='icon-bar'></span>
         <span class='icon-bar'></span>
       </button>
-      <a href='#' class='navbar-brand'>BioSentiers</a>
+      <a routerLink='/' class='navbar-brand'>BioSentiers</a>
     </div>
 
-    <!-- Login/logout buttons -->
     <div class='collapse navbar-collapse'>
+
+      <!-- Admin menu -->
+      <ul class='nav navbar-nav'>
+        <li dropdown>
+          <a id='admin-menu-toggle' role='button' aria-haspopup='true' aria-expanded='false' dropdownToggle>
+            Admin
+            <span class='caret'></span>
+          </a>
+          <ul class='dropdown-menu' role='menu' aria-labelledby='admin-menu-toggle' dropdownMenu>
+            <li>
+              <a routerLink='/users'>Users</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- Login/logout buttons & profile -->
       <ul class='nav navbar-nav navbar-right'>
         <li *ngIf='user'>
           <a href='#'>
@@ -23,18 +39,19 @@
           </a>
         </li>
         <li *ngIf='!user'>
-          <a href='#' (click)='openLoginModal()'>
+          <a (click)='openLoginModal($event)'>
             <span class='glyphicon glyphicon-log-in'></span>
             Connexion
           </a>
         </li>
         <li *ngIf='user'>
-          <a href='#' (click)='logOut()'>
+          <a (click)='logOut($event)'>
             <span class='glyphicon glyphicon-log-out'></span>
             Déconnexion
           </a>
         </li>
       </ul>
+
     </div>
   </div>
 </div>

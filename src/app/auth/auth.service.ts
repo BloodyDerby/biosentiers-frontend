@@ -1,5 +1,5 @@
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Headers, Http, Response } from '@angular/http';
+import { Headers, Http, Response, RequestOptions } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
@@ -37,6 +37,15 @@ export class BioAuthService {
     const user = this.user.getValue();
     this.unsetAuthData();
     return user;
+  }
+
+  addRequestHeaders(requestOptions: RequestOptions) {
+    if (!this.token) {
+      return false;
+    }
+
+    requestOptions.headers.set('Authorization', 'Bearer ' + this.token);
+    return true;
   }
 
   private setAuthData(authData: any, save: boolean) {

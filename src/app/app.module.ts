@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomePageModule } from './home-page/home-page.module';
 import { NavbarModule } from './navbar/navbar.module';
+import { UsersPageModule } from './users-page/users-page.module';
 
 import { Observable  } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
@@ -27,7 +28,8 @@ import 'rxjs/add/operator/map';
     AppRoutingModule,
     HomePageModule,
     NavbarModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    UsersPageModule
   ],
   providers: []
 })
