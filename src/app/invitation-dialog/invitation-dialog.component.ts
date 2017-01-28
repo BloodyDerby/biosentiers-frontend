@@ -1,8 +1,10 @@
+import * as _ from 'lodash';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalDirective } from 'ng2-bootstrap/modal';
 
 import { BioApiService } from '../api/api.service';
+import { User } from '../models/user';
 
 @Component({
   selector: 'bio-invitation-dialog',
@@ -10,6 +12,8 @@ import { BioApiService } from '../api/api.service';
   styleUrls: ['./invitation-dialog.component.styl']
 })
 export class InvitationDialogComponent implements OnInit {
+
+  private userRoleChoices: any;
 
   private invitationForm: FormGroup;
   @ViewChild('email') private email: ElementRef;
@@ -22,8 +26,21 @@ export class InvitationDialogComponent implements OnInit {
       email: [
         '',
         Validators.required
+      ],
+      role: [
+        User.ROLES[0],
+        Validators.required
       ]
     });
+
+    this.userRoleChoices = _.reduce(User.ROLES, (memo, role) => {
+      memo.push({
+        value: role,
+        label: role
+      });
+
+      return memo;
+    }, []);
   }
 
   onModalShown() {

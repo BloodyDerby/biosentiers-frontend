@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 
 export class User {
 
-  static ROLES: Array<String> = [ 'user', 'admin' ];
+  static ROLES: Array<string> = [ 'user', 'admin' ];
 
   id: string;
   email: string;

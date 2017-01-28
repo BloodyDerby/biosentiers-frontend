@@ -2,6 +2,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalModule } from 'ng2-bootstrap/modal';
+import { SelectModule } from 'angular2-select';
 
 import { BioApiModule } from '../api/api.module';
 import { InvitationDialogComponent } from './invitation-dialog.component';
@@ -18,7 +19,8 @@ import { InvitationDialogComponent } from './invitation-dialog.component';
     CommonModule,
     FormsModule,
     ModalModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SelectModule
   ]
 })
 export class InvitationDialogModule { }
