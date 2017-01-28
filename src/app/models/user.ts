@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import { extend, pick } from 'lodash';
 
 export class User {
 
@@ -9,7 +9,7 @@ export class User {
   role: string;
 
   constructor(data: Object) {
-    _.extend(this, _.pick(data || {}, 'id', 'email', 'role'));
+    extend(this, pick(data || {}, 'id', 'email', 'role'));
   }
 
   hasRole(role) {

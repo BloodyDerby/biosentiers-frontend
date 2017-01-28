@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import reduce from 'lodash/reduce';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalDirective } from 'ng2-bootstrap/modal';
@@ -32,7 +32,7 @@ export class InvitationDialogComponent implements OnInit {
       ]
     });
 
-    this.userRoleChoices = _.reduce(User.ROLES, (memo, role) => {
+    this.userRoleChoices = reduce(User.ROLES, (memo, role) => {
       memo.push({
         value: role,
         label: role
