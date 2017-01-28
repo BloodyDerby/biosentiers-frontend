@@ -5,11 +5,13 @@
   "angular-cli": {},
   "scripts": {
     "build": "ng build --prod --aot",
-    "start": "ng serve --proxy-conf proxy.conf.json",
+    "ci": "npm run lint && npm run test && npm run e2e && npm run build",
+    "e2e": "protractor",
     "lint": "tslint \"src/**/*.ts\" --project src/tsconfig.json --type-check && tslint \"e2e/**/*.ts\" --project e2e/tsconfig.json --type-check",
-    "test": "ng test",
     "pree2e": "webdriver-manager update --standalone false --gecko false",
-    "e2e": "protractor"
+    "start": "ng serve --proxy-conf proxy.conf.json",
+    "test": "ng test --single-run",
+    "watch:test": "ng test"
   },
   "private": true,
   "dependencies": {
