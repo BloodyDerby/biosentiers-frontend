@@ -69,13 +69,9 @@ export class InvitationDialogComponent implements OnInit {
   }
 
   private sendInvitation() {
-
-    var value = this.invitationForm.value;
-    value.role = 'user'; // TODO: allow to select
-
     return this.api
       .request('POST', '/auth/invitation')
-      .json(value)
+      .json(this.invitationForm.value)
       .execute();
   }
 
