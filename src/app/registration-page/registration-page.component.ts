@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 
 import { BioApiService } from '../api/api.service';
 import { BioAuthService } from '../auth/auth.service';
+import { User } from '../models/user';
 
 @Component({
   selector: 'bio-registration-page',
@@ -13,6 +14,7 @@ import { BioAuthService } from '../auth/auth.service';
 export class RegistrationPageComponent implements OnInit {
 
   private invitation: Object;
+  private existingUser: User;
   private registrationForm: FormGroup;
 
   constructor(private api: BioApiService, private auth: BioAuthService, private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router) { }
@@ -24,6 +26,10 @@ export class RegistrationPageComponent implements OnInit {
         '',
         Validators.required
       ]
+    });
+
+    this.auth.user$.subscribe((user) => {
+      this.existingUser = user;
     });
 
     this.retrieveInvitation().subscribe((invitation) => {
