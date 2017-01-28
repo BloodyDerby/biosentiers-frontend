@@ -50,7 +50,7 @@ export class BioAuthService {
 
   private setAuthData(authData: any, save: boolean) {
     this.token = authData.token;
-    this.user.next(authData.user as User);
+    this.user.next(new User(authData.user));
 
     if (save) {
       this.storage.set('biosentiers.auth', authData);

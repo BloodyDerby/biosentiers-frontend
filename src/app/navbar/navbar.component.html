@@ -16,7 +16,7 @@
     <div class='collapse navbar-collapse'>
 
       <!-- Admin menu -->
-      <ul class='nav navbar-nav'>
+      <ul class='nav navbar-nav' *ngIf='user && user.hasRole("admin")'>
         <li dropdown>
           <a id='admin-menu-toggle' role='button' aria-haspopup='true' aria-expanded='false' dropdownToggle>
             Admin
