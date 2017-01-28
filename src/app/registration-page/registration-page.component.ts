@@ -36,7 +36,6 @@ export class RegistrationPageComponent implements OnInit {
 
   invite(event) {
     event.preventDefault();
-    console.log('@@@ invite');
 
     if (!this.registrationForm.valid) {
       return;

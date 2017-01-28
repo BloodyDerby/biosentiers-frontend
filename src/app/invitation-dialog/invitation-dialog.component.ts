@@ -13,9 +13,8 @@ import { User } from '../models/user';
 })
 export class InvitationDialogComponent implements OnInit {
 
-  private userRoleChoices: any;
-
   private invitationForm: FormGroup;
+  private userRoleChoices: Array<{ [s: string]: string; }>;
   @ViewChild('email') private email: ElementRef;
   @ViewChild('modal') private modal: ModalDirective;
 
