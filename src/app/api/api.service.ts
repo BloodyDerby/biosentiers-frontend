@@ -1,30 +1,18 @@
-import { Headers, Http, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
+import { RequestBuilder, RequestBuilderService } from 'ng-request-builder';
 
-import { ApiRequest } from './api.request';
 import { BioAuthService } from '../auth/auth.service';
 
 @Injectable()
 export class BioApiService {
 
-  constructor(private auth: BioAuthService, private http: Http) {
+  constructor(private auth: BioAuthService, private requestBuilderService: RequestBuilderService) {
   }
 
-  request(method: string, url: string) {
-
-    const request = new ApiRequest(this.http)
-      .method(method)
-      .url(url);
-
-    this.auth.addRequestHeaders(request.options);
-
-    return request;
+  request(url: string): RequestBuilder {
+    const builder = this.requestBuilderService.request(url);
+    this.auth.addRequestHeaders(builder.options);
+    return builder;
   }
 
 }
-
-'head delete get options patch post put'.split(/\s+/).forEach((method) => {
-  BioApiService.prototype[method] = function(url: string): ApiRequest {
-    return this.request(method, url);
-  };
-});

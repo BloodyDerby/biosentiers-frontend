@@ -54,17 +54,17 @@ export class RegistrationPageComponent implements OnInit {
 
   private retrieveInvitation() {
     return this.api
-      .request('GET', '/auth/invitation')
-      .header('Authorization', 'Bearer ' + this.route.snapshot.queryParams['invitation'])
+      .request('/auth/invitation')
+      .setHeader('Authorization', 'Bearer ' + this.route.snapshot.queryParams['invitation'])
       .execute()
       .map((res) => res.json());
   }
 
   private createUser() {
     return this.api
-      .request('POST', '/users')
-      .header('Authorization', 'Bearer ' + this.route.snapshot.queryParams['invitation'])
-      .json(this.registrationForm.value)
+      .request('/users')
+      .setHeader('Authorization', 'Bearer ' + this.route.snapshot.queryParams['invitation'])
+      .body(this.registrationForm.value)
       .execute()
       .map((res) => res.json());
   }

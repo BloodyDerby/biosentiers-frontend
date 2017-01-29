@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { RequestBuilderModule } from 'ng-request-builder';
 
 import { BioApiService } from './api.service';
 import { BioAuthModule } from '../auth/auth.module';
@@ -7,7 +7,7 @@ import { BioAuthModule } from '../auth/auth.module';
 @NgModule({
   imports: [
     BioAuthModule,
-    HttpModule
+    RequestBuilderModule
   ],
   providers: [
     BioApiService

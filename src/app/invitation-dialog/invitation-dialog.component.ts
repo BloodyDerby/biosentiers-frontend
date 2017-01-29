@@ -70,8 +70,8 @@ export class InvitationDialogComponent implements OnInit {
 
   private sendInvitation() {
     return this.api
-      .request('POST', '/auth/invitation')
-      .json(this.invitationForm.value)
+      .request('/auth/invitation')
+      .body(this.invitationForm.value)
       .execute();
   }
 
