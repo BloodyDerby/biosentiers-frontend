@@ -1,5 +1,9 @@
 # Contributing
 
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0-beta.26.
+
+
+
 ## Known issues
 
 * The `allowSyntheticDefaultImports` had to be added to `src/tsconfig.json` in
