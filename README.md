@@ -44,16 +44,16 @@ This repository contains the Angular 2 frontend application for the BioSentiers 
 
 ## Tasks
 
-Command          | Purpose
-:-               | :-
-`npm start`      | Run the Angular application in development mode (with live reload).
-`npm run build`  | Build the Angular application for production (concatenate, minify and version assets). The build artifacts will be stored in the `dist` directory.
-`npm run doctoc` | Regenerate the table of contents of the project's Markdown files.
-`npm run lint`   | Check the code for readability, maintainability, and functionality errors.
-`npm test`       | Run unit tests in development mode (with live reload).
-`npm run test`   | Run unit tests once.
-`npm run e2e`    | Run end-to-end tests once.
-`npm run ci`     | Run all tests once.
+| Command          | Purpose                                                                                                                                            |
+| :-               | :-                                                                                                                                                 |
+| `npm start`      | Run the Angular application in development mode (with live reload).                                                                                |
+| `npm run build`  | Build the Angular application for production (concatenate, minify and version assets). The build artifacts will be stored in the `dist` directory. |
+| `npm run doctoc` | Regenerate the table of contents of the project's Markdown files.                                                                                  |
+| `npm run lint`   | Check the code for readability, maintainability, and functionality errors.                                                                         |
+| `npm test`       | Run unit tests in development mode (with live reload).                                                                                             |
+| `npm run test`   | Run unit tests once.                                                                                                                               |
+| `npm run e2e`    | Run end-to-end tests once.                                                                                                                         |
+| `npm run ci`     | Run all tests once.                                                                                                                                |
 
 
 
