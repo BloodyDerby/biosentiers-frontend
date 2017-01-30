@@ -9,10 +9,29 @@ export class BioApiService {
   constructor(private auth: BioAuthService, private requestBuilderService: RequestBuilderService) {
   }
 
-  request(url: string): RequestBuilder {
-    const builder = this.requestBuilderService.request(url);
-    this.auth.addRequestHeaders(builder.options);
+  public delete(url: string): RequestBuilder {
+    return this.configure(this.requestBuilderService.delete(this.apiUrl(url)));
+  }
+
+  public get(url: string): RequestBuilder {
+    return this.configure(this.requestBuilderService.get(this.apiUrl(url)));
+  }
+
+  public patch(url: string, body?: any) {
+    return this.configure(this.requestBuilderService.patch(this.apiUrl(url), body));
+  }
+
+  public post(url: string, body?: any) {
+    return this.configure(this.requestBuilderService.post(this.apiUrl(url), body));
+  }
+
+  private configure(builder: RequestBuilder): RequestBuilder {
+    this.auth.addAuthorization(builder);
     return builder;
+  }
+
+  private apiUrl(url: string) {
+    return url.match(/^(https?:\/\/|\/\/)/) ? url : '/api' + url;
   }
 
 }

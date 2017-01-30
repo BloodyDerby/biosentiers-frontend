@@ -1,6 +1,7 @@
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Headers, Http, Response, RequestOptions } from '@angular/http';
 import { Injectable } from '@angular/core';
+import { RequestBuilder } from 'ng-request-builder';
 import { Observable } from 'rxjs/Observable';
 
 import { BioStorageService } from '../utils/storage/storage.service';
@@ -39,12 +40,12 @@ export class BioAuthService {
     return user;
   }
 
-  addRequestHeaders(requestOptions: RequestOptions) {
+  addAuthorization(requestBuilder: RequestBuilder) {
     if (!this.token) {
       return false;
     }
 
-    requestOptions.headers.set('Authorization', 'Bearer ' + this.token);
+    requestBuilder.setHeader('Authorization', 'Bearer ' + this.token);
     return true;
   }
 
