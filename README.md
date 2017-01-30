@@ -19,7 +19,7 @@ This repository contains the Angular 2 frontend application for the BioSentiers 
 
 * Node.js 6.x
 * [Angular CLI][angular-cli] (install with `npm install -g angular-cli`)
-* [BioSentiers Backend][biosentiers-backend] (running on port 3000 by default)
+* [BioSentiers backend][biosentiers-backend] (running on port 3000 by default)
 
 
 
@@ -38,7 +38,9 @@ This repository contains the Angular 2 frontend application for the BioSentiers 
 
         npm start
 
-* Read the [contribution guidelines](CONTRIBUTING.md).
+* Visit [http://localhost:4200](http://localhost:4200).
+
+* Read the [contribution guidelines](CONTRIBUTING.md) before committing.
 
 
 
