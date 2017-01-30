@@ -18,11 +18,8 @@ This repository contains the Angular 2 frontend application for the BioSentiers 
 ## Requirements
 
 * Node.js 6.x
-* [BioSentiers Backend][biosentiers-backend] running on port 3000 (by default)
-
-Additional development requirements:
-
 * [Angular CLI][angular-cli] (install with `npm install -g angular-cli`)
+* [BioSentiers Backend][biosentiers-backend] (running on port 3000 by default)
 
 
 
@@ -48,6 +45,7 @@ Additional development requirements:
 ## Tasks
 
 Command          | Purpose
+:-               | :-
 `npm start`      | Run the Angular application in development mode (with live reload).
 `npm run build`  | Build the Angular application for production (concatenate, minify and version assets). The build artifacts will be stored in the `dist` directory.
 `npm run doctoc` | Regenerate the table of contents of the project's Markdown files.
