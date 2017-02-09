@@ -1,4 +1,5 @@
-import { extend, pick } from 'lodash';
+import extend from 'lodash/extend';
+import pick from 'lodash/pick';
 
 export class User {
 

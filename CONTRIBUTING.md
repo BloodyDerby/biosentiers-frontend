@@ -18,7 +18,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
   But with the new option, you can import specific functions:
 
   ```js
-  import { map, pick } from 'lodash';
+  import map from 'lodash/map';
+  import pick from 'lodash/pick';
   ```
 
   See [this comment](http://disq.us/p/1ck2bq6).
