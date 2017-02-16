@@ -6,6 +6,7 @@ import { ModalModule  } from 'ng2-bootstrap/modal';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { ExcursionsPageModule } from './excursions-page/excursions-page.module';
 import { HomePageModule } from './home-page/home-page.module';
 import { NavbarModule } from './navbar/navbar.module';
 import { RegistrationPageModule } from './registration-page/registration-page.module';
@@ -31,6 +32,7 @@ import 'rxjs/add/operator/take';
     HttpModule,
     ModalModule.forRoot(),
     AppRoutingModule,
+    ExcursionsPageModule,
     HomePageModule,
     NavbarModule,
     ReactiveFormsModule,
