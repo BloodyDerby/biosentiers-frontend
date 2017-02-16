@@ -1,7 +1,9 @@
 <div class='container'>
   <div class='page-header'>
     <h1>
-      Excursions
+      Sorties
     </h1>
   </div>
+
+  <em class='text-muted' *ngIf='excursions !== undefined && !excursions.length'>Aucune sortie n'a encore été faite</em>
 </div>
