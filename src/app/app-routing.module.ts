@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { CanAccessPage } from './auth/can-access-page';
 import { ExcursionsPageComponent } from './excursions-page/excursions-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { NewExcursionPageComponent } from './excursions-new-page/excursions-new-page.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
 import { UsersPageComponent } from './users-page/users-page.component';
 
@@ -31,6 +32,11 @@ const routes: Routes = [
   {
     path: 'excursions',
     component: ExcursionsPageComponent,
+    canActivate: [ CanAccessPage ]
+  },
+  {
+    path: 'excursions/new',
+    component: NewExcursionPageComponent,
     canActivate: [ CanAccessPage ]
   },
   {
