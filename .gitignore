@@ -11,6 +11,7 @@
 .classpath
 .c9/
 *.launch
+.screenrc
 .settings/
 
 # logs and other outputs
