@@ -1,3 +1,25 @@
 <div class='container'>
-  <p>Hello World!</p>
+
+  <div class='page-header'>
+    <h1>Nouvelle excursion</h1>
+  </div>
+
+  <form>
+    <p *ngIf='!participants.length'><em class='muted'>Personne ne participe à cette sortie pour le moment</em></p>
+
+    <ul class='list-unstyled'>
+      <li *ngFor='let participant of participants'>
+        <bio-new-participant [participant]='participant' (onRemoved)='onParticipantRemoved($event)'></bio-new-participant>
+      </li>
+    </ul>
+
+    <div class='input-group'>
+      <span class='input-group-btn'>
+        <button type='button' class='btn btn-success' (click)='addParticipant()'>
+          <span class='glyphicon glyphicon-plus'></span>
+        </button>
+      </span>
+      <input type='number' class='form-control new-participant' name='participantsIncrement' min='1' [(ngModel)]='participantsIncrement' />
+    </div>
+  </form>
 </div>
