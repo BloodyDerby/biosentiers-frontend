@@ -16,6 +16,7 @@ import { UsersPageModule } from './users-page/users-page.module';
 
 import { Observable  } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';

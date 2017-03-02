@@ -11,4 +11,8 @@
   </div>
 
   <em class='text-muted' *ngIf='excursions !== undefined && !excursions.length'>Aucune sortie n'a encore été faite</em>
+
+  <ul>
+    <li *ngFor='let excursion of excursions'>{{ excursion.plannedAt | date: 'dd.MM.yyyy HH:mm' }}</li>
+  </ul>
 </div>

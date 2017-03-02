@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import times from 'lodash/times';
 
 import { BioExcursionsService } from '../excursions/excursions.service';
@@ -11,26 +12,35 @@ import { Participant } from '../models/participant';
 })
 export class NewExcursionPageComponent implements OnInit {
 
-  private participants: Participant[];
-  private participantsIncrement: number;
+  private excursionForm: FormGroup;
 
-  constructor(private excursionsService: BioExcursionsService) {
-    this.participants = [];
-    this.participantsIncrement = 1;
+  constructor(private excursionsService: BioExcursionsService, private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
+    this.excursionForm = this.formBuilder.group({
+      participants: this.formBuilder.array([]),
+      participantsIncrement: [ '1' ]
+    });
+
     this.addParticipant();
   }
 
   addParticipant() {
-    times(this.participantsIncrement, () => {
-      this.participants.push(new Participant());
+    times(this.excursionForm.value.participantsIncrement, () => {
+      this.getParticipantsFormArray().push(this.formBuilder.group({
+        name: [ '' ]
+      }));
     });
   }
 
-  onParticipantRemoved(participant: Participant) {
-    this.participants.splice(this.participants.indexOf(participant), 1);
+  onParticipantRemoved(participantForm: FormGroup) {
+    const participantsFormArray: FormArray = this.getParticipantsFormArray();
+    participantsFormArray.removeAt(participantsFormArray.controls.indexOf(participantForm));
+  }
+
+  getParticipantsFormArray(): FormArray {
+    return <FormArray>this.excursionForm.controls['participants'];
   }
 
 }

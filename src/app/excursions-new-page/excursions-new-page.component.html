@@ -1,25 +1,29 @@
 <div class='container'>
 
   <div class='page-header'>
-    <h1>Nouvelle excursion</h1>
+    <h1>Nouvelle sortie</h1>
   </div>
 
-  <form>
-    <p *ngIf='!participants.length'><em class='muted'>Personne ne participe à cette sortie pour le moment</em></p>
+  <form [formGroup]='excursionForm' novalidate>
+    <div class='col-md-6 col-sm-8'>
+      <div class='participants-controls clearfix'>
+        <div class='input-group'>
+          <span class='input-group-btn'>
+            <button type='button' class='btn btn-success' (click)='addParticipant()'>
+              <span class='glyphicon glyphicon-plus'></span>
+            </button>
+          </span>
+          <input type='number' class='form-control new-participant' name='participantsIncrement' min='1' formControlName='participantsIncrement' />
+        </div>
+      </div>
 
-    <ul class='list-unstyled'>
-      <li *ngFor='let participant of participants'>
-        <bio-new-participant [participant]='participant' (onRemoved)='onParticipantRemoved($event)'></bio-new-participant>
-      </li>
-    </ul>
+      <p *ngIf='!excursionForm.controls.participants.controls.length'><em class='text-muted'>Personne ne participe à cette sortie pour le moment</em></p>
 
-    <div class='input-group'>
-      <span class='input-group-btn'>
-        <button type='button' class='btn btn-success' (click)='addParticipant()'>
-          <span class='glyphicon glyphicon-plus'></span>
-        </button>
-      </span>
-      <input type='number' class='form-control new-participant' name='participantsIncrement' min='1' [(ngModel)]='participantsIncrement' />
+      <ul class='list-unstyled'>
+        <li *ngFor='let participantForm of excursionForm.controls.participants.controls; let i = index'>
+          <bio-new-participant [form]='participantForm' [id]='"participant-" + i' (onRemoved)='onParticipantRemoved($event)'></bio-new-participant>
+        </li>
+      </ul>
     </div>
   </form>
 </div>
