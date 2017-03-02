@@ -1,7 +1,7 @@
-<div class='container'>
+<div class='container' *ngIf='excursion'>
 
   <div class='page-header'>
-    <h1>Nouvelle sortie</h1>
+    <h1>Sortie du {{ excursion.plannedAt | date: 'dd.MM.yyyy' }}</h1>
   </div>
 
   <form [formGroup]='excursionForm' novalidate>
@@ -9,7 +9,7 @@
       <div class='participants-controls clearfix'>
         <div class='input-group'>
           <span class='input-group-btn'>
-            <button type='button' class='btn btn-success' (click)='addParticipant()'>
+            <button type='button' class='btn btn-success' (click)='addParticipantBatch()'>
               <span class='glyphicon glyphicon-plus'></span>
             </button>
           </span>
@@ -21,7 +21,12 @@
 
       <ul class='list-unstyled'>
         <li *ngFor='let participantForm of excursionForm.controls.participants.controls; let i = index'>
-          <bio-new-participant [form]='participantForm' [id]='"participant-" + i' (onRemoved)='onParticipantRemoved($event)'></bio-new-participant>
+          <bio-participant-form
+            [id]='"participant-" + i'
+            [form]='participantForm'
+            [excursion]='excursion'
+            (onRemoved)='onParticipantRemoved($event)'>
+          </bio-participant-form>
         </li>
       </ul>
     </div>

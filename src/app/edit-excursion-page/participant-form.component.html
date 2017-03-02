@@ -1,15 +1,15 @@
-<div class='form-group' [formGroup]='form' [ngClass]='{"has-feedback": !isSynced(), "has-warning": !isSynced()}'>
+<div class='form-group' [formGroup]='form' [ngClass]='{"has-feedback": syncing, "has-warning": syncing}'>
   <label for='{{ id }}' class='control-label sr-only'>Participant</label>
 
   <div class='input-group'>
     <input type='text'  class='form-control' placeholder='Nom du participant' [attr.id]='id' attr.aria-describedby='{{ id }}-feedback' formControlName='name' />
     <span class='input-group-btn'>
-      <button type='button' class='btn btn-danger' (click)='remove()'>
+      <button type='button' class='btn btn-danger' [disabled]='syncing' (click)='remove()'>
         <span class='glyphicon glyphicon-remove'></span>
       </button>
     </span>
   </div>
 
-  <span class='glyphicon glyphicon-time form-control-feedback' aria-hidden='true' *ngIf='!isSynced()'></span>
-  <span class='sr-only' attr.id='{{ id }}-feedback' *ngIf='!isSynced()'>(save pending)</span>
+  <span class='glyphicon glyphicon-time form-control-feedback' aria-hidden='true' *ngIf='syncing'></span>
+  <span class='sr-only' attr.id='{{ id }}-feedback' *ngIf='syncing'>(save pending)</span>
 </div>
