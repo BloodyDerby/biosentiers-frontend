@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { BioExcursionsService } from '../excursions/excursions.service';
+import { Excursion } from '../models/excursion';
 
 @Component({
   selector: 'bio-excursions-page',
@@ -9,7 +10,7 @@ import { BioExcursionsService } from '../excursions/excursions.service';
 })
 export class ExcursionsPageComponent implements OnInit {
 
-  private excursions;
+  private excursions: Excursion[];
 
   constructor(private excursionsService: BioExcursionsService) {
   }

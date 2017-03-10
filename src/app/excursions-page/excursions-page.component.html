@@ -13,6 +13,8 @@
   <em class='text-muted' *ngIf='excursions !== undefined && !excursions.length'>Aucune sortie n'a encore été faite</em>
 
   <ul>
-    <li *ngFor='let excursion of excursions'>{{ excursion.plannedAt | date: 'dd.MM.yyyy HH:mm' }}</li>
+    <li *ngFor='let excursion of excursions'>
+      <a routerLink='/excursions/{{ excursion.id }}'>{{ excursion.plannedAt | date: 'dd.MM.yyyy HH:mm' }}</a>
+    </li>
   </ul>
 </div>

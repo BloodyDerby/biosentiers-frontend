@@ -1,12 +1,22 @@
 import extend from 'lodash/extend';
 import pick from 'lodash/pick';
 
+import { Trail } from './trail';
+
 export class Excursion {
 
   id: string;
+  trailId: string;
   plannedAt: string;
+  createdAt: string;
+  updatedAt: string;
+  trail: Trail;
 
   constructor(data?: Object) {
-    extend(this, pick(data || {}, 'id', 'plannedAt'));
+    extend(this, pick(data || {}, 'id', 'trailId', 'plannedAt', 'createdAt', 'updatedAt'));
+    // TODO: casting utility
+    if (data && data['trail']) {
+      this.trail = new Trail(data['trail']);
+    }
   }
 }

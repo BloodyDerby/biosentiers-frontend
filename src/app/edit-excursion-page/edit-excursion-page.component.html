@@ -1,25 +1,60 @@
-<div class='container' *ngIf='excursion'>
+<div class='container'>
 
-  <div class='page-header'>
-    <h1>Sortie du {{ excursion.plannedAt | date: 'dd.MM.yyyy' }}</h1>
+  <div class='page-header' *ngIf='excursion'>
+    <h1 *ngIf='excursion.id'>Sortie du {{ excursion.plannedAt | date: 'dd.MM.yyyy' }}</h1>
+    <h1 *ngIf='!excursion.id'>Nouvelle sortie</h1>
   </div>
 
-  <form [formGroup]='excursionForm' novalidate>
-    <div class='col-md-6 col-sm-8'>
-      <div class='participants-controls clearfix'>
+  <form novalidate *ngIf='excursion' [formGroup]='excursionForm' (ngSubmit)='saveExcursion($event)'>
+    <div class='col-md-6 col-xs-12'>
+      <h2>Informations générales</h2>
+
+      <div class='form-group'>
+        <label for='excursion-trail-id'>Sentier</label>
+        <ng-select id='excursion-trail-id' #trailIdSelect *ngIf='!excursion.id'
+                   formControlName='trailId' [allowClear]='false' [options]='trailChoices'>
+        </ng-select>
+        <input type='text' class='form-control' id='excursion-trail-id' value='{{ excursion.trail.name }}'
+               *ngIf='excursion.id' [disabled]='true' />
+      </div>
+
+      <div class='form-group'>
+        <label for='excursion-planned-at'>Date</label>
+        <div class='input-group'>
+          <input class='form-control' style='float:none' placeholder='Select a date'
+                 formControlName='plannedAt' ngx-mydatepicker [options]='datepickerOptions' #plannedAtDatepicker='ngx-mydatepicker'/>
+          <span class='input-group-btn'>
+            <button type='button' class='btn btn-default' (click)='plannedAtDatepicker.toggleCalendar();$event.stopPropagation()'>
+              <span class='glyphicon glyphicon-calendar'></span>
+            </button>
+          </span>
+        </div>
+      </div>
+
+      <button type='submit' class='btn btn-primary btn-lg'
+              *ngIf='!excursion.id'>Créer la sortie</button>
+    </div>
+
+    <div class='col-md-6 col-xs-12'>
+      <h2>Participants</h2>
+
+      <div class='participants-controls clearfix' *ngIf='excursion.id'>
+        <label for='excursion-participants-increment'>Ajouter des participants</label>
         <div class='input-group'>
           <span class='input-group-btn'>
             <button type='button' class='btn btn-success' (click)='addParticipantBatch()'>
               <span class='glyphicon glyphicon-plus'></span>
             </button>
           </span>
-          <input type='number' class='form-control new-participant' name='participantsIncrement' min='1' formControlName='participantsIncrement' />
+          <input type='number' class='form-control new-participant' id='excursion-participants-increment' name='participantsIncrement' min='1'
+                 formControlName='participantsIncrement' />
         </div>
       </div>
 
       <p *ngIf='!excursionForm.controls.participants.controls.length'><em class='text-muted'>Personne ne participe à cette sortie pour le moment</em></p>
+      <p *ngIf='!excursion.id'><em class='text-muted'>Veuillez créer la sortie pour gérer les participants</em></p>
 
-      <ul class='list-unstyled'>
+      <ul class='list-unstyled' *ngIf='excursionForm.controls.participants.controls.length'>
         <li *ngFor='let participantForm of excursionForm.controls.participants.controls; let i = index'>
           <bio-participant-form
             [id]='"participant-" + i'

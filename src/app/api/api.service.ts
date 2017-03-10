@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { RequestOptions } from '@angular/http';
 import { RequestBuilder, RequestBuilderService } from 'ng-request-builder';
 
 import { BioAuthService } from '../auth/auth.service';
@@ -23,6 +24,14 @@ export class BioApiService {
 
   public post(url: string, body?: any) {
     return this.configure(this.requestBuilderService.post(this.apiUrl(url), body));
+  }
+
+  public paramsModifier<T>(func: (params: T, options: RequestOptions) => any, params?: T) {
+    return function(options: RequestOptions) {
+      if (params) {
+        func(params, options);
+      }
+    };
   }
 
   private configure(builder: RequestBuilder): RequestBuilder {
