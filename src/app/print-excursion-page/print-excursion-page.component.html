@@ -1,0 +1,13 @@
+<div class='container'>
+  <div class='page-header' *ngIf='excursion'>
+    <h1>Impression de la sortie du {{ excursion.plannedAt | date: 'dd.MM.yyyy' }}</h1>
+  </div>
+
+  <ul>
+    <li *ngFor='let participant of participants'>
+      {{ participant.name }}
+      <br />
+      <qr-code [value]='participant.name' [size]='150'></qr-code>
+    </li>
+  </ul>
+</div>

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { SelectModule } from 'angular2-select';
 import { DatepickerModule } from 'ng2-bootstrap/datepicker';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
@@ -20,6 +21,7 @@ import { ParticipantFormComponent } from './participant-form.component';
     DatepickerModule,
     NgxMyDatePickerModule,
     ReactiveFormsModule,
+    RouterModule,
     SelectModule
   ],
   declarations: [

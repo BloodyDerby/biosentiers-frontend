@@ -2,9 +2,10 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { CanAccessPage } from './auth/can-access-page';
+import { EditExcursionPageComponent } from './edit-excursion-page/edit-excursion-page.component';
 import { ExcursionsPageComponent } from './excursions-page/excursions-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
-import { EditExcursionPageComponent } from './edit-excursion-page/edit-excursion-page.component';
+import { PrintExcursionPageComponent } from './print-excursion-page/print-excursion-page.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
 import { UsersPageComponent } from './users-page/users-page.component';
 
@@ -42,6 +43,11 @@ const routes: Routes = [
   {
     path: 'excursions/:id',
     component: EditExcursionPageComponent,
+    canActivate: [ CanAccessPage ]
+  },
+  {
+    path: 'excursions/:id/print',
+    component: PrintExcursionPageComponent,
     canActivate: [ CanAccessPage ]
   },
   {

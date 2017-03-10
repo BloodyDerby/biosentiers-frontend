@@ -11,6 +11,7 @@ import { EditExcursionPageModule } from './edit-excursion-page/edit-excursion-pa
 import { ExcursionsPageModule } from './excursions-page/excursions-page.module';
 import { HomePageModule } from './home-page/home-page.module';
 import { NavbarModule } from './navbar/navbar.module';
+import { PrintExcursionPageModule } from './print-excursion-page/print-excursion-page.module';
 import { RegistrationPageModule } from './registration-page/registration-page.module';
 import { UsersPageModule } from './users-page/users-page.module';
 
@@ -37,10 +38,11 @@ import 'rxjs/add/operator/take';
     HttpModule,
     ModalModule.forRoot(),
     AppRoutingModule,
+    EditExcursionPageModule,
     ExcursionsPageModule,
     HomePageModule,
     NavbarModule,
-    EditExcursionPageModule,
+    PrintExcursionPageModule,
     ReactiveFormsModule,
     RegistrationPageModule,
     TooltipModule.forRoot(),

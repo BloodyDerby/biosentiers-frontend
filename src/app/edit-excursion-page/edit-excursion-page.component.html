@@ -33,6 +33,11 @@
 
       <button type='submit' class='btn btn-primary btn-lg'
               *ngIf='!excursion.id'>Créer la sortie</button>
+
+      <a class='btn btn-info btn-lg'
+         *ngIf='excursion.id' routerLink='/excursions/{{ excursion.id }}/print'>
+        Imprimer
+      </a>
     </div>
 
     <div class='col-md-6 col-xs-12'>
