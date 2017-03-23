@@ -20,7 +20,9 @@
       "styles": [
         "styles.styl"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/qrcodejs2/qrcode.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

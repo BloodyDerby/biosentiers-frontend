@@ -4,6 +4,16 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 
 
+## Implementation notes
+
+* The [ng2-qrcode][ng2-qrcode] package depends on the third-party [qrcode.js][qrcodejs] library,
+  which must be loaded into the page for QR code generation to work.
+
+  This is accomplished by including the `node_modules/qrcodejs2/qrcode.min.js` files
+  in the `scripts` section of `angular-cli.json`.
+
+
+
 ## Known issues
 
 * The `allowSyntheticDefaultImports` had to be added to `src/tsconfig.json` in
@@ -27,3 +37,5 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 
 [lodash]: https://lodash.com
+[ng2-qrcode]: https://www.npmjs.com/package/ng2-qrcode
+[qrcodejs]: https://davidshimjs.github.io/qrcodejs/
