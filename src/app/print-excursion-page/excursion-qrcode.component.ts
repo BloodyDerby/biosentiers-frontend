@@ -29,14 +29,18 @@ export class ExcursionQrcodeComponent implements OnInit {
   ngOnInit() {
     const qrData = {
       version: 1,
-      creatorName: 'John Doe',
-      excursionId: this.excursion.id,
-      excursionDate: moment(this.excursion.plannedAt).toDate(),
-      excursionName: 'Excursion',
-      participantId: this.participant.id,
-      participantName: this.participant.name,
-      types: [],
-      zones: []
+      excursion: {
+        creatorName: 'John Doe',
+        id: this.excursion.id,
+        date: moment(this.excursion.plannedAt).toDate(),
+        name: this.excursion.name,
+        participant: {
+          id: this.participant.id,
+          name: this.participant.name,
+        },
+        types: [],
+        zones: []
+      }
     };
 
     const encodedQrData = bioqr.encode(qrData, { format: 'numeric' });
