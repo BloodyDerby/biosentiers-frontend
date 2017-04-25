@@ -55,6 +55,7 @@ export class EditExcursionPageComponent implements OnInit {
   initializeExcursionForm() {
     this.excursionForm = this.formBuilder.group({
       trailId: [ '', Validators.required ],
+      name: [ '', Validators.maxLength(60) ],
       plannedAt: [ '', Validators.required ],
       participants: this.formBuilder.array([]),
       participantsIncrement: [ '1' ]
@@ -76,7 +77,13 @@ export class EditExcursionPageComponent implements OnInit {
       includeTrail: true
     };
     this.excursionsService.retrieve(excursionId, params).subscribe(excursion => {
+
       this.excursion = excursion;
+      this.excursionForm.patchValue({
+        name: excursion.name
+        // FIXME: update excursion date
+      });
+
       this.participantsService.retrieveAll(this.excursion).subscribe(participants => {
         if (participants.length) {
           participants.forEach(participant => this.addParticipant(participant));
@@ -138,6 +145,7 @@ export class EditExcursionPageComponent implements OnInit {
     var value = this.excursionForm.value;
     return new Excursion({
       trailId: value.trailId,
+      name: value.name,
       plannedAt: value.plannedAt.jsdate
     });
   }

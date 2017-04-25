@@ -6,6 +6,7 @@ import { Trail } from './trail';
 export class Excursion {
 
   id: string;
+  name: string;
   trailId: string;
   plannedAt: string;
   createdAt: string;
@@ -13,7 +14,7 @@ export class Excursion {
   trail: Trail;
 
   constructor(data?: Object) {
-    extend(this, pick(data || {}, 'id', 'trailId', 'plannedAt', 'createdAt', 'updatedAt'));
+    extend(this, pick(data || {}, 'id', 'name', 'trailId', 'plannedAt', 'createdAt', 'updatedAt'));
     // TODO: casting utility
     if (data && data['trail']) {
       this.trail = new Trail(data['trail']);
