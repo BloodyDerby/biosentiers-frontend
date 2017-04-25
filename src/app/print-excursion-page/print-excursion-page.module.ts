@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { QRCodeComponent } from 'ng2-qrcode'
 
 import { BioExcursionsModule } from '../excursions/excursions.module';
 import { BioParticipantsModule } from '../participants/participants.module';
+import { ExcursionQrcodeComponent } from './excursion-qrcode.component';
 import { PrintExcursionPageComponent } from './print-excursion-page.component';
 
 @NgModule({
@@ -15,8 +15,8 @@ import { PrintExcursionPageComponent } from './print-excursion-page.component';
     RouterModule
   ],
   declarations: [
-    PrintExcursionPageComponent,
-    QRCodeComponent
+    ExcursionQrcodeComponent,
+    PrintExcursionPageComponent
   ]
 })
 export class PrintExcursionPageModule { }

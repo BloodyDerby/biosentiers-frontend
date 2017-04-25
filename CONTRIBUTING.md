@@ -6,11 +6,15 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Implementation notes
 
-* The [ng2-qrcode][ng2-qrcode] package depends on the third-party [qrcode.js][qrcodejs] library,
-  which must be loaded into the page for QR code generation to work.
+* QR code generation is accomplished with non-Angular libraries:
+  [node-qrcode][node-qrcode] and [biosentiers-qrcode][biosentiers-qrcode].
+  They must be loaded into the page for QR code generation to work.
 
-  This is accomplished by including the `node_modules/qrcodejs2/qrcode.min.js` files
+  This is accomplished by including their files in `node_modules`
   in the `scripts` section of `angular-cli.json`.
+
+  The libraries' global variables must also be declared,
+  e.g. `declare const qrcodelib: any;`.
 
 
 
@@ -36,6 +40,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 
 
+[biosentiers-qrcode]: https://github.com/MediaComem/biosentiers-qrcode
 [lodash]: https://lodash.com
-[ng2-qrcode]: https://www.npmjs.com/package/ng2-qrcode
-[qrcodejs]: https://davidshimjs.github.io/qrcodejs/
+[node-qrcode]: https://github.com/soldair/node-qrcode

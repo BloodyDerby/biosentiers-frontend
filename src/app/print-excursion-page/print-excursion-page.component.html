@@ -7,7 +7,7 @@
     <li *ngFor='let participant of participants'>
       {{ participant.name }}
       <br />
-      <qrcode [qrdata]='participant.name' [size]='150' [level]='"M"'></qrcode>
+      <bio-excursion-qrcode [excursion]='excursion' [participant]='participant'></bio-excursion-qrcode>
     </li>
   </ul>
 </div>
