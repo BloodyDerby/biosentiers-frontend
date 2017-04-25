@@ -25,6 +25,20 @@ export class RegistrationPageComponent implements OnInit {
       password: [
         '',
         Validators.required
+      ],
+      firstName: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(20)
+        ])
+      ],
+      lastName: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(20)
+        ])
       ]
     });
 
@@ -35,7 +49,9 @@ export class RegistrationPageComponent implements OnInit {
     this.retrieveInvitation().subscribe((invitation) => {
       this.invitation = invitation;
       this.registrationForm.patchValue({
-        email: invitation.email
+        email: invitation.email,
+        firstName: invitation.firstName,
+        lastName: invitation.lastName
       });
     });
   }

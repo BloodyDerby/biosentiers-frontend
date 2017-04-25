@@ -13,7 +13,17 @@
 
       <div class='form-group'>
         <label for='user-password' class='control-label'>Mot de passe</label>
-        <input type='text' id='user-password' class='form-control' formControlName='password' required />
+        <input type='text' id='user-password' class='form-control' formControlName='password' />
+      </div>
+
+      <div class='form-group'>
+        <label for='user-first-name' class='control-label'>Prénom</label>
+        <input type='text' id='user-first-name' class='form-control' formControlName='firstName' />
+      </div>
+
+      <div class='form-group'>
+        <label for='user-last-name' class='control-label'>Nom</label>
+        <input type='text' id='user-last-name' class='form-control' formControlName='lastName' />
       </div>
 
       <button type='submit' class='btn btn-primary btn-lg' [disabled]='registrationForm.invalid'>Créer mon compte</button>

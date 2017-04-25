@@ -15,14 +15,31 @@
           <!-- E-mail field -->
           <div class='form-group'>
             <label for='user-email' class='control-label' #email>Adresse e-mail</label>
-            <input type='email' id='user-email' class='form-control' formControlName='email' required />
+            <input type='email' id='user-email' class='form-control' formControlName='email' />
           </div>
 
-          <ng-select
-            [allowClear]='false'
-            [options]='userRoleChoices'
-            formControlName='role'>
-          </ng-select>
+          <!-- First name field (optional) -->
+          <div class='form-group'>
+            <label for='user-first-name' class='control-label'>Prénom</label>
+            <input type='text' id='user-first-name' class='form-control' formControlName='firstName' />
+          </div>
+
+          <!-- First name field (optional) -->
+          <div class='form-group'>
+            <label for='user-last-name' class='control-label'>Nom</label>
+            <input type='text' id='user-last-name' class='form-control' formControlName='lastName' />
+          </div>
+
+          <!-- Role dropdown box -->
+          <div class='form-group'>
+            <label for='user-role' class='control-label'>Rôle</label>
+            <ng-select
+              id='user-role'
+              [allowClear]='false'
+              [options]='userRoleChoices'
+              formControlName='role'>
+            </ng-select>
+          </div>
 
         </div>
 

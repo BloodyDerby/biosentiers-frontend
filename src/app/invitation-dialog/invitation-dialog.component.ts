@@ -29,6 +29,14 @@ export class InvitationDialogComponent implements OnInit {
       role: [
         User.ROLES[0],
         Validators.required
+      ],
+      firstName: [
+        '',
+        Validators.maxLength(20)
+      ],
+      lastName: [
+        '',
+        Validators.maxLength(20)
       ]
     });
 
