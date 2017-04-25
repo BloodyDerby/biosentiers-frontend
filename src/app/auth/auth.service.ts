@@ -37,6 +37,7 @@ export class BioAuthService {
   unauthenticate() {
     const user = this.user.getValue();
     this.unsetAuthData();
+    // FIXME: redirect user to home if current page is protected
     return user;
   }
 
