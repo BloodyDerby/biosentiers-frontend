@@ -30,7 +30,7 @@ export class ExcursionQrcodeComponent implements OnInit {
     const qrData = {
       version: 1,
       excursion: {
-        creatorName: 'John Doe',
+        creatorName: this.excursion.creator.fullName,
         id: this.excursion.id,
         date: moment(this.excursion.plannedAt).toDate(),
         name: this.excursion.name,
@@ -38,7 +38,7 @@ export class ExcursionQrcodeComponent implements OnInit {
           id: this.participant.id,
           name: this.participant.name,
         },
-        types: [],
+        themes: [],
         zones: []
       }
     };

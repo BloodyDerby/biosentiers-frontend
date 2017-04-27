@@ -1,6 +1,14 @@
 <div class='container'>
+
   <div class='page-header' *ngIf='excursion'>
-    <h1>Impression de la sortie du {{ excursion.plannedAt | date: 'dd.MM.yyyy' }}</h1>
+    <div class="btn-group pull-right">
+      <a class='btn btn-default btn-lg'
+         *ngIf='excursion.id' routerLink='/excursions/{{ excursion.id }}'>
+        <span class='glyphicon glyphicon-arrow-left'></span>
+      </a>
+    </div>
+
+    <h1>Impression de la sortie du {{ excursion.plannedAt | date: 'dd.MM.yyyy' }} avec {{ excursion.creator.fullName }}</h1>
   </div>
 
   <ul>
@@ -10,4 +18,5 @@
       <bio-excursion-qrcode [excursion]='excursion' [participant]='participant'></bio-excursion-qrcode>
     </li>
   </ul>
+
 </div>

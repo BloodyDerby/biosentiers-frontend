@@ -1,3 +1,4 @@
+import compact from 'lodash/compact';
 import extend from 'lodash/extend';
 import pick from 'lodash/pick';
 
@@ -7,10 +8,16 @@ export class User {
 
   id: string;
   email: string;
+  firstName: string;
+  lastName: string;
   role: string;
 
   constructor(data: Object) {
-    extend(this, pick(data || {}, 'id', 'email', 'role'));
+    extend(this, pick(data || {}, 'id', 'email', 'firstName', 'lastName', 'role'));
+  }
+
+  get fullName(): string {
+    return compact([ this.firstName, this.lastName ]).join(' ');
   }
 
   hasRole(role) {

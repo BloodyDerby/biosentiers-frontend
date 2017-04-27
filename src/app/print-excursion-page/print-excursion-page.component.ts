@@ -21,6 +21,7 @@ export class PrintExcursionPageComponent implements OnInit {
 
   ngOnInit() {
     const params: RetrieveExcursionParams = {
+      includeCreator: true,
       includeTrail: true
     };
 

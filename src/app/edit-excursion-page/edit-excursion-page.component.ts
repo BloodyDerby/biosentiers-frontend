@@ -73,9 +73,12 @@ export class EditExcursionPageComponent implements OnInit {
   }
 
   loadExcursion(excursionId: String) {
+
     var params: RetrieveExcursionParams = {
+      includeCreator: true,
       includeTrail: true
     };
+
     this.excursionsService.retrieve(excursionId, params).subscribe(excursion => {
 
       this.excursion = excursion;

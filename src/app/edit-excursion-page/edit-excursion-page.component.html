@@ -1,7 +1,14 @@
 <div class='container'>
 
   <div class='page-header' *ngIf='excursion'>
-    <h1 *ngIf='excursion.id'>Sortie du {{ excursion.plannedAt | date: 'dd.MM.yyyy' }}</h1>
+    <div class="btn-group pull-right">
+      <a class='btn btn-info btn-lg'
+         *ngIf='excursion.id' routerLink='/excursions/{{ excursion.id }}/print'>
+        Imprimer
+      </a>
+    </div>
+
+    <h1 *ngIf='excursion.id'>Sortie du {{ excursion.plannedAt | date: 'dd.MM.yyyy' }} avec {{ excursion.creator.fullName }}</h1>
     <h1 *ngIf='!excursion.id'>Nouvelle sortie</h1>
   </div>
 
@@ -38,11 +45,6 @@
 
       <button type='submit' class='btn btn-primary btn-lg'
               *ngIf='!excursion.id'>Créer la sortie</button>
-
-      <a class='btn btn-info btn-lg'
-         *ngIf='excursion.id' routerLink='/excursions/{{ excursion.id }}/print'>
-        Imprimer
-      </a>
     </div>
 
     <div class='col-md-6 col-xs-12'>
@@ -76,4 +78,5 @@
       </ul>
     </div>
   </form>
+
 </div>

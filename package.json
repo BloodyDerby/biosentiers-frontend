@@ -24,7 +24,7 @@
     "@angular/platform-browser": "^2.3.1",
     "@angular/platform-browser-dynamic": "^2.3.1",
     "@angular/router": "^3.3.1",
-    "@mediacomem/biosentiers-qrcode": "^1.2.1",
+    "@mediacomem/biosentiers-qrcode": "^2.1.2",
     "@types/lodash": "ts2.0",
     "angular2-select": "^1.0.0-beta.3",
     "bootstrap": "^3.3.7",

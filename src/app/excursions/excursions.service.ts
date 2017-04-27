@@ -36,10 +36,15 @@ export class BioExcursionsService {
 }
 
 export interface RetrieveExcursionParams {
+  includeCreator?: boolean;
   includeTrail?: boolean;
 }
 
 function applyRetrieveExcursionParams(params: RetrieveExcursionParams, options: RequestOptions) {
+  if (params.includeCreator) {
+    options.search.append('include', 'creator');
+  }
+
   if (params.includeTrail) {
     options.search.append('include', 'trail');
   }
