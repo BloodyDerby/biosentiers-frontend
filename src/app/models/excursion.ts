@@ -9,6 +9,8 @@ export class Excursion {
   id: string;
   name: string;
   trailId: string;
+  themes: Array<string>;
+  zones: Array<number>;
   plannedAt: string;
   createdAt: string;
   updatedAt: string;
@@ -17,7 +19,8 @@ export class Excursion {
   trail: Trail;
 
   constructor(data?: Object) {
-    extend(this, pick(data || {}, 'id', 'name', 'trailId', 'plannedAt', 'createdAt', 'updatedAt'));
+    extend(this, pick(data || {}, 'id', 'name', 'trailId', 'themes', 'zones', 'plannedAt', 'createdAt', 'updatedAt'));
+
     // TODO: casting utility
     if (data && data['creator']) {
       this.creator = new User(data['creator']);

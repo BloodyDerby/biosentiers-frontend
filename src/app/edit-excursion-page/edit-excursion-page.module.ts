@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SelectModule } from 'angular2-select';
+import { LeafletDirective } from '@asymmetrik/angular2-leaflet';
 import { DatepickerModule } from 'ng2-bootstrap/datepicker';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 
@@ -11,6 +12,7 @@ import { BioParticipantsModule } from '../participants/participants.module';
 import { BioTrailsModule } from '../trails/trails.module';
 import { EditExcursionPageComponent } from './edit-excursion-page.component';
 import { ParticipantFormComponent } from './participant-form.component';
+import { TruncatePipe } from '../common/truncate.pipe';
 
 @NgModule({
   imports: [
@@ -26,7 +28,9 @@ import { ParticipantFormComponent } from './participant-form.component';
   ],
   declarations: [
     EditExcursionPageComponent,
-    ParticipantFormComponent
+    LeafletDirective,
+    ParticipantFormComponent,
+    TruncatePipe
   ]
 })
 export class EditExcursionPageModule { }

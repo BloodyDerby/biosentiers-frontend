@@ -38,8 +38,8 @@ export class ExcursionQrcodeComponent implements OnInit {
           id: this.participant.id,
           name: this.participant.name,
         },
-        themes: [],
-        zones: []
+        themes: this.excursion.themes,
+        zones: this.excursion.zones
       }
     };
 
