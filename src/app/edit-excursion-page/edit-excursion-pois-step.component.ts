@@ -21,11 +21,11 @@ import { Trail } from '../models/trail';
 import { EditExcursionService } from './edit-excursion.service';
 
 @Component({
-  selector: 'bio-edit-excursion-pois',
-  templateUrl: './edit-excursion-pois.component.html',
-  styleUrls: ['./edit-excursion-pois.component.styl']
+  selector: 'bio-edit-excursion-pois-step',
+  templateUrl: './edit-excursion-pois-step.component.html',
+  styleUrls: ['./edit-excursion-pois-step.component.styl']
 })
-export class EditExcursionPoisComponent implements OnInit {
+export class EditExcursionPoisStepComponent implements OnInit {
 
   private excursion: Excursion;
   private themeChoices: Array<string>;

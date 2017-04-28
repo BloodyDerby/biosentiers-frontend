@@ -8,11 +8,11 @@ import { BioParticipantsService } from '../participants/participants.service';
 import { Excursion } from '../models/excursion';
 
 @Component({
-  selector: 'bio-edit-excursion-participants',
-  templateUrl: './edit-excursion-participants.component.html',
-  styleUrls: ['./edit-excursion-participants.component.styl']
+  selector: 'bio-edit-excursion-participants-step',
+  templateUrl: './edit-excursion-participants-step.component.html',
+  styleUrls: ['./edit-excursion-participants-step.component.styl']
 })
-export class EditExcursionParticipantsComponent implements OnInit {
+export class EditExcursionParticipantsStepComponent implements OnInit {
 
   private excursion: Excursion;
   private excursionParticipantsForm: FormGroup;
@@ -27,7 +27,7 @@ export class EditExcursionParticipantsComponent implements OnInit {
       participantsIncrement: [ '1' ]
     });
 
-    this.editExcursionService.excursion$.subscribe((excursion) => {
+    this.editExcursionService.excursionObs.subscribe((excursion) => {
       if (excursion) {
         this.excursion = excursion;
         this.loadParticipants(excursion);

@@ -13,10 +13,10 @@ import { BioTrailsModule } from '../trails/trails.module';
 import { EditExcursionPageComponent } from './edit-excursion-page.component';
 import { ParticipantFormComponent } from './participant-form.component';
 import { TruncatePipe } from '../common/truncate.pipe';
-import { EditExcursionDetailsComponent } from './edit-excursion-details.component';
-import { EditExcursionParticipantsComponent } from './edit-excursion-participants.component';
+import { EditExcursionDetailsStepComponent } from './edit-excursion-details-step.component';
+import { EditExcursionParticipantsStepComponent } from './edit-excursion-participants-step.component';
 import { EditExcursionService } from './edit-excursion.service';
-import { EditExcursionPoisComponent } from './edit-excursion-pois.component';
+import { EditExcursionPoisStepComponent } from './edit-excursion-pois-step.component';
 
 @NgModule({
   imports: [
@@ -31,10 +31,10 @@ import { EditExcursionPoisComponent } from './edit-excursion-pois.component';
     SelectModule
   ],
   declarations: [
-    EditExcursionDetailsComponent,
+    EditExcursionDetailsStepComponent,
     EditExcursionPageComponent,
-    EditExcursionParticipantsComponent,
-    EditExcursionPoisComponent,
+    EditExcursionParticipantsStepComponent,
+    EditExcursionPoisStepComponent,
     LeafletDirective,
     ParticipantFormComponent,
     TruncatePipe

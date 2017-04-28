@@ -8,9 +8,9 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { PrintExcursionPageComponent } from './print-excursion-page/print-excursion-page.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
 import { UsersPageComponent } from './users-page/users-page.component';
-import { EditExcursionDetailsComponent } from './edit-excursion-page/edit-excursion-details.component';
-import { EditExcursionParticipantsComponent } from './edit-excursion-page/edit-excursion-participants.component';
-import { EditExcursionPoisComponent } from './edit-excursion-page/edit-excursion-pois.component';
+import { EditExcursionDetailsStepComponent } from './edit-excursion-page/edit-excursion-details-step.component';
+import { EditExcursionParticipantsStepComponent } from './edit-excursion-page/edit-excursion-participants-step.component';
+import { EditExcursionPoisStepComponent } from './edit-excursion-page/edit-excursion-pois-step.component';
 
 const routes: Routes = [
   {
@@ -50,15 +50,15 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: EditExcursionDetailsComponent
+        component: EditExcursionDetailsStepComponent
       },
       {
         path: 'participants',
-        component: EditExcursionParticipantsComponent
+        component: EditExcursionParticipantsStepComponent
       },
       {
         path: 'pois',
-        component: EditExcursionPoisComponent
+        component: EditExcursionPoisStepComponent
       }
     ]
   },

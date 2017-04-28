@@ -21,14 +21,14 @@ import { BioZones } from '../data/zones';
 import { Excursion } from '../models/excursion';
 import { Trail } from '../models/trail';
 import { EditExcursionService } from './edit-excursion.service';
-import { EditExcursionDetailsComponent } from './edit-excursion-details.component';
-import { EditExcursionPoisComponent } from './edit-excursion-pois.component';
-import { EditExcursionParticipantsComponent } from './edit-excursion-participants.component';
+import { EditExcursionDetailsStepComponent } from './edit-excursion-details-step.component';
+import { EditExcursionPoisStepComponent } from './edit-excursion-pois-step.component';
+import { EditExcursionParticipantsStepComponent } from './edit-excursion-participants-step.component';
 
 const STEPS = [
-  EditExcursionDetailsComponent,
-  EditExcursionParticipantsComponent,
-  EditExcursionPoisComponent
+  EditExcursionDetailsStepComponent,
+  EditExcursionParticipantsStepComponent,
+  EditExcursionPoisStepComponent
 ];
 
 const STEP_PATHS = [
@@ -51,7 +51,7 @@ export class EditExcursionPageComponent implements OnInit {
 
   ngOnInit() {
     this.editExcursionService.edit(this.route.snapshot.params['id']);
-    this.editExcursionService.excursion$.subscribe((excursion) => {
+    this.editExcursionService.excursionObs.subscribe((excursion) => {
       this.excursion = excursion;
     });
   }

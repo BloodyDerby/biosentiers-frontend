@@ -1,0 +1,50 @@
+<div class='row' *ngIf='excursion'>
+  <div class='col-xs-12'>
+    <h2>Thèmes</h2>
+    <div class='checkbox' *ngFor='let theme of themeChoices'>
+      <label>
+        <input type='checkbox' [checked]='selectedThemes[theme.id]' (change)='toggleTheme(theme)'> {{ theme.description }}
+      </label>
+    </div>
+  </div>
+</div>
+
+<div class='row'>
+  <div class='col-xs-12'>
+    <h2>Zones</h2>
+    <div style='height:300px;'
+      #map
+      leaflet
+      (leafletMapReady)='onMapReady($event)'
+      [leafletOptions]='mapOptions'
+      [leafletFitBounds]='mapBounds'
+      [leafletFitBoundsOptions]='mapBoundsOptions'>
+    </div>
+  </div>
+  <div class='col-xs-12'>
+    <table class='table'>
+      <thead>
+        <tr>
+          <th colspan='2'>Zone</th>
+          <th>Description</th>
+          <th>Désactiver</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor='let zone of zoneChoices' [ngClass]='{success: zone.properties.selected, danger: !zone.properties.selected}'>
+          <td>{{ zone.properties.id_zone }}</td>
+          <td>{{ zone.properties.keyword_zone }}</td>
+          <td>{{ zone.properties.description_zone | truncate: 100 }}</td>
+          <td>
+            <button type='button' class='btn btn-success btn-xs' *ngIf='zone.properties.selected' (click)='toggleZone(zone)'>
+              <span class='glyphicon glyphicon-remove'></span>
+            </button>
+            <button type='button' class='btn btn-danger btn-xs' *ngIf='!zone.properties.selected' (click)='toggleZone(zone)'>
+              <span class='glyphicon glyphicon-ok'></span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

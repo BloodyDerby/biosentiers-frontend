@@ -15,14 +15,14 @@
   <p *ngIf='!participants.length'><em class='text-muted'>Personne ne participe à cette sortie pour le moment</em></p>
   <p *ngIf='!excursion.id'><em class='text-muted'>Veuillez créer la sortie pour gérer les participants</em></p>
 
-  <ul class='list-unstyled' *ngIf='participants.length'>
-    <li *ngFor='let participant of participants; let i = index'>
+  <div *ngIf='participants.length'>
+    <div class='col-xs-12 col-sm-6 col-md-4' *ngFor='let participant of participants; let i = index'>
       <bio-participant-form
         [id]='"participant-" + i'
         [participant]='participant'
         [excursion]='excursion'
         (onRemoved)='onParticipantRemoved($event)'>
       </bio-participant-form>
-    </li>
-  </ul>
+    </div>
+  </div>
 </form>
