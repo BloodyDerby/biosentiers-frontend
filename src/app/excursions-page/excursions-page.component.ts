@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { BioExcursionsService } from '../excursions/excursions.service';
+import { BioExcursionsService, RetrieveExcursionParams } from '../excursions/excursions.service';
 import { Excursion } from '../models/excursion';
 
 @Component({
@@ -16,7 +16,11 @@ export class ExcursionsPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.excursionsService.retrieveAll().subscribe(excursions => {
+    const params: RetrieveExcursionParams = {
+      includeCreator: true
+    };
+
+    this.excursionsService.retrieveAll(params).subscribe(excursions => {
       this.excursions = excursions;
     });
   }

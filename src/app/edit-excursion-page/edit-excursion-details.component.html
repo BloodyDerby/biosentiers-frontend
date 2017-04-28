@@ -1,0 +1,37 @@
+<form novalidate *ngIf='excursion' [formGroup]='excursionForm' (ngSubmit)='saveExcursion($event)'>
+  <div class='row'>
+    <div class='col-xs-8'>
+      <h2>Informations générales</h2>
+
+      <div class='form-group'>
+        <label for='excursion-trail-id'>Sentier</label>
+        <ng-select id='excursion-trail-id' #trailIdSelect *ngIf='!excursion.id'
+                   formControlName='trailId' [allowClear]='false' [options]='trailChoices'>
+        </ng-select>
+        <input type='text' class='form-control' id='excursion-trail-id' value='{{ excursion.trail.name }}'
+               *ngIf='excursion.id' [disabled]='true' />
+      </div>
+
+      <div class='form-group'>
+        <label for='excursion-name' class='control-label'>Nom (facultatif)</label>
+        <input type='text' id='excursion-name' class='form-control' formControlName='name' />
+      </div>
+
+      <div class='form-group'>
+        <label for='excursion-planned-at'>Date</label>
+        <div class='input-group'>
+          <input class='form-control' style='float:none' placeholder='Select a date'
+                 formControlName='plannedAt' ngx-mydatepicker [options]='datepickerOptions' #plannedAtDatepicker='ngx-mydatepicker'/>
+          <span class='input-group-btn'>
+            <button type='button' class='btn btn-default' (click)='plannedAtDatepicker.toggleCalendar();$event.stopPropagation()'>
+              <span class='glyphicon glyphicon-calendar'></span>
+            </button>
+          </span>
+        </div>
+      </div>
+
+      <button type='submit' class='btn btn-primary btn-lg'
+              *ngIf='!excursion.id'>Créer la sortie</button>
+    </div>
+  </div>
+</form>

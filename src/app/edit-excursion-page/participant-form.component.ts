@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import extend from 'lodash/extend';
+import pick from 'lodash/pick';
 import { Subscription } from 'rxjs/Rx';
 
 import { BioParticipantsService } from '../participants/participants.service';
@@ -14,23 +15,25 @@ import { Participant } from '../models/participant';
 })
 export class ParticipantFormComponent implements OnDestroy, OnInit {
 
+  private form: FormGroup;
   private syncing: boolean;
-  private participant: Participant;
   private subscriptions: Subscription[];
 
   @Input() id: string;
-  @Input() form: FormGroup;
+  @Input() participant: Participant;
   @Input() excursion: Excursion;
-  @Output() onRemoved = new EventEmitter<FormGroup>();
+  @Output() onRemoved = new EventEmitter<Participant>();
 
-  constructor(private participantsService: BioParticipantsService) {
+  constructor(private formBuilder: FormBuilder, private participantsService: BioParticipantsService) {
     this.syncing = false;
     this.subscriptions = [];
-    this.participant = new Participant();
   }
 
   ngOnInit() {
-    extend(this.participant, this.form.value);
+    this.form = this.formBuilder.group({
+      id: [ this.participant.id ],
+      name: [ this.participant.name ]
+    });
 
     const sub = this.form.valueChanges
       .do(value => this.unsync())
@@ -47,7 +50,7 @@ export class ParticipantFormComponent implements OnDestroy, OnInit {
   }
 
   save(values) {
-    extend(this.participant, values);
+    extend(this.participant, pick(values, 'name'));
 
     if (!this.participant.id) {
       this.participantsService.create(this.excursion, this.participant).subscribe(participant => {
@@ -66,19 +69,15 @@ export class ParticipantFormComponent implements OnDestroy, OnInit {
     if (this.participant.id) {
       this.unsync();
       this.participantsService.delete(this.excursion, this.participant).subscribe(participant => {
-        this.onRemoved.emit(this.form);
+        this.onRemoved.emit(this.participant);
       });
     } else {
-      this.onRemoved.emit(this.form);
+      this.onRemoved.emit(this.participant);
     }
   }
 
   unsync() {
     this.syncing = true;
-  }
-
-  getNameFormControl(): FormControl {
-    return <FormControl>this.form.controls['name'];
   }
 
 }

@@ -14,7 +14,10 @@
 
   <ul>
     <li *ngFor='let excursion of excursions'>
-      <a routerLink='/excursions/{{ excursion.id }}'>{{ excursion.plannedAt | date: 'dd.MM.yyyy HH:mm' }}</a>
+      <a routerLink='/excursions/{{ excursion.id }}/edit'>
+        <span *ngIf='excursion.name'>{{ excursion.name }} ({{ excursion.plannedAt | date: 'dd.MM.yyyy' }})</span>
+        <span *ngIf='!excursion.name'>Sortie du {{ excursion.plannedAt | date: 'dd.MM.yyyy' }} avec {{ excursion.creator.fullName }}</span>
+      </a>
     </li>
   </ul>
 </div>

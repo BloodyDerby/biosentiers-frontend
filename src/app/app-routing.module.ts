@@ -8,6 +8,9 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { PrintExcursionPageComponent } from './print-excursion-page/print-excursion-page.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
 import { UsersPageComponent } from './users-page/users-page.component';
+import { EditExcursionDetailsComponent } from './edit-excursion-page/edit-excursion-details.component';
+import { EditExcursionParticipantsComponent } from './edit-excursion-page/edit-excursion-participants.component';
+import { EditExcursionPoisComponent } from './edit-excursion-page/edit-excursion-pois.component';
 
 const routes: Routes = [
   {
@@ -41,9 +44,23 @@ const routes: Routes = [
     canActivate: [ CanAccessPage ]
   },
   {
-    path: 'excursions/:id',
+    path: 'excursions/:id/edit',
     component: EditExcursionPageComponent,
-    canActivate: [ CanAccessPage ]
+    canActivate: [ CanAccessPage ],
+    children: [
+      {
+        path: '',
+        component: EditExcursionDetailsComponent
+      },
+      {
+        path: 'participants',
+        component: EditExcursionParticipantsComponent
+      },
+      {
+        path: 'pois',
+        component: EditExcursionPoisComponent
+      }
+    ]
   },
   {
     path: 'excursions/:id/print',

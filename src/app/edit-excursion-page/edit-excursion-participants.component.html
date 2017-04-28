@@ -1,0 +1,28 @@
+<form novalidate *ngIf='excursion' [formGroup]='excursionParticipantsForm'>
+  <div class='participants-controls clearfix'>
+    <label for='excursion-participants-increment'>Ajouter des participants</label>
+    <div class='input-group'>
+      <span class='input-group-btn'>
+        <button type='button' class='btn btn-success' (click)='addParticipantBatch()'>
+          <span class='glyphicon glyphicon-plus'></span>
+        </button>
+      </span>
+      <input type='number' class='form-control new-participant' id='excursion-participants-increment' name='participantsIncrement' min='1'
+             formControlName='participantsIncrement' />
+    </div>
+  </div>
+
+  <p *ngIf='!participants.length'><em class='text-muted'>Personne ne participe à cette sortie pour le moment</em></p>
+  <p *ngIf='!excursion.id'><em class='text-muted'>Veuillez créer la sortie pour gérer les participants</em></p>
+
+  <ul class='list-unstyled' *ngIf='participants.length'>
+    <li *ngFor='let participant of participants; let i = index'>
+      <bio-participant-form
+        [id]='"participant-" + i'
+        [participant]='participant'
+        [excursion]='excursion'
+        (onRemoved)='onParticipantRemoved($event)'>
+      </bio-participant-form>
+    </li>
+  </ul>
+</form>

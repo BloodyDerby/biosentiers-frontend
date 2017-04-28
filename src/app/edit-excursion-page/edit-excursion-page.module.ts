@@ -13,6 +13,10 @@ import { BioTrailsModule } from '../trails/trails.module';
 import { EditExcursionPageComponent } from './edit-excursion-page.component';
 import { ParticipantFormComponent } from './participant-form.component';
 import { TruncatePipe } from '../common/truncate.pipe';
+import { EditExcursionDetailsComponent } from './edit-excursion-details.component';
+import { EditExcursionParticipantsComponent } from './edit-excursion-participants.component';
+import { EditExcursionService } from './edit-excursion.service';
+import { EditExcursionPoisComponent } from './edit-excursion-pois.component';
 
 @NgModule({
   imports: [
@@ -27,10 +31,16 @@ import { TruncatePipe } from '../common/truncate.pipe';
     SelectModule
   ],
   declarations: [
+    EditExcursionDetailsComponent,
     EditExcursionPageComponent,
+    EditExcursionParticipantsComponent,
+    EditExcursionPoisComponent,
     LeafletDirective,
     ParticipantFormComponent,
     TruncatePipe
+  ],
+  providers: [
+    EditExcursionService
   ]
 })
 export class EditExcursionPageModule { }
