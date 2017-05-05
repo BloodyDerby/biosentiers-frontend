@@ -1,7 +1,7 @@
 import reduce from 'lodash/reduce';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalDirective } from 'ng2-bootstrap/modal';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import { BioApiService } from '../api/api.service';
 import { User } from '../models/user';

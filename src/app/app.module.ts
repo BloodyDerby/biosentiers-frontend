@@ -2,8 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { ModalModule } from 'ng2-bootstrap/modal';
-import { TooltipModule } from 'ng2-bootstrap/tooltip';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';

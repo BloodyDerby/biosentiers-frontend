@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { DropdownModule  } from 'ng2-bootstrap/dropdown';
+import { BsDropdownModule  } from 'ngx-bootstrap/dropdown';
 
 import { BioAuthModule } from '../auth/auth.module';
 import { LoginModalModule } from '../login-modal/login-modal.module';
@@ -11,7 +11,7 @@ import { NavbarComponent } from './navbar.component';
   imports: [
     BioAuthModule,
     CommonModule,
-    DropdownModule.forRoot(),
+    BsDropdownModule.forRoot(),
     LoginModalModule,
     RouterModule
   ],

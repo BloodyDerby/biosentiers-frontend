@@ -9,8 +9,7 @@ declare const qrcodelib: any;
 
 @Component({
   selector: 'bio-excursion-qrcode',
-  template: '<canvas #canvas></canvas>',
-  styleUrls: []
+  template: '<canvas #canvas></canvas>'
 })
 export class ExcursionQrcodeComponent implements OnInit {
 

@@ -6,18 +6,14 @@ import reduce from 'lodash/reduce';
 import moment from 'moment';
 import { IMyOptions } from 'ngx-mydatepicker';
 
-import { BioExcursionsService, RetrieveExcursionParams } from '../excursions/excursions.service';
-import { BioThemes } from '../data/themes';
+import { BioExcursionsService } from '../excursions/excursions.service';
 import { BioTrailsService } from '../trails/trails.service';
-import { BioZones } from '../data/zones';
 import { Excursion } from '../models/excursion';
-import { Trail } from '../models/trail';
 import { EditExcursionService } from './edit-excursion.service';
 
 @Component({
   selector: 'bio-edit-excursion-details-step',
-  templateUrl: './edit-excursion-details-step.component.html',
-  styleUrls: []
+  templateUrl: './edit-excursion-details-step.component.html'
 })
 export class EditExcursionDetailsStepComponent implements OnInit {
 
