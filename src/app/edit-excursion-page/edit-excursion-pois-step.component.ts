@@ -27,10 +27,15 @@ import { EditExcursionService } from './edit-excursion.service';
 })
 export class EditExcursionPoisStepComponent implements OnInit {
 
+  private excursion: Excursion;
+
   constructor(private editExcursionService: EditExcursionService) {
   }
 
   ngOnInit() {
-  }
+    this.editExcursionService.excursionObs.subscribe((excursion) => {
+      this.excursion = excursion;
+    });
+  };
 
 }
