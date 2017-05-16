@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 DEPLOY_REPO=https://github.com/MediaComem/biosentiers-frontend.git
-DEPLOY_REF=master
+DEPLOY_REF=deploy
 
 if [[ -z "$SSH_PORT" ]]; then SSH_PORT=22; fi
 if [[ -z "$SSH_USER" ]]; then SSH_USER=biosentiers; fi
