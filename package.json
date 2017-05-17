@@ -34,7 +34,7 @@
     "leaflet": "^1.0.3",
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
-    "ng-request-builder": "~0.2.1",
+    "ng-request-builder": "~0.2.2",
     "ngx-bootstrap": "^1.6.6",
     "ngx-mydatepicker": "^2.0.4",
     "qrcode": "^0.8.1",
