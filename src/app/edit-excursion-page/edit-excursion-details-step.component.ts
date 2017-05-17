@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { SelectComponent } from 'angular2-select/dist/select.component';
 import reduce from 'lodash/reduce';
 import moment from 'moment';
-import { IMyOptions } from 'ngx-mydatepicker';
+import { INgxMyDpOptions } from 'ngx-mydatepicker';
 
 import { BioExcursionsService } from '../excursions/excursions.service';
 import { BioTrailsService } from '../trails/trails.service';
@@ -24,11 +24,12 @@ export class EditExcursionDetailsStepComponent implements OnInit {
   @ViewChild('trailIdSelect')
   private trailIdSelect: SelectComponent;
 
-  private datepickerOptions: IMyOptions = {
+  private datepickerOptions: INgxMyDpOptions = {
     dateFormat: 'dd.mm.yyyy',
     dayLabels: { mo: 'Lun', tu: 'Mar', we: 'Mer', th: 'Jeu', fr: 'Ven', sa: 'Sam', su: 'Dim' },
     disableUntil: { year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate() },
-    editableMonthAndYear: false,
+    monthSelector: false,
+    yearSelector: false,
     monthLabels: { 1: 'Janvier', 2: 'Février', 3: 'Mars', 4: 'Avril', 5: 'Mai', 6: 'Juin', 7: 'Juillet', 8: 'Août', 9: 'Septembre', 10: 'Octobre', 11: 'Novembre', 12: 'Décembre' },
     todayBtnTxt: 'Aujourd\'hui'
   };
