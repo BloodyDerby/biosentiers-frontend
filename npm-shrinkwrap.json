@@ -120,7 +120,7 @@
     "ng-request-builder": {
       "version": "0.2.2",
       "from": "ng-request-builder@>=0.2.2 <0.3.0",
-      "resolved": "file:dist"
+      "resolved": "https://registry.npmjs.org/ng-request-builder/-/ng-request-builder-0.2.2.tgz"
     },
     "ngx-bootstrap": {
       "version": "1.6.6",
