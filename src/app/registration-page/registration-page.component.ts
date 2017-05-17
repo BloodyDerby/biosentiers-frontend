@@ -13,9 +13,10 @@ import { User } from '../models/user';
 })
 export class RegistrationPageComponent implements OnInit {
 
-  private invitation: Object;
-  private existingUser: User;
-  private registrationForm: FormGroup;
+  invitation: Object;
+  invitationInvalid: boolean;
+  existingUser: User;
+  registrationForm: FormGroup;
 
   constructor(private api: BioApiService, private auth: BioAuthService, private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router) { }
 
@@ -53,6 +54,8 @@ export class RegistrationPageComponent implements OnInit {
         firstName: invitation.firstName,
         lastName: invitation.lastName
       });
+    }, (err) => {
+      this.invitationInvalid = true;
     });
   }
 

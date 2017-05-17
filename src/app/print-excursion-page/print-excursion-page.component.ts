@@ -13,8 +13,8 @@ import { Participant } from '../models/participant';
 })
 export class PrintExcursionPageComponent implements OnInit {
 
-  private excursion: Excursion;
-  private participants: Participant[];
+  excursion: Excursion;
+  participants: Participant[];
 
   constructor(private excursionsService: BioExcursionsService, private participantsService: BioParticipantsService, private route: ActivatedRoute) {
   }

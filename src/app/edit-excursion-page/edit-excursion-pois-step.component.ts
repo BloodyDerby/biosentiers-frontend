@@ -27,7 +27,7 @@ import { EditExcursionService } from './edit-excursion.service';
 })
 export class EditExcursionPoisStepComponent implements OnInit {
 
-  private excursion: Excursion;
+  excursion: Excursion;
 
   constructor(private editExcursionService: EditExcursionService) {
   }

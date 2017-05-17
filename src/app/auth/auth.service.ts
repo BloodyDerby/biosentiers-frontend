@@ -10,9 +10,10 @@ import { User } from '../models/user';
 @Injectable()
 export class BioAuthService {
 
+  user$: Observable<User>;
+
   private token: string;
   private user: BehaviorSubject<User>;
-  public user$: Observable<User>;
 
   constructor(private http: Http, private storage: BioStorageService) {
     this.user = new BehaviorSubject(null);

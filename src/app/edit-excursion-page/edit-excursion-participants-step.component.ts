@@ -14,9 +14,9 @@ import { Excursion } from '../models/excursion';
 })
 export class EditExcursionParticipantsStepComponent implements OnInit {
 
-  private excursion: Excursion;
-  private excursionParticipantsForm: FormGroup;
-  private participants: Participant[];
+  excursion: Excursion;
+  excursionParticipantsForm: FormGroup;
+  participants: Participant[];
 
   constructor(private formBuilder: FormBuilder, private editExcursionService: EditExcursionService, private participantsService: BioParticipantsService) {
     this.participants = [];

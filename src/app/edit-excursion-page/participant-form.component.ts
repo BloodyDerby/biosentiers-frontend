@@ -15,14 +15,15 @@ import { Participant } from '../models/participant';
 })
 export class ParticipantFormComponent implements OnDestroy, OnInit {
 
-  private form: FormGroup;
-  private syncing: boolean;
-  private subscriptions: Subscription[];
+  form: FormGroup;
+  syncing: boolean;
 
   @Input() id: string;
   @Input() participant: Participant;
   @Input() excursion: Excursion;
   @Output() onRemoved = new EventEmitter<Participant>();
+
+  private subscriptions: Subscription[];
 
   constructor(private formBuilder: FormBuilder, private participantsService: BioParticipantsService) {
     this.syncing = false;

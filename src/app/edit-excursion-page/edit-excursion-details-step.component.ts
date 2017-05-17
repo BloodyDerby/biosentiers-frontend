@@ -17,9 +17,9 @@ import { EditExcursionService } from './edit-excursion.service';
 })
 export class EditExcursionDetailsStepComponent implements OnInit {
 
-  private excursion: Excursion;
-  private excursionForm: FormGroup;
-  private trailChoices: Array<{ [s: string]: string; }>;
+  excursion: Excursion;
+  excursionForm: FormGroup;
+  trailChoices: Array<{ [s: string]: string; }>;
 
   @ViewChild('trailIdSelect')
   private trailIdSelect: SelectComponent;

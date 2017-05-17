@@ -13,8 +13,9 @@ import { Excursion } from '../models/excursion';
 @Injectable()
 export class EditExcursionService {
 
-  public excursionForm: FormGroup;
-  public excursionObs: Observable<Excursion>;
+  excursionForm: FormGroup;
+  excursionObs: Observable<Excursion>;
+
   private excursionStream: ReplaySubject<Excursion>;
 
   constructor(private excursionsService: BioExcursionsService, private formBuilder: FormBuilder, private router: Router) {

@@ -11,7 +11,8 @@ import { User } from '../models/user';
 })
 export class NavbarComponent implements OnInit {
 
-  private user: User;
+  user: User;
+
   @ViewChild(LoginModalComponent) loginModal: LoginModalComponent;
 
   constructor(private auth: BioAuthService) { }

@@ -11,9 +11,10 @@ import { BioAuthService } from '../auth/auth.service';
 })
 export class LoginModalComponent implements OnInit {
 
-  private loginForm: FormGroup;
+  loginForm: FormGroup;
+
   @ViewChild('email') private email: ElementRef;
-  @ViewChild('modal') public modal: ModalDirective;
+  @ViewChild('modal') modal: ModalDirective;
 
   constructor(private authService: BioAuthService, private formBuilder: FormBuilder) { }
 

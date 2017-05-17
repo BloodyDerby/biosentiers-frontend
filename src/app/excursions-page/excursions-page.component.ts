@@ -10,7 +10,7 @@ import { Excursion } from '../models/excursion';
 })
 export class ExcursionsPageComponent implements OnInit {
 
-  private excursions: Excursion[];
+  excursions: Excursion[];
 
   constructor(private excursionsService: BioExcursionsService) {
   }

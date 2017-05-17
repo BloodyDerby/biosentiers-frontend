@@ -21,14 +21,14 @@ export class EditExcursionPoisComponent implements OnInit {
   @Input()
   private excursion: Excursion;
 
-  private themeChoices: Array<string>;
-  private selectedThemes: any;
-  private zoneChoices: Array<any>;
-  private map: Map;
-  private mapOptions: any;
-  private mapBounds: any;
-  private mapBoundsOptions: any;
+  themeChoices: Array<string>;
+  selectedThemes: any;
+  zoneChoices: Array<any>;
+  mapOptions: any;
+  mapBounds: any;
+  mapBoundsOptions: any;
 
+  private map: Map;
   @ViewChild('map')
   private mapDirective: LeafletDirective;
 

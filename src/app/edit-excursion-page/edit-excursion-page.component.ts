@@ -44,7 +44,7 @@ const STEP_PATHS = [
 })
 export class EditExcursionPageComponent implements OnInit {
 
-  private excursion: Excursion;
+  excursion: Excursion;
 
   constructor(private editExcursionService: EditExcursionService, private route: ActivatedRoute, private router: Router) {
   }
