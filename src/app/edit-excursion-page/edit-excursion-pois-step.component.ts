@@ -12,7 +12,6 @@ import moment from 'moment';
 import { IMyOptions } from 'ngx-mydatepicker';
 
 import { BioExcursionsService, RetrieveExcursionParams } from '../excursions/excursions.service';
-import { BioThemes } from '../data/themes';
 import { BioTrailsService } from '../trails/trails.service';
 import { BioZones } from '../data/zones';
 import { Excursion } from '../models/excursion';

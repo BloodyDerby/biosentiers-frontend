@@ -6,10 +6,11 @@ import cloneDeep from 'lodash/cloneDeep';
 import includes from 'lodash/includes';
 import reduce from 'lodash/reduce';
 
-import { BioThemes } from '../data/themes';
+import { BioThemesService } from '../themes/themes.service';
 import { BioZones } from '../data/zones';
 import { Excursion } from '../models/excursion';
 import { EditExcursionService } from './edit-excursion.service';
+import { Theme } from '../models/theme';
 
 @Component({
   selector: 'bio-edit-excursion-pois',
@@ -21,7 +22,7 @@ export class EditExcursionPoisComponent implements OnInit {
   @Input()
   private excursion: Excursion;
 
-  themeChoices: Array<string>;
+  themeChoices: Theme[];
   selectedThemes: any;
   zoneChoices: Array<any>;
   mapOptions: any;
@@ -32,13 +33,7 @@ export class EditExcursionPoisComponent implements OnInit {
   @ViewChild('map')
   private mapDirective: LeafletDirective;
 
-  constructor(private editExcursionService: EditExcursionService) {
-
-    this.themeChoices = cloneDeep(BioThemes);
-    this.selectedThemes = reduce(BioThemes, (memo, theme) => {
-      memo[theme['id']] = false;
-      return memo;
-    }, {});
+  constructor(private editExcursionService: EditExcursionService, private themesService: BioThemesService) {
 
     let minLat, minLng, maxLat, maxLng;
     BioZones.features.forEach(function(zone) {
@@ -100,16 +95,15 @@ export class EditExcursionPoisComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.initThemes();
+
     this.editExcursionService.excursionObs.subscribe((excursion) => {
       if (!excursion) {
         return;
       }
 
       this.excursion = excursion;
-
-      for (let themeId in this.selectedThemes) {
-        this.selectedThemes[themeId] = includes(excursion.themes || [], themeId);
-      }
+      this.autoSelectThemes();
 
       this.zoneChoices.forEach((zone, i) => {
         zone.properties['selected'] = includes(excursion.zones || [], i)
@@ -128,8 +122,29 @@ export class EditExcursionPoisComponent implements OnInit {
     this.map = map;
   }
 
+  initThemes() {
+    this.themesService.retrieveAll().subscribe((themes) => {
+
+      this.themeChoices = themes;
+      this.selectedThemes = reduce(themes, (memo, theme) => {
+        memo[theme.name] = false;
+        return memo;
+      }, {});
+
+      this.autoSelectThemes();
+    });
+  }
+
+  autoSelectThemes() {
+    if (this.excursion && this.selectedThemes) {
+      for (let themeName in this.selectedThemes) {
+        this.selectedThemes[themeName] = includes(this.excursion.themes || [], themeName);
+      }
+    }
+  }
+
   toggleTheme(theme: any) {
-    this.selectedThemes[theme.id] = !this.selectedThemes[theme.id];
+    this.selectedThemes[theme.name] = !this.selectedThemes[theme.name];
     this.excursion.themes = this.getSelectedThemes();
     this.editExcursionService.save();
   }

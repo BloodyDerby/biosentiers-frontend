@@ -9,6 +9,7 @@ import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 
 import { BioExcursionsModule } from '../excursions/excursions.module';
 import { BioParticipantsModule } from '../participants/participants.module';
+import { BioThemesModule } from '../themes/themes.module';
 import { BioTrailsModule } from '../trails/trails.module';
 import { EditExcursionPageComponent } from './edit-excursion-page.component';
 import { ParticipantFormComponent } from './participant-form.component';
@@ -23,6 +24,7 @@ import { EditExcursionService } from './edit-excursion.service';
   imports: [
     BioExcursionsModule,
     BioParticipantsModule,
+    BioThemesModule,
     BioTrailsModule,
     CommonModule,
     DatepickerModule,

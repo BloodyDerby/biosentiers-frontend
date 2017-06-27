@@ -5,8 +5,6 @@ import extend from 'lodash/extend';
 import omit from 'lodash/omit';
 import { Observable, ReplaySubject } from 'rxjs/Rx';
 
-import { BioThemes } from '../data/themes';
-import { BioZones } from '../data/zones';
 import { BioExcursionsService, RetrieveExcursionParams } from '../excursions/excursions.service';
 import { Excursion } from '../models/excursion';
 
@@ -38,8 +36,8 @@ export class EditExcursionService {
       this.loadExcursion(id);
     } else {
       this.setExcursion(new Excursion({
-        themes: BioThemes.map(theme => theme.id),
-        zones: BioZones.features.map((feature, i) => i),
+        themes: [],
+        zones: [],
         plannedAt: new Date().toISOString()
       }));
     }

@@ -9,8 +9,8 @@ export class Excursion {
   id: string;
   name: string;
   trailId: string;
-  themes: Array<string>;
-  zones: Array<number>;
+  themes: string[];
+  zones: number[];
   plannedAt: string;
   createdAt: string;
   updatedAt: string;
