@@ -41,11 +41,13 @@ export class EditExcursionDetailsStepComponent implements OnInit {
     this.editExcursionService.excursionObs.subscribe((excursion) => {
       this.excursion = excursion;
       this.excursionForm = this.editExcursionService.excursionForm;
-
-      if (!excursion.id) {
-        this.loadTrails();
-      }
     });
+  }
+
+  ngAfterViewInit() {
+    if (!this.excursion.id) {
+      this.loadTrails();
+    }
   }
 
   loadTrails() {
