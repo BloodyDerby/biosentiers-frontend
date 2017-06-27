@@ -21,6 +21,7 @@ import { EditExcursionService } from './edit-excursion.service';
 import { EditExcursionDetailsStepComponent } from './edit-excursion-details-step.component';
 import { EditExcursionPoisStepComponent } from './edit-excursion-pois-step.component';
 import { EditExcursionParticipantsStepComponent } from './edit-excursion-participants-step.component';
+import { WizardStep } from '../wizard/wizard-step';
 
 const STEPS = [
   EditExcursionDetailsStepComponent,
@@ -42,8 +43,14 @@ const STEP_PATHS = [
 export class EditExcursionPageComponent implements OnInit {
 
   excursion: Excursion;
+  wizardSteps: WizardStep[];
 
   constructor(private editExcursionService: EditExcursionService, private route: ActivatedRoute, private router: Router) {
+    this.wizardSteps = [
+      new WizardStep('Détails', 'user'),
+      new WizardStep('Participants', 'key'),
+      new WizardStep('Thèmes & zones', 'twitter')
+    ];
   }
 
   ngOnInit() {

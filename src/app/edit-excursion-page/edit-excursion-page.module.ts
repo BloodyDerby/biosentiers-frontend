@@ -20,6 +20,7 @@ import { EditExcursionParticipantsStepComponent } from './edit-excursion-partici
 import { EditExcursionPoisComponent } from './edit-excursion-pois.component';
 import { EditExcursionPoisStepComponent } from './edit-excursion-pois-step.component';
 import { EditExcursionService } from './edit-excursion.service';
+import { WizardModule } from '../wizard/wizard.module';
 
 @NgModule({
   imports: [
@@ -34,7 +35,8 @@ import { EditExcursionService } from './edit-excursion.service';
     NgxMyDatePickerModule,
     ReactiveFormsModule,
     RouterModule,
-    SelectModule
+    SelectModule,
+    WizardModule
   ],
   declarations: [
     EditExcursionDetailsStepComponent,

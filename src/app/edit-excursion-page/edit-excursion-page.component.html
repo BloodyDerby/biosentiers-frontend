@@ -12,6 +12,8 @@
     <h1 *ngIf='!excursion.id'>Nouvelle sortie</h1>
   </div>
 
+  <bio-wizard [steps]='wizardSteps'></bio-wizard>
+
   <nav *ngIf='excursion && excursion.id'>
     <ul class='pager'>
       <li class='previous' [ngClass]='{disabled: !isPreviousStepEnabled()}'><a (click)='previousStep()'><span aria-hidden='true'>&larr;</span> Précédent</a></li>
