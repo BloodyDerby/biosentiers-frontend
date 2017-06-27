@@ -41,13 +41,15 @@ export class EditExcursionDetailsStepComponent implements OnInit {
     this.editExcursionService.excursionObs.subscribe((excursion) => {
       this.excursion = excursion;
       this.excursionForm = this.editExcursionService.excursionForm;
+
+      if (!this.excursion.id) {
+        this.loadTrails();
+      }
     });
   }
 
   ngAfterViewInit() {
-    if (!this.excursion.id) {
-      this.loadTrails();
-    }
+    this.selectDefaultTrail();
   }
 
   loadTrails() {
@@ -61,10 +63,14 @@ export class EditExcursionDetailsStepComponent implements OnInit {
         return memo;
       }, []);
 
-      if (trails.length) {
-        setTimeout(() => this.trailIdSelect.select(trails[0].id), 0);
-      }
+      this.selectDefaultTrail();
     });
+  }
+
+  selectDefaultTrail() {
+    if (this.excursion && !this.excursion.id && this.trailIdSelect && this.trailChoices && this.trailChoices.length) {
+      setTimeout(() => this.trailIdSelect.select(this.trailChoices[0].value), 0);
+    }
   }
 
   saveExcursion(event) {
