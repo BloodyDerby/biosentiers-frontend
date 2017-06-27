@@ -1,16 +1,21 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { LeafletDirective } from '@asymmetrik/angular2-leaflet';
 import Leaflet from 'leaflet';
+import { Layer as LeafletLayer } from 'leaflet';
 import { Map } from 'leaflet';
 import cloneDeep from 'lodash/cloneDeep';
+import each from 'lodash/each';
+import find from 'lodash/find';
 import includes from 'lodash/includes';
 import reduce from 'lodash/reduce';
 
 import { BioThemesService } from '../themes/themes.service';
-import { BioZones } from '../data/zones';
+import { BioZonesService } from '../zones/zones.service';
 import { Excursion } from '../models/excursion';
 import { EditExcursionService } from './edit-excursion.service';
+import { LatLngBounds } from '../models/lat-lng-bounds';
 import { Theme } from '../models/theme';
+import { Zone } from '../models/zone';
 
 @Component({
   selector: 'bio-edit-excursion-pois',
@@ -22,76 +27,19 @@ export class EditExcursionPoisComponent implements OnInit {
   @Input()
   private excursion: Excursion;
 
-  themeChoices: Theme[];
+  themes: Theme[];
   selectedThemes: any;
-  zoneChoices: Array<any>;
-  mapOptions: any;
-  mapBounds: any;
-  mapBoundsOptions: any;
+  zones: Zone[];
+  selectedZones: { [s: string]: boolean };
+  zoneLayers: { [s: string]: LeafletLayer };
+  mapData: any;
 
   private map: Map;
   @ViewChild('map')
   private mapDirective: LeafletDirective;
 
-  constructor(private editExcursionService: EditExcursionService, private themesService: BioThemesService) {
-
-    let minLat, minLng, maxLat, maxLng;
-    BioZones.features.forEach(function(zone) {
-      zone.geometry.coordinates[0].forEach(function(coords) {
-        if (minLng === undefined || coords[0] < minLng) {
-          minLng = coords[0];
-        }
-        if (maxLng === undefined || coords[0] > maxLng) {
-          maxLng = coords[0];
-        }
-        if (minLat === undefined || coords[1] < minLat) {
-          minLat = coords[1];
-        }
-        if (maxLat === undefined || coords[1] > maxLat) {
-          maxLat = coords[1];
-        }
-      });
-    });
-
-    const southWest = L.latLng(minLat, minLng);
-    const northEast = L.latLng(maxLat, maxLng);
-    const bounds = L.latLngBounds(southWest, northEast);
-    this.mapBounds = bounds;
-    this.mapBoundsOptions = {
-      padding: [ 20, 20 ]
-    };
-
-    let features = cloneDeep(BioZones.features);
-    this.zoneChoices = features;
-
-    this.mapOptions = {
-      doubleClickZoom: false,
-      scrollWheelZoom: false,
-      zoomControl: false,
-      layers: [
-        Leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
-        L.geoJSON(features, {
-          style: (feature) => {
-            return {
-              stroke: true,
-              color: feature.properties['selected'] ? '#008b00' : '#8b0000',
-              fill: true,
-              fillColor: feature.properties['selected'] ? '#00ff00' : '#ff0000',
-              fillOpacity: 0.5
-            };
-          },
-          onEachFeature: (feature, layer) => {
-            feature['layer'] = layer;
-
-            layer.on({
-              click: (event) => {
-                this.toggleZone(feature);
-              }
-            })
-          }
-        })
-      ]
-    };
+  constructor(private editExcursionService: EditExcursionService, private themesService: BioThemesService, private zonesService: BioZonesService) {
+    this.zoneLayers = {};
   }
 
   ngOnInit() {
@@ -103,18 +51,8 @@ export class EditExcursionPoisComponent implements OnInit {
       }
 
       this.excursion = excursion;
+      this.initZones(excursion);
       this.autoSelectThemes();
-
-      this.zoneChoices.forEach((zone, i) => {
-        zone.properties['selected'] = includes(excursion.zones || [], i)
-
-        if (zone['layer']) {
-          zone['layer'].setStyle({
-            color: zone.properties['selected'] ? '#008b00' : '#8b0000',
-            fillColor: zone.properties['selected'] ? '#00ff00' : '#ff0000',
-          });
-        }
-      });
     });
   }
 
@@ -125,7 +63,7 @@ export class EditExcursionPoisComponent implements OnInit {
   initThemes() {
     this.themesService.retrieveAll().subscribe((themes) => {
 
-      this.themeChoices = themes;
+      this.themes = themes;
       this.selectedThemes = reduce(themes, (memo, theme) => {
         memo[theme.name] = false;
         return memo;
@@ -149,18 +87,6 @@ export class EditExcursionPoisComponent implements OnInit {
     this.editExcursionService.save();
   }
 
-  toggleZone(zone: any) {
-
-    zone.properties['selected'] = !zone.properties['selected'];
-    zone['layer'].setStyle({
-      color: zone.properties['selected'] ? '#008b00' : '#8b0000',
-      fillColor: zone.properties['selected'] ? '#00ff00' : '#ff0000',
-    });
-
-    this.excursion.zones = this.getSelectedZones();
-    this.editExcursionService.save();
-  }
-
   getSelectedThemes(): Array<string> {
     return reduce(this.selectedThemes, (memo, selected, theme) => {
       if (selected) {
@@ -171,14 +97,106 @@ export class EditExcursionPoisComponent implements OnInit {
     }, []);
   }
 
+  initZones(excursion: Excursion) {
+    this.zonesService.retrieveAll(excursion.trail).subscribe((zones) => {
+
+      this.zones = zones;
+      this.selectedZones = reduce(zones, (memo, zone) => {
+        memo[zone.position.toString()] = includes(excursion.zones || [], zone.position);
+        return memo;
+      }, {});
+
+      this.initMap();
+    });
+  }
+
+  toggleZone(zone: any) {
+
+    this.selectedZones[zone.position.toString()] = !this.selectedZones[zone.position.toString()];
+    this.updateZoneLayerStyle(zone.position);
+
+    this.excursion.zones = this.getSelectedZones();
+    this.editExcursionService.save();
+  }
+
   getSelectedZones(): Array<number> {
-    return reduce(this.zoneChoices, (memo, zone, i) => {
-      if (zone.properties.selected) {
-        memo.push(i);
+    return reduce(this.selectedZones, (memo, selected, position) => {
+      if (selected) {
+        memo.push(parseInt(position, 10));
       }
 
       return memo;
     }, []);
+  }
+
+  initMap() {
+
+    this.mapData = {};
+
+    this.mapData.bounds = LatLngBounds.fromBounds(this.zones.map(zone => zone.bounds)).toLeaflet();
+
+    this.mapData.boundsOptions = {
+      padding: [ 20, 20 ]
+    };
+
+    this.mapData.options = {
+      scrollWheelZoom: false,
+      layers: [
+        Leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
+        L.geoJSON(this.getZonesFeatureCollection(), {
+          style: (feature) => {
+            return this.getZoneLayerStyle(feature.properties['position']);
+          },
+          onEachFeature: (feature, layer) => {
+            this.zoneLayers[feature.properties['position'].toString()] = layer;
+
+            layer.on({
+              click: (event) => {
+                this.toggleZone(this.getZoneByFeature(feature));
+              }
+            })
+          }
+        })
+      ]
+    };
+  }
+
+  getZonesFeatureCollection(): any {
+    return {
+      name: 'zone',
+      type: 'FeatureCollection',
+      features: this.zones.map(zone => {
+        return {
+          type: 'Feature',
+          geometry: zone.toGeoJson(),
+          properties: {
+            position: zone.position
+          }
+        };
+      })
+    };
+  }
+
+  getZoneLayerStyle(position): any {
+    return {
+      stroke: true,
+      color: this.selectedZones[position.toString()] ? '#008b00' : '#8b0000',
+      fill: true,
+      fillColor: this.selectedZones[position.toString()] ? '#00ff00' : '#ff0000',
+      fillOpacity: 0.5
+    };
+  }
+
+  getZoneByPosition(position) {
+    return find(this.zones, { position: position });
+  }
+
+  getZoneByFeature(feature) {
+    return this.getZoneByPosition(feature.properties['position']);
+  }
+
+  updateZoneLayerStyle(position) {
+    this.zoneLayers[position.toString()]['setStyle'](this.getZoneLayerStyle(position));
   }
 
 }

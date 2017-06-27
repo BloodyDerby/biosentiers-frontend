@@ -11,7 +11,7 @@ export class BioExcursionsService {
   constructor(private api: BioApiService) {
   }
 
-  create(excursion): Observable<Excursion> {
+  create(excursion: Excursion): Observable<Excursion> {
     return this.api
       .post(`/excursions`, excursion)
       .execute()

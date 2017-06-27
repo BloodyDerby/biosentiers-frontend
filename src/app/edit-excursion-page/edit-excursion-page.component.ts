@@ -15,7 +15,6 @@ import { IMyOptions } from 'ngx-mydatepicker';
 
 import { BioExcursionsService, RetrieveExcursionParams } from '../excursions/excursions.service';
 import { BioTrailsService } from '../trails/trails.service';
-import { BioZones } from '../data/zones';
 import { Excursion } from '../models/excursion';
 import { Trail } from '../models/trail';
 import { EditExcursionService } from './edit-excursion.service';

@@ -11,6 +11,7 @@ import { BioExcursionsModule } from '../excursions/excursions.module';
 import { BioParticipantsModule } from '../participants/participants.module';
 import { BioThemesModule } from '../themes/themes.module';
 import { BioTrailsModule } from '../trails/trails.module';
+import { BioZonesModule } from '../zones/zones.module';
 import { EditExcursionPageComponent } from './edit-excursion-page.component';
 import { ParticipantFormComponent } from './participant-form.component';
 import { TruncatePipe } from '../common/truncate.pipe';
@@ -26,6 +27,7 @@ import { EditExcursionService } from './edit-excursion.service';
     BioParticipantsModule,
     BioThemesModule,
     BioTrailsModule,
+    BioZonesModule,
     CommonModule,
     DatepickerModule,
     LeafletModule,
