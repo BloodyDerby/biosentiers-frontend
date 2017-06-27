@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import extend from 'lodash/extend';
 import omit from 'lodash/omit';
-import { Observable, ReplaySubject } from 'rxjs/Rx';
+import { Observable, ReplaySubject, Subscription } from 'rxjs/Rx';
 
 import { BioExcursionsService, RetrieveExcursionParams } from '../excursions/excursions.service';
 import { Excursion } from '../models/excursion';
@@ -13,6 +13,7 @@ export class EditExcursionService {
 
   excursionForm: FormGroup;
   excursionObs: Observable<Excursion>;
+  excursionUpdateSubscription: Subscription;
 
   private excursionStream: ReplaySubject<Excursion>;
 
@@ -22,13 +23,17 @@ export class EditExcursionService {
     this.excursionObs = this.excursionStream.asObservable().filter(excursion => !!excursion);
 
     this.initExcursionForm();
-    this.excursionObs.subscribe(excursion => this.updateExcursionForm(excursion));
+    this.excursionObs.subscribe(excursion => {
+      this.updateExcursionForm(excursion)
 
-    this.excursionForm.valueChanges
-      .filter(values => values.id && this.excursionForm.valid)
-      .distinctUntilChanged()
-      .debounceTime(1000)
-      .subscribe(values => this.updateExcursion(values));
+      this.excursionUpdateSubscription = this.excursionForm
+        .valueChanges
+        .skip(1)
+        .filter(values => values.id && this.excursionForm.valid)
+        .distinctUntilChanged()
+        .debounceTime(1000)
+        .subscribe(values => this.updateExcursion(values));
+    });
   }
 
   edit(id?: string) {
@@ -57,6 +62,11 @@ export class EditExcursionService {
 
   stopEditing() {
     this.excursionStream.next(null);
+
+    if (this.excursionUpdateSubscription) {
+      this.excursionUpdateSubscription.unsubscribe();
+      this.excursionUpdateSubscription = null;
+    }
   }
 
   private initExcursionForm() {
