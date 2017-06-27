@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { SelectModule } from 'angular2-select';
+import { SelectModule } from 'ng-select';
 import { LeafletModule } from '@asymmetrik/angular2-leaflet/dist';
 import { DatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';

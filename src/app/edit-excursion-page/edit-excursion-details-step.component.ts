@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SelectComponent } from 'angular2-select/dist/select.component';
+import { SelectComponent } from 'ng-select/dist/select.component';
 import reduce from 'lodash/reduce';
 import moment from 'moment';
 import { INgxMyDpOptions } from 'ngx-mydatepicker';

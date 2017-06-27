@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SelectComponent } from 'angular2-select/dist/select.component';
 import { LeafletDirective } from '@asymmetrik/angular2-leaflet';
 import Leaflet from 'leaflet';
 import { Map } from 'leaflet';
