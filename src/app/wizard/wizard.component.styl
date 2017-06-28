@@ -19,7 +19,8 @@
   -moz-border-radius: 50%; -webkit-border-radius: 50%; border-radius: 50%;
 }
 
-.f1-step.activated .f1-step-icon {
+.f1-step.enabled .f1-step-icon {
+  cursor: pointer;
   background: #fff; border: 1px solid #ff606f; color: #ff606f; line-height: 38px;
 }
 
@@ -27,6 +28,6 @@
   width: 48px; height: 48px; margin-top: 0; background: #ff606f; font-size: 22px; line-height: 48px;
 }
 
-.f1-step p { color: #ccc; }
-.f1-step.activated p { color: #ff606f; }
-.f1-step.active p { color: #ff606f; }
+.f1-step p a { color: #ccc; }
+.f1-step.enabled p a { color: #ff606f; }
+.f1-step.active p a { color: #ff606f; }

@@ -4,6 +4,7 @@
     <div class='btn-group pull-right'>
       <a class='btn btn-info btn-lg'
          *ngIf='excursion.id' routerLink='/excursions/{{ excursion.id }}/print'>
+        <span class='glyphicon glyphicon-print'></span>
         Imprimer
       </a>
     </div>
@@ -12,18 +13,16 @@
     <h1 *ngIf='!excursion.id'>Nouvelle sortie</h1>
   </div>
 
-  <bio-wizard [steps]='wizardSteps'></bio-wizard>
+  <bio-wizard #wizard *ngIf='wizardSteps' [steps]='wizardSteps'></bio-wizard>
 
-  <nav *ngIf='excursion && excursion.id'>
-    <ul class='pager'>
-      <li class='previous' [ngClass]='{disabled: !isPreviousStepEnabled()}'><a (click)='previousStep()'><span aria-hidden='true'>&larr;</span> Précédent</a></li>
-      <li routerLinkActive='active' [routerLinkActiveOptions]='{exact: true}'><a routerLink='/excursions/{{ excursion.id }}/edit'>Détails</a></li>
-      <li routerLinkActive='active'><a routerLink='/excursions/{{ excursion.id }}/edit/participants'>Participants</a></li>
-      <li routerLinkActive='active'><a routerLink='/excursions/{{ excursion.id }}/edit/pois'>Thèmes &amp; zones</a></li>
-      <li class='next' [ngClass]='{disabled: !isNextStepEnabled()}'><a (click)='nextStep()'>Suivant <span aria-hidden='true'>&rarr;</span></a></li>
-    </ul>
-  </nav>
-
-  <bio-edit-excursion-details-step *ngIf='excursion && !excursion.id'></bio-edit-excursion-details-step>
   <router-outlet></router-outlet>
+
+  <div class='wizard-controls' *ngIf='wizard'>
+    <div class='btn-group'>
+      <button type='button' class='btn btn-primary' [disabled]='!wizard.isPreviousStepEnabled()' (click)='wizard.goToPreviousStep()'>Précédent</button>
+    </div>
+    <div class='btn-group pull-right'>
+      <button type='button' class='btn btn-primary' [disabled]='!wizard.isNextStepEnabled()' (click)='wizard.goToNextStep()'>Suivant</button>
+    </div>
+  </div>
 </div>

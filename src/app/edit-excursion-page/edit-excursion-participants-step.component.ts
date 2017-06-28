@@ -27,7 +27,7 @@ export class EditExcursionParticipantsStepComponent implements OnInit {
       participantsIncrement: [ '1' ]
     });
 
-    this.editExcursionService.excursionObs.subscribe((excursion) => {
+    this.editExcursionService.excursionObs.first().subscribe((excursion) => {
       if (excursion) {
         this.excursion = excursion;
         this.loadParticipants(excursion);

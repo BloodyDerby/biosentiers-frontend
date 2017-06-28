@@ -1,11 +1,11 @@
 <nav class='f1'>
   <div class='f1-steps'>
     <div class='f1-progress'>
-        <div class='f1-progress-line' data-now-value='16.66' data-number-of-steps='3' style='width: 16.66%;'></div>
+        <div class='f1-progress-line' [style.width]='getProgressWidth()'></div>
     </div>
-    <div class='f1-step' *ngFor='let step of steps' [style.width]='getStepWidth()' [class.activated]='isStepActivated(step)' [class.active]='isStepActive(step)'>
-      <div class='f1-step-icon'><i class='fa fa-{{ step.icon }}'></i></div>
-      <p>{{ step.name }}</p>
+    <div class='f1-step' *ngFor='let step of steps' [style.width]='getStepWidth()' [class.enabled]='isStepEnabledOnly(step) | async' [class.active]='isStepActive(step)'>
+      <div class='f1-step-icon' (click)='goToStep(step)'><i class='fa fa-{{ step.icon }}'></i></div>
+      <p><a (click)='goToStep(step)'>{{ step.label }}</a></p>
     </div>
   </div>
 </nav>

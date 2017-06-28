@@ -38,7 +38,7 @@ export class EditExcursionDetailsStepComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.editExcursionService.excursionObs.subscribe((excursion) => {
+    this.editExcursionService.excursionObs.first().subscribe((excursion) => {
       this.excursion = excursion;
       this.excursionForm = this.editExcursionService.excursionForm;
 

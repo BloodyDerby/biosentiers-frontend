@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { LeafletDirective } from '@asymmetrik/angular2-leaflet';
 import Leaflet from 'leaflet';
 import { Map } from 'leaflet';
@@ -12,6 +12,7 @@ import times from 'lodash/times';
 import reduce from 'lodash/reduce';
 import moment from 'moment';
 import { IMyOptions } from 'ngx-mydatepicker';
+import { Observable } from 'rxjs/Rx';
 
 import { BioExcursionsService, RetrieveExcursionParams } from '../excursions/excursions.service';
 import { BioTrailsService } from '../trails/trails.service';
@@ -21,19 +22,35 @@ import { EditExcursionService } from './edit-excursion.service';
 import { EditExcursionDetailsStepComponent } from './edit-excursion-details-step.component';
 import { EditExcursionPoisStepComponent } from './edit-excursion-pois-step.component';
 import { EditExcursionParticipantsStepComponent } from './edit-excursion-participants-step.component';
-import { WizardStep } from '../wizard/wizard-step';
+import { WizardComponent } from '../wizard/wizard.component';
+import { WizardStep } from '../wizard/wizard.step';
+import { CanActivateStep } from '../wizard/wizard.step.can-activate';
+import { StepIsEnabled } from '../wizard/wizard.step.is-enabled';
+import { WizardStepOptions } from '../wizard/wizard.step.options';
 
-const STEPS = [
-  EditExcursionDetailsStepComponent,
-  EditExcursionParticipantsStepComponent,
-  EditExcursionPoisStepComponent
-];
+class CanActivateParticipantsStep implements CanActivateStep {
+  component: EditExcursionPageComponent;
 
-const STEP_PATHS = [
-  '',
-  'participants',
-  'pois'
-];
+  constructor(component: EditExcursionPageComponent) {
+    this.component = component;
+  }
+
+  canActivate(): Observable<boolean> {
+    return Observable.of(false);
+  }
+}
+
+class ThemesStepIsEnabled implements StepIsEnabled {
+  component: EditExcursionPageComponent;
+
+  constructor(component: EditExcursionPageComponent) {
+    this.component = component;
+  }
+
+  isEnabled(): boolean {
+    return !!this.component.excursion && !!this.component.excursion.id;
+  }
+}
 
 @Component({
   selector: 'bio-edit-excursion-page',
@@ -42,21 +59,20 @@ const STEP_PATHS = [
 })
 export class EditExcursionPageComponent implements OnInit {
 
+  @ViewChild(WizardComponent)
+  wizard: WizardComponent;
+
   excursion: Excursion;
   wizardSteps: WizardStep[];
 
-  constructor(private editExcursionService: EditExcursionService, private route: ActivatedRoute, private router: Router) {
-    this.wizardSteps = [
-      new WizardStep('Détails', 'user'),
-      new WizardStep('Participants', 'key'),
-      new WizardStep('Thèmes & zones', 'twitter')
-    ];
+  constructor(private cdr: ChangeDetectorRef, private editExcursionService: EditExcursionService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
     this.editExcursionService.edit(this.route.snapshot.params['id']);
-    this.editExcursionService.excursionObs.subscribe((excursion) => {
+    this.editExcursionService.excursionObs.first().subscribe((excursion) => {
       this.excursion = excursion;
+      this.initWizard();
     });
   }
 
@@ -64,40 +80,27 @@ export class EditExcursionPageComponent implements OnInit {
     this.editExcursionService.stopEditing();
   }
 
-  isPreviousStepEnabled() {
-    return this.getCurrentStepIndex() > 0;
+  initWizard() {
+
+    const baseRoute = [ '/excursions', this.excursion.id, 'edit' ];
+
+    const component = this;
+
+    this.wizardSteps = [
+      new WizardStep('details', 'Détails', 'user', new WizardStepOptions([], [], baseRoute)),
+      new WizardStep('participants', 'Participants', 'key', new WizardStepOptions([ new CanActivateParticipantsStep(this) ], [], baseRoute.concat([ 'participants' ]))),
+      new WizardStep('themes', 'Thèmes & zones', 'twitter', new WizardStepOptions([ ], [ new ThemesStepIsEnabled(this) ], baseRoute.concat([ 'pois' ])))
+    ];
+
+    this.cdr.detectChanges();
   }
 
-  previousStep() {
-
-    const i = this.getCurrentStepIndex();
-    if (i <= 0) {
-      return;
-    }
-
-    this.router.navigate(compact([ '/excursions', this.excursion.id, 'edit', STEP_PATHS[i - 1] ]));
+  private isParticipantsStepEnabled(): boolean {
+    return !!this.excursion && !!this.excursion.id;
   }
 
-  isNextStepEnabled() {
-    return this.getCurrentStepIndex() < STEPS.length - 1;
-  }
-
-  nextStep() {
-
-    const i = this.getCurrentStepIndex();
-    if (i >= STEPS.length - 1) {
-      return;
-    }
-
-    this.router.navigate(compact([ '/excursions', this.excursion.id, 'edit', STEP_PATHS[i + 1] ]));
-  }
-
-  getCurrentStep() {
-    return this.route.snapshot.children[0].component;
-  }
-
-  getCurrentStepIndex() {
-    return indexOf(STEPS, this.getCurrentStep());
+  private isThemesStepEnabled(): boolean {
+    return this.isParticipantsStepEnabled();
   }
 
 }

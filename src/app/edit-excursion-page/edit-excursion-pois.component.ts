@@ -45,7 +45,7 @@ export class EditExcursionPoisComponent implements OnInit {
   ngOnInit() {
     this.initThemes();
 
-    this.editExcursionService.excursionObs.subscribe((excursion) => {
+    this.editExcursionService.excursionObs.first().subscribe((excursion) => {
       if (!excursion) {
         return;
       }

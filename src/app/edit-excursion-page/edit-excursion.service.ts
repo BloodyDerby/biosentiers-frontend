@@ -49,7 +49,7 @@ export class EditExcursionService {
   }
 
   save() {
-    this.excursionStream.first().subscribe((excursion) => {
+    this.excursionObs.first().subscribe((excursion) => {
       if (excursion.id) {
         this.excursionsService.update(excursion).subscribe(excursion => {});
       } else {

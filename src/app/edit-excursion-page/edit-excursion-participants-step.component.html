@@ -15,7 +15,7 @@
   <p *ngIf='!participants.length'><em class='text-muted'>Personne ne participe à cette sortie pour le moment</em></p>
   <p *ngIf='!excursion.id'><em class='text-muted'>Veuillez créer la sortie pour gérer les participants</em></p>
 
-  <div *ngIf='participants.length'>
+  <div *ngIf='participants.length' class='clearfix'>
     <div class='col-xs-12 col-sm-6 col-md-4' *ngFor='let participant of participants; let i = index'>
       <bio-participant-form
         [id]='"participant-" + i'

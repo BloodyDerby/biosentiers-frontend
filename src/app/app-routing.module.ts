@@ -41,7 +41,13 @@ const routes: Routes = [
   {
     path: 'excursions/new',
     component: EditExcursionPageComponent,
-    canActivate: [ CanAccessPage ]
+    canActivate: [ CanAccessPage ],
+    children: [
+      {
+        path: '',
+        component: EditExcursionDetailsStepComponent
+      }
+    ]
   },
   {
     path: 'excursions/:id/edit',
