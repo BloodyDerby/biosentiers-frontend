@@ -22,35 +22,13 @@ import { EditExcursionService } from './edit-excursion.service';
 import { EditExcursionDetailsStepComponent } from './edit-excursion-details-step.component';
 import { EditExcursionPoisStepComponent } from './edit-excursion-pois-step.component';
 import { EditExcursionParticipantsStepComponent } from './edit-excursion-participants-step.component';
+import { ComponentAddon } from '../utils/component-addon';
 import { WizardComponent } from '../wizard/wizard.component';
 import { WizardStep } from '../wizard/wizard.step';
 import { CanActivateStep } from '../wizard/wizard.step.can-activate';
 import { StepIsEnabled } from '../wizard/wizard.step.is-enabled';
 import { WizardStepOptions } from '../wizard/wizard.step.options';
-
-class CanActivateParticipantsStep implements CanActivateStep {
-  component: EditExcursionPageComponent;
-
-  constructor(component: EditExcursionPageComponent) {
-    this.component = component;
-  }
-
-  canActivate(): Observable<boolean> {
-    return Observable.of(false);
-  }
-}
-
-class ThemesStepIsEnabled implements StepIsEnabled {
-  component: EditExcursionPageComponent;
-
-  constructor(component: EditExcursionPageComponent) {
-    this.component = component;
-  }
-
-  isEnabled(): boolean {
-    return !!this.component.excursion && !!this.component.excursion.id;
-  }
-}
+import { WizardStepRoute } from '../wizard/wizard.step.route';
 
 @Component({
   selector: 'bio-edit-excursion-page',
@@ -82,25 +60,68 @@ export class EditExcursionPageComponent implements OnInit {
 
   initWizard() {
 
-    const baseRoute = [ '/excursions', this.excursion.id, 'edit' ];
-
     const component = this;
 
     this.wizardSteps = [
-      new WizardStep('details', 'Détails', 'user', new WizardStepOptions([], [], baseRoute)),
-      new WizardStep('participants', 'Participants', 'key', new WizardStepOptions([ new CanActivateParticipantsStep(this) ], [], baseRoute.concat([ 'participants' ]))),
-      new WizardStep('themes', 'Thèmes & zones', 'twitter', new WizardStepOptions([ ], [ new ThemesStepIsEnabled(this) ], baseRoute.concat([ 'pois' ])))
+      new WizardStep(
+        'details', 'Détails', 'user',
+        new WizardStepOptions([], [], this.getStepRoute())
+      ),
+      new WizardStep(
+        'participants', 'Participants', 'key',
+        new WizardStepOptions(
+          [ new ParticipantsStepIsEnabled(this) ],
+          [ new CanActivateParticipantsStep(this) ],
+          this.getStepRoute('participants')
+        )
+      ),
+      new WizardStep(
+        'themes', 'Thèmes & zones', 'twitter',
+        new WizardStepOptions(
+          [ new ThemesStepIsEnabled(this) ],
+          [ ],
+          this.getStepRoute('pois')
+        )
+      )
     ];
 
     this.cdr.detectChanges();
   }
 
-  private isParticipantsStepEnabled(): boolean {
-    return !!this.excursion && !!this.excursion.id;
+  excursionIsValid(): boolean {
+    return this.editExcursionService.excursionForm.valid;
   }
 
-  private isThemesStepEnabled(): boolean {
-    return this.isParticipantsStepEnabled();
+  createExcursion(): Observable<Excursion> {
+    return this.editExcursionService.save();
   }
 
+  private getStepRoute(...additionalPathFragments): Observable<WizardStepRoute> {
+    return this.editExcursionService.excursionObs.first().map(excursion => {
+      return excursion.id ? new WizardStepRoute([ '/excursions', excursion.id, 'edit' ].concat(additionalPathFragments)) : undefined;
+    });
+  }
+
+}
+
+class ParticipantsStepIsEnabled extends ComponentAddon<EditExcursionPageComponent> implements StepIsEnabled {
+  isEnabled(): boolean {
+    return this.component.excursionIsValid();
+  }
+}
+
+class CanActivateParticipantsStep extends ComponentAddon<EditExcursionPageComponent> implements CanActivateStep {
+  canActivate(): Observable<boolean> {
+    if (!this.component.excursionIsValid()) {
+      return Observable.of(false);
+    }
+
+    return this.component.createExcursion().map(excursion => true);
+  }
+}
+
+class ThemesStepIsEnabled extends ComponentAddon<EditExcursionPageComponent> implements StepIsEnabled {
+  isEnabled(): boolean {
+    return !!this.component.excursion && !!this.component.excursion.id;
+  }
 }

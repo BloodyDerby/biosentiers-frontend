@@ -1,21 +1,21 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { SelectComponent } from 'ng-select/dist/select.component';
+import every from 'lodash/every';
 import reduce from 'lodash/reduce';
-import moment from 'moment';
 import { INgxMyDpOptions } from 'ngx-mydatepicker';
+import { BehaviorSubject, Observable } from 'rxjs/Rx';
 
-import { BioExcursionsService } from '../excursions/excursions.service';
 import { BioTrailsService } from '../trails/trails.service';
 import { Excursion } from '../models/excursion';
+import { Trail } from '../models/trail';
 import { EditExcursionService } from './edit-excursion.service';
 
 @Component({
   selector: 'bio-edit-excursion-details-step',
   templateUrl: './edit-excursion-details-step.component.html'
 })
-export class EditExcursionDetailsStepComponent implements OnInit {
+export class EditExcursionDetailsStepComponent implements AfterViewInit, OnInit {
 
   excursion: Excursion;
   excursionForm: FormGroup;
@@ -23,6 +23,7 @@ export class EditExcursionDetailsStepComponent implements OnInit {
 
   @ViewChild('trailIdSelect')
   private trailIdSelect: SelectComponent;
+  private viewInitialized: BehaviorSubject<boolean>;
 
   private datepickerOptions: INgxMyDpOptions = {
     dateFormat: 'dd.mm.yyyy',
@@ -34,26 +35,32 @@ export class EditExcursionDetailsStepComponent implements OnInit {
     todayBtnTxt: 'Aujourd\'hui'
   };
 
-  constructor(private editExcursionService: EditExcursionService, private excursionsService: BioExcursionsService, private formBuilder: FormBuilder, private router: Router, private trailsService: BioTrailsService) {
+  constructor(private editExcursionService: EditExcursionService, private trailsService: BioTrailsService) {
+    this.viewInitialized = new BehaviorSubject(false);
   }
 
   ngOnInit() {
-    this.editExcursionService.excursionObs.first().subscribe((excursion) => {
+
+    // Retrieve the shared form from the edition service
+    const initObs = this.editExcursionService.excursionObs.first().do((excursion: Excursion) => {
       this.excursion = excursion;
       this.excursionForm = this.editExcursionService.excursionForm;
-
-      if (!this.excursion.id) {
-        this.loadTrails();
-      }
     });
+
+    // Select a default trail once the view & form have been initialized and the list of trails has been loaded
+    Observable
+      .combineLatest(initObs, this.viewInitialized.asObservable(), this.loadTrails())
+      .filter(results => every(results))
+      .first()
+      .subscribe(() => this.selectDefaultTrail());
   }
 
   ngAfterViewInit() {
-    this.selectDefaultTrail();
+    this.viewInitialized.next(true);
   }
 
-  loadTrails() {
-    this.trailsService.retrieveAll().subscribe(trails => {
+  loadTrails(): Observable<Trail[]> {
+    return this.trailsService.retrieveAll().do(trails => {
       this.trailChoices = reduce(trails, (memo, trail) => {
         memo.push({
           value: trail.id,
@@ -62,36 +69,13 @@ export class EditExcursionDetailsStepComponent implements OnInit {
 
         return memo;
       }, []);
-
-      this.selectDefaultTrail();
     });
   }
 
   selectDefaultTrail() {
-    if (this.excursion && !this.excursion.id && this.trailIdSelect && this.trailChoices && this.trailChoices.length) {
+    if (!this.excursionForm.controls.id.value) {
       setTimeout(() => this.trailIdSelect.select(this.trailChoices[0].value), 0);
     }
-  }
-
-  saveExcursion(event) {
-    event.preventDefault();
-
-    if (!this.excursion.id) {
-      this.excursionsService.create(this.getFormExcursion()).subscribe(excursion => {
-        this.router.navigate([ '/excursions', excursion.id, 'edit' ])
-      });
-    }
-  }
-
-  getFormExcursion(): Excursion {
-    var value = this.excursionForm.value;
-    return new Excursion({
-      trailId: value.trailId,
-      name: value.name,
-      themes: this.excursion.themes,
-      zones: this.excursion.zones,
-      plannedAt: value.plannedAt.jsdate
-    });
   }
 
 }

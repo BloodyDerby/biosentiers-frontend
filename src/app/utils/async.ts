@@ -10,3 +10,7 @@ export function toObservable<T>(value: Observable<T> | Promise<T> | T): Observab
     return Observable.of(value);
   }
 }
+
+export function triggerObservable<T>(obs: Observable<T>) {
+  return Observable.fromPromise(obs.toPromise());
+}

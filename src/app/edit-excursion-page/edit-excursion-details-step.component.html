@@ -1,13 +1,13 @@
-<form novalidate *ngIf='excursion' [formGroup]='excursionForm' (ngSubmit)='saveExcursion($event)'>
+<form novalidate *ngIf='excursionForm' [formGroup]='excursionForm' (ngSubmit)='saveExcursion($event)'>
   <div class='row'>
     <div class='col-xs-offset-2 col-xs-8'>
       <div class='form-group'>
         <label for='excursion-trail-id'>Sentier</label>
-        <ng-select id='excursion-trail-id' #trailIdSelect *ngIf='!excursion.id'
+        <ng-select id='excursion-trail-id' #trailIdSelect *ngIf='!excursionForm.controls.id.value'
                    formControlName='trailId' [allowClear]='false' [options]='trailChoices'>
         </ng-select>
         <input type='text' class='form-control' id='excursion-trail-id' value='{{ excursion.trail.name }}'
-               *ngIf='excursion.id' [disabled]='true' />
+               *ngIf='excursionForm.controls.id.value' [disabled]='true' />
       </div>
 
       <div class='form-group'>

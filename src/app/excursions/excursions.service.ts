@@ -11,9 +11,10 @@ export class BioExcursionsService {
   constructor(private api: BioApiService) {
   }
 
-  create(excursion: Excursion): Observable<Excursion> {
+  create(excursion: Excursion, params?: RetrieveExcursionParams): Observable<Excursion> {
     return this.api
       .post(`/excursions`, excursion)
+      .modify(this.api.paramsModifier<RetrieveExcursionParams>(applyRetrieveExcursionParams, params))
       .execute()
       .map(res => new Excursion(res.json()));
   }

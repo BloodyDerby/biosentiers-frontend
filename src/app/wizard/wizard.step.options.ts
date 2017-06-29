@@ -1,18 +1,18 @@
-import { NavigationExtras } from '@angular/router/router';
+import { Observable } from 'rxjs/Rx';
 
+import { toObservable } from '../utils/async';
 import { CanActivateStep } from './wizard.step.can-activate';
 import { StepIsEnabled } from './wizard.step.is-enabled';
+import { WizardStepRoute } from './wizard.step.route';
 
 export class WizardStepOptions {
-  canActivate: CanActivateStep[];
   isEnabled: StepIsEnabled[];
-  route: any[];
-  routeExtras: NavigationExtras;
+  canActivate: CanActivateStep[];
+  route: Observable<WizardStepRoute>;
 
-  constructor(canActivate?: CanActivateStep[], isEnabled?: StepIsEnabled[], route?: any[], routeExtras?: NavigationExtras) {
-    this.canActivate = canActivate || [];
+  constructor(isEnabled?: StepIsEnabled[], canActivate?: CanActivateStep[], route?: Observable<WizardStepRoute> | Promise<WizardStepRoute> | WizardStepRoute) {
     this.isEnabled = isEnabled || [];
-    this.route = route;
-    this.routeExtras = routeExtras;
+    this.canActivate = canActivate || [];
+    this.route = route ? toObservable<WizardStepRoute>(route) : undefined;
   }
 }

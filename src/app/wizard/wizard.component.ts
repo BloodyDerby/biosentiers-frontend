@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { CanActivateStep } from './wizard.step.can-activate';
 import { WizardStep } from './wizard.step';
+import { WizardStepRoute } from './wizard.step.route';
 
 type StepRef = number | string | WizardStep;
 
@@ -32,7 +33,7 @@ export class WizardComponent implements OnInit {
 
   ngOnInit() {
     this.progress = 0;
-    this.currentStep = this.steps.indexOf(this.getInitialStep());
+    this.selectInitialStep();
     this.router.events
       .filter((event: Event) => event instanceof NavigationEnd)
       .subscribe((event: NavigationEnd) => {
@@ -90,38 +91,26 @@ export class WizardComponent implements OnInit {
   }
 
   goToStep(stepRef: StepRef): Promise<WizardStep> {
-    return this.canActivateStep(stepRef).map((enabled) => {
-      if (!enabled) {
-        return null;
-      }
-
-      const step = this.getStep(stepRef);
-      if (step.route) {
-        this.router.navigate(step.route, step.routeExtras);
+    const step = this.getStep(stepRef);
+    return this.canActivateStep(stepRef).filter(can => can).switchMap(() => step.route).do(route => {
+      if (route) {
+        route.navigate(this.router);
       } else {
         this.currentStep = this.steps.indexOf(step);
       }
-    }).toPromise();
+    }).map(() => step).toPromise();
   }
 
   private updateCurrentStep() {
-
-    const step =  this.steps.find((step) => {
-      return this.router.isActive(step.getUrlTree(this.router), true);
-    });
-
-    if (step) {
+    this.getCurrentStepByRoute().filter(step => !!step).subscribe(step => {
       this.currentStep = this.steps.indexOf(step);
-    }
+    });
   }
 
-  private getInitialStep() {
-
-    const step = this.steps.find((step) => {
-      return this.router.isActive(step.getUrlTree(this.router), true);
+  private selectInitialStep() {
+    this.getCurrentStepByRoute().subscribe(step => {
+      this.currentStep = step ? this.steps.indexOf(step) : 0;
     });
-
-    return step || this.steps[0];
   }
 
   private getNextStep() {
@@ -148,6 +137,12 @@ export class WizardComponent implements OnInit {
     }
 
     return step;
+  }
+
+  private getCurrentStepByRoute(): Observable<WizardStep> {
+    return Observable.from(this.steps).mergeMap(step => step.route).map(route => {
+      return !!route && this.router.isActive(route.getUrlTree(this.router), true);
+    }).findIndex(active => active).map(i => this.steps[i]).defaultIfEmpty();
   }
 
 }

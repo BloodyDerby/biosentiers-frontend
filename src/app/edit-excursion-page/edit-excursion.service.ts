@@ -7,6 +7,12 @@ import { Observable, ReplaySubject, Subscription } from 'rxjs/Rx';
 
 import { BioExcursionsService, RetrieveExcursionParams } from '../excursions/excursions.service';
 import { Excursion } from '../models/excursion';
+import { triggerObservable } from '../utils/async';
+
+const retrieveExcursionParams: RetrieveExcursionParams = {
+  includeCreator: true,
+  includeTrail: true
+};
 
 @Injectable()
 export class EditExcursionService {
@@ -24,14 +30,18 @@ export class EditExcursionService {
 
     this.initExcursionForm();
     this.excursionObs.subscribe(excursion => {
+      if (!excursion) {
+        return;
+      }
+
       this.updateExcursionForm(excursion)
 
       this.excursionUpdateSubscription = this.excursionForm
         .valueChanges
         .skip(1)
-        .filter(values => values.id && this.excursionForm.valid)
+        .filter(() => this.excursionForm.valid)
         .distinctUntilChanged()
-        .debounceTime(1000)
+        .debounce(values => Observable.of().delay(values.id ? 1000 : 0))
         .subscribe(values => this.updateExcursion(values));
     });
   }
@@ -48,16 +58,22 @@ export class EditExcursionService {
     }
   }
 
-  save() {
-    this.excursionObs.first().subscribe((excursion) => {
-      if (excursion.id) {
-        this.excursionsService.update(excursion).subscribe(excursion => {});
-      } else {
-        this.excursionsService.create(excursion).subscribe(excursion => {
-          this.router.navigate([ '/excursions', excursion.id, 'edit' ])
-        });
-      }
-    });
+  save(): Observable<Excursion> {
+    if (!this.excursionForm.valid) {
+      return Observable.throw(new Error('Excursion is invalid'));
+    }
+
+    let obs;
+    const excursion = new Excursion(this.processFormValues(this.excursionForm.value));
+    if (excursion.id) {
+      obs = this.excursionsService.update(excursion, retrieveExcursionParams);
+    } else {
+      obs = this.excursionsService.create(excursion, retrieveExcursionParams);
+    }
+
+    obs = obs.do((excursion) => this.setExcursion(excursion));
+
+    return triggerObservable<Excursion>(obs);
   }
 
   stopEditing() {
@@ -100,26 +116,26 @@ export class EditExcursionService {
   }
 
   private loadExcursion(excursionId: string) {
-
-    var params: RetrieveExcursionParams = {
-      includeCreator: true,
-      includeTrail: true
-    };
-
-    this.excursionsService.retrieve(excursionId, params).subscribe(excursion => this.setExcursion(excursion));
+    this.excursionsService.retrieve(excursionId, retrieveExcursionParams).subscribe(excursion => this.setExcursion(excursion));
   }
 
   private setExcursion(excursion: Excursion) {
     this.excursionStream.next(excursion);
-    this.excursionForm.patchValue({
-      name: excursion.name
-      // FIXME: update excursion date
-    });
   }
 
   private updateExcursion(values) {
-    values.plannedAt = values.plannedAt.jsdate;
-    this.excursionsService.update(new Excursion(values)).subscribe(excursion => {});
+    if (values.id) {
+      const excursion = new Excursion(this.processFormValues(values));
+      this.excursionsService.update(excursion).subscribe(excursion => {});
+    }
+  }
+
+  private processFormValues(values) {
+    if (values.plannedAt) {
+      values.plannedAt = values.plannedAt.jsdate;
+    }
+
+    return values;
   }
 
 }
