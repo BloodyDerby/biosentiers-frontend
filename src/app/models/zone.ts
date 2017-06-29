@@ -1,11 +1,9 @@
-import extend from 'lodash/extend';
-import pick from 'lodash/pick';
-import moment from 'moment';
-
 import { LatLng } from './lat-lng';
 import { LatLngBounds } from './lat-lng-bounds';
+import { GeoJsonGeometry } from '../utils/geojson';
+import { parsePropertiesInto } from '../utils/models';
 
-export class Zone {
+export class Zone implements GeoJsonGeometry {
 
   position: number;
   keyword: string;
@@ -15,13 +13,8 @@ export class Zone {
   bounds: LatLngBounds;
   createdAt: Date;
 
-  constructor(data?: Object) {
-    extend(this, pick(data || {}, 'position', 'keyword', 'description', 'nature'));
-
-    if (data['createdAt']) {
-      this.createdAt = moment(data['createdAt']).toDate();
-    }
-
+  constructor(data?: any) {
+    parsePropertiesInto(this, data, 'position', 'keyword', 'description', 'nature', 'createdAt');
     this.polygon = data['geometry']['coordinates'][0].map(LatLng.fromGeoJson);
     this.bounds = LatLngBounds.fromCoordinates(this.polygon);
   }

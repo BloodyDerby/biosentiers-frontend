@@ -17,9 +17,9 @@ import { ParticipantFormComponent } from './participant-form.component';
 import { TruncatePipe } from '../common/truncate.pipe';
 import { EditExcursionDetailsStepComponent } from './edit-excursion-details-step.component';
 import { EditExcursionParticipantsStepComponent } from './edit-excursion-participants-step.component';
-import { EditExcursionPoisComponent } from './edit-excursion-pois.component';
-import { EditExcursionPoisStepComponent } from './edit-excursion-pois-step.component';
 import { EditExcursionService } from './edit-excursion.service';
+import { EditExcursionThemesStepComponent } from './edit-excursion-themes-step.component';
+import { EditExcursionZonesStepComponent } from './edit-excursion-zones-step.component';
 import { WizardModule } from '../wizard/wizard.module';
 
 @NgModule({
@@ -42,8 +42,8 @@ import { WizardModule } from '../wizard/wizard.module';
     EditExcursionDetailsStepComponent,
     EditExcursionPageComponent,
     EditExcursionParticipantsStepComponent,
-    EditExcursionPoisComponent,
-    EditExcursionPoisStepComponent,
+    EditExcursionThemesStepComponent,
+    EditExcursionZonesStepComponent,
     ParticipantFormComponent,
     TruncatePipe
   ],

@@ -1,6 +1,6 @@
 import compact from 'lodash/compact';
-import extend from 'lodash/extend';
-import pick from 'lodash/pick';
+
+import { parsePropertiesInto } from '../utils/models';
 
 export class User {
 
@@ -12,8 +12,8 @@ export class User {
   lastName: string;
   role: string;
 
-  constructor(data: Object) {
-    extend(this, pick(data || {}, 'id', 'email', 'firstName', 'lastName', 'role'));
+  constructor(data?: any) {
+    parsePropertiesInto(this, data, 'id', 'email', 'firstName', 'lastName', 'role');
   }
 
   get fullName(): string {

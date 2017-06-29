@@ -1,0 +1,7 @@
+<ng-container *ngIf='themes'>
+  <div class='checkbox' *ngFor='let theme of themes'>
+    <label>
+      <input type='checkbox' [checked]='isThemeSelected(theme)' (change)='toggleTheme(theme)'> {{ theme.description }}
+    </label>
+  </div>
+</ng-container>

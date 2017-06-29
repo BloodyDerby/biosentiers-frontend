@@ -1,12 +1,11 @@
-import extend from 'lodash/extend';
-import pick from 'lodash/pick';
+import { parsePropertiesInto } from '../utils/models';
 
 export class Theme {
 
   name: string;
   description: string;
 
-  constructor(data?: Object) {
-    extend(this, pick(data || {}, 'name', 'description'));
+  constructor(data?: any) {
+    parsePropertiesInto(this, data, 'name', 'description');
   }
 }

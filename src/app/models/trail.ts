@@ -1,5 +1,4 @@
-import extend from 'lodash/extend';
-import pick from 'lodash/pick';
+import { parsePropertiesInto } from '../utils/models';
 
 export class Trail {
 
@@ -8,7 +7,7 @@ export class Trail {
   createdAt: string;
   updatedAt: string;
 
-  constructor(data?: Object) {
-    extend(this, pick(data || {}, 'id', 'name', 'createdAt', 'updatedAt'));
+  constructor(data?: any) {
+    parsePropertiesInto(this, data, 'id', 'name', 'createdAt', 'updatedAt');
   }
 }

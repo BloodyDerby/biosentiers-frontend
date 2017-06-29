@@ -19,9 +19,6 @@ import { BioTrailsService } from '../trails/trails.service';
 import { Excursion } from '../models/excursion';
 import { Trail } from '../models/trail';
 import { EditExcursionService } from './edit-excursion.service';
-import { EditExcursionDetailsStepComponent } from './edit-excursion-details-step.component';
-import { EditExcursionPoisStepComponent } from './edit-excursion-pois-step.component';
-import { EditExcursionParticipantsStepComponent } from './edit-excursion-participants-step.component';
 import { ComponentAddon } from '../utils/component-addon';
 import { WizardComponent } from '../wizard/wizard.component';
 import { WizardStep } from '../wizard/wizard.step';
@@ -48,6 +45,7 @@ export class EditExcursionPageComponent implements OnInit {
 
   ngOnInit() {
     this.editExcursionService.edit(this.route.snapshot.params['id']);
+    // TODO: watch excursion changes to update page title
     this.editExcursionService.excursionObs.first().subscribe((excursion) => {
       this.excursion = excursion;
       this.initWizard();
@@ -64,11 +62,11 @@ export class EditExcursionPageComponent implements OnInit {
 
     this.wizardSteps = [
       new WizardStep(
-        'details', 'Détails', 'user',
+        'details', 'Détails', 'info',
         new WizardStepOptions([], [], this.getStepRoute())
       ),
       new WizardStep(
-        'participants', 'Participants', 'key',
+        'participants', 'Participants', 'users',
         new WizardStepOptions(
           [ new ParticipantsStepIsEnabled(this) ],
           [ new CanActivateParticipantsStep(this) ],
@@ -76,11 +74,19 @@ export class EditExcursionPageComponent implements OnInit {
         )
       ),
       new WizardStep(
-        'themes', 'Thèmes & zones', 'twitter',
+        'zones', 'Zones', 'map-marker',
+        new WizardStepOptions(
+          [ new ZonesStepIsEnabled(this) ],
+          [ ],
+          this.getStepRoute('zones')
+        )
+      ),
+      new WizardStep(
+        'themes', 'Thèmes', 'leaf',
         new WizardStepOptions(
           [ new ThemesStepIsEnabled(this) ],
-          [ ],
-          this.getStepRoute('pois')
+          [],
+          this.getStepRoute('themes')
         )
       )
     ];
@@ -94,6 +100,10 @@ export class EditExcursionPageComponent implements OnInit {
 
   createExcursion(): Observable<Excursion> {
     return this.editExcursionService.save();
+  }
+
+  getExcursion(): Observable<Excursion> {
+    return this.editExcursionService.excursionObs.first();
   }
 
   private getStepRoute(...additionalPathFragments): Observable<WizardStepRoute> {
@@ -120,8 +130,14 @@ class CanActivateParticipantsStep extends ComponentAddon<EditExcursionPageCompon
   }
 }
 
+class ZonesStepIsEnabled extends ComponentAddon<EditExcursionPageComponent> implements StepIsEnabled {
+  isEnabled(): Observable<boolean> {
+    return this.component.getExcursion().map(excursion => excursion.participantsCount >= 1);
+  }
+}
+
 class ThemesStepIsEnabled extends ComponentAddon<EditExcursionPageComponent> implements StepIsEnabled {
-  isEnabled(): boolean {
-    return !!this.component.excursion && !!this.component.excursion.id;
+  isEnabled(): Observable<boolean> {
+    return this.component.getExcursion().map(excursion => !!excursion.zones.length);
   }
 }

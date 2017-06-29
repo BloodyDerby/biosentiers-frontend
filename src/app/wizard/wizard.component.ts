@@ -59,7 +59,12 @@ export class WizardComponent implements OnInit {
   }
 
   isStepEnabled(stepRef: StepRef): Observable<boolean> {
-    return this.getStep(stepRef).isEnabled();
+
+    const step = this.getStep(stepRef);
+    const index = this.steps.indexOf(step);
+    const steps = this.steps.slice(0, index + 1);
+
+    return Observable.from(steps.map(step => step.isEnabled())).mergeAll().every((enabled: boolean) => enabled);
   }
 
   isStepEnabledOnly(stepRef: StepRef): Observable<boolean> {

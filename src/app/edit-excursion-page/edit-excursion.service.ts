@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import each from 'lodash/each';
 import extend from 'lodash/extend';
+import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
+import moment from 'moment';
 import { Observable, ReplaySubject, Subscription } from 'rxjs/Rx';
 
 import { BioExcursionsService, RetrieveExcursionParams } from '../excursions/excursions.service';
@@ -29,20 +32,21 @@ export class EditExcursionService {
     this.excursionObs = this.excursionStream.asObservable().filter(excursion => !!excursion);
 
     this.initExcursionForm();
-    this.excursionObs.subscribe(excursion => {
-      if (!excursion) {
-        return;
-      }
 
+    this.excursionObs.subscribe(excursion => {
       this.updateExcursionForm(excursion)
 
-      this.excursionUpdateSubscription = this.excursionForm
-        .valueChanges
-        .skip(1)
-        .filter(() => this.excursionForm.valid)
-        .distinctUntilChanged()
-        .debounce(values => Observable.of().delay(values.id ? 1000 : 0))
-        .subscribe(values => this.updateExcursion(values));
+      if (!this.excursionUpdateSubscription) {
+        this.excursionUpdateSubscription = this.excursionForm
+          .valueChanges
+          .filter(() => this.excursionForm.valid)
+          .map(values => this.processFormValues(values))
+          // FIXME: an update is triggered the first time even if change is irrelevant (participants count)
+          .distinctUntilChanged((previous, next) => isEqual(previous, next))
+          .do(() => console.log('@@@ continuing'))
+          .debounce(values => Observable.of().delay(values.id ? 750 : 0))
+          .subscribe(values => this.updateExcursion(values));
+      }
     });
   }
 
@@ -85,12 +89,24 @@ export class EditExcursionService {
     }
   }
 
+  patchExcursion(values: any): Observable<Excursion> {
+    return this.excursionObs.first().switchMap(excursion => {
+      each(values, (value, key) => {
+        excursion[key] = value;
+      });
+
+      this.excursionStream.next(excursion);
+      return this.excursionObs.first();
+    });
+  }
+
   private initExcursionForm() {
     this.excursionForm = this.formBuilder.group({
       id: [ '' ],
       trailId: [ '', Validators.required ],
       name: [ '', Validators.maxLength(60) ],
       plannedAt: [ '', Validators.required ],
+      participantsCount: [ 0 ],
       themes: [ [] ],
       zones: [ [] ]
     });
@@ -126,13 +142,15 @@ export class EditExcursionService {
   private updateExcursion(values) {
     if (values.id) {
       const excursion = new Excursion(this.processFormValues(values));
-      this.excursionsService.update(excursion).subscribe(excursion => {});
+      this.excursionsService.update(excursion).subscribe(excursion => this.setExcursion(excursion));
     }
   }
 
   private processFormValues(values) {
+    delete values.participantsCount;
+
     if (values.plannedAt) {
-      values.plannedAt = values.plannedAt.jsdate;
+      values.plannedAt = moment(values.plannedAt.jsdate).startOf('day').toDate();
     }
 
     return values;

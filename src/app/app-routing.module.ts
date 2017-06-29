@@ -10,7 +10,8 @@ import { RegistrationPageComponent } from './registration-page/registration-page
 import { UsersPageComponent } from './users-page/users-page.component';
 import { EditExcursionDetailsStepComponent } from './edit-excursion-page/edit-excursion-details-step.component';
 import { EditExcursionParticipantsStepComponent } from './edit-excursion-page/edit-excursion-participants-step.component';
-import { EditExcursionPoisStepComponent } from './edit-excursion-page/edit-excursion-pois-step.component';
+import { EditExcursionThemesStepComponent } from './edit-excursion-page/edit-excursion-themes-step.component';
+import { EditExcursionZonesStepComponent } from './edit-excursion-page/edit-excursion-zones-step.component';
 
 const routes: Routes = [
   {
@@ -63,8 +64,12 @@ const routes: Routes = [
         component: EditExcursionParticipantsStepComponent
       },
       {
-        path: 'pois',
-        component: EditExcursionPoisStepComponent
+        path: 'zones',
+        component: EditExcursionZonesStepComponent
+      },
+      {
+        path: 'themes',
+        component: EditExcursionThemesStepComponent
       }
     ]
   },

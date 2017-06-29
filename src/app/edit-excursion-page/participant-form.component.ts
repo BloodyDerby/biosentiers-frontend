@@ -21,6 +21,7 @@ export class ParticipantFormComponent implements OnDestroy, OnInit {
   @Input() id: string;
   @Input() participant: Participant;
   @Input() excursion: Excursion;
+  @Output() onCreated = new EventEmitter<Participant>();
   @Output() onRemoved = new EventEmitter<Participant>();
 
   private subscriptions: Subscription[];
@@ -41,7 +42,7 @@ export class ParticipantFormComponent implements OnDestroy, OnInit {
       .filter(value => this.form.valid)
       .distinctUntilChanged()
       .debounceTime(1000)
-      .subscribe(this.save.bind(this));
+      .subscribe(values => this.save(values));
 
     this.subscriptions.push(sub);
   }
@@ -57,6 +58,7 @@ export class ParticipantFormComponent implements OnDestroy, OnInit {
       this.participantsService.create(this.excursion, this.participant).subscribe(participant => {
         this.syncing = false;
         this.participant = participant;
+        this.onCreated.emit(this.participant);
       });
     } else {
       this.participantsService.update(this.excursion, this.participant).subscribe(participant => {

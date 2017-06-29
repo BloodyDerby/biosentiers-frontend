@@ -2,6 +2,7 @@
 
   <div class='page-header' *ngIf='excursion'>
     <div class='btn-group pull-right'>
+      <!-- TODO: disable print button if excursion not fully configured -->
       <a class='btn btn-info'
          *ngIf='excursion.id' routerLink='/excursions/{{ excursion.id }}/print'>
         <span class='glyphicon glyphicon-print'></span>
