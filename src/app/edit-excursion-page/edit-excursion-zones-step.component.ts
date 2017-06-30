@@ -25,10 +25,10 @@ const ZONE_UPDATE_STYLE = Symbol();
 })
 export class EditExcursionZonesStepComponent implements OnInit {
 
+  map: LeafletMap;
   mapData: any;
   zones: Zone[];
 
-  private map: LeafletMap;
   private excursionForm: FormGroup;
 
   constructor(private cdr: ChangeDetectorRef, private editExcursionService: EditExcursionService, private zonesService: BioZonesService) {
