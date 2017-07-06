@@ -141,7 +141,7 @@ export class EditExcursionService {
   private updateExcursion(values) {
     if (values.id) {
       const excursion = new Excursion(this.processFormValues(values));
-      this.excursionsService.update(excursion).subscribe(excursion => this.setExcursion(excursion));
+      this.excursionsService.update(excursion, retrieveExcursionParams).subscribe(excursion => this.setExcursion(excursion));
     }
   }
 
