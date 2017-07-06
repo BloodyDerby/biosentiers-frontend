@@ -43,7 +43,6 @@ export class EditExcursionService {
           .map(values => this.processFormValues(values))
           // FIXME: an update is triggered the first time even if change is irrelevant (participants count)
           .distinctUntilChanged((previous, next) => isEqual(previous, next))
-          .do(() => console.log('@@@ continuing'))
           .debounce(values => Observable.of().delay(values.id ? 750 : 0))
           .subscribe(values => this.updateExcursion(values));
       }
