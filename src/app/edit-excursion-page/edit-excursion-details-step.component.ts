@@ -21,8 +21,8 @@ export class EditExcursionDetailsStepComponent implements AfterViewInit, OnInit 
   excursionForm: FormGroup;
   trailChoices: Array<{ [s: string]: string; }>;
 
-  @ViewChild('trailIdSelect')
-  private trailIdSelect: SelectComponent;
+  @ViewChild('trailHrefSelect')
+  private trailHrefSelect: SelectComponent;
   private viewInitialized: BehaviorSubject<boolean>;
 
   private datepickerOptions: INgxMyDpOptions = {
@@ -74,7 +74,7 @@ export class EditExcursionDetailsStepComponent implements AfterViewInit, OnInit 
 
   selectDefaultTrail() {
     if (!this.excursionForm.controls.id.value) {
-      setTimeout(() => this.trailIdSelect.select(this.trailChoices[0].value), 0);
+      setTimeout(() => this.trailHrefSelect.select(this.trailChoices[0].value), 0);
     }
   }
 

@@ -3,8 +3,8 @@
     <div class='col-xs-offset-2 col-xs-8'>
       <div class='form-group'>
         <label for='excursion-trail-id'>Sentier</label>
-        <ng-select id='excursion-trail-id' #trailIdSelect *ngIf='!excursionForm.controls.id.value'
-                   formControlName='trailId' [allowClear]='false' [options]='trailChoices'>
+        <ng-select id='excursion-trail-id' #trailHrefSelect *ngIf='!excursionForm.controls.id.value'
+                   formControlName='trailHref' [allowClear]='false' [options]='trailChoices'>
         </ng-select>
         <input type='text' class='form-control' id='excursion-trail-id' value='{{ excursion.trail.name }}'
                *ngIf='excursionForm.controls.id.value' [disabled]='true' />

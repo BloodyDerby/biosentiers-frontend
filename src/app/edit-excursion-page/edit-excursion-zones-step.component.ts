@@ -15,8 +15,8 @@ import { LatLngBounds } from '../models/lat-lng-bounds';
 import { Zone } from '../models/zone';
 import { GeoJsonFeature, GeoJsonFeatureCollection, toFeatureCollection } from '../utils/geojson';
 
-const ZONE_SELECTED = Symbol();
-const ZONE_UPDATE_STYLE = Symbol();
+const ZONE_SELECTED = Symbol('zone-selected');
+const ZONE_UPDATE_STYLE = Symbol('zone-update-style');
 
 @Component({
   selector: 'bio-edit-excursion-zones-step',
@@ -27,6 +27,7 @@ export class EditExcursionZonesStepComponent implements OnInit {
 
   map: LeafletMap;
   mapData: any;
+  trailHref: string;
   zones: Zone[];
 
   private excursionForm: FormGroup;
@@ -37,7 +38,8 @@ export class EditExcursionZonesStepComponent implements OnInit {
   ngOnInit() {
 
     // Retrieve the shared form from the edition service
-    const initObs = this.editExcursionService.excursionObs.first().do(() => {
+    const initObs = this.editExcursionService.excursionObs.first().do((excursion: Excursion) => {
+      this.trailHref = excursion.trail.href;
       this.excursionForm = this.editExcursionService.excursionForm;
     });
 
@@ -60,7 +62,7 @@ export class EditExcursionZonesStepComponent implements OnInit {
     return this.zonesService.retrieveAll(excursion.trail).do((zones) => {
 
       zones.forEach(zone => {
-        zone[ZONE_SELECTED] = includes(excursion.zones || [], zone.position);
+        zone[ZONE_SELECTED] = includes(excursion.zones || [], zone.getPositionInTrail(this.trailHref));
       });
 
       this.zones = zones;
@@ -110,13 +112,13 @@ export class EditExcursionZonesStepComponent implements OnInit {
   }
 
   private getSelectedZones(): number[] {
-    return this.zones.filter(zone => this.isZoneSelected(zone)).map(zone => zone.position);
+    return this.zones.filter(zone => this.isZoneSelected(zone)).map(zone => zone.getPositionInTrail(this.trailHref));
   }
 
   private getZonesFeatureCollection(): GeoJsonFeatureCollection {
     return toFeatureCollection<Zone>(this.zones, (zone: Zone) => {
       return {
-        position: zone.position
+        position: zone.getPositionInTrail(this.trailHref)
       };
     });
   }
@@ -142,7 +144,7 @@ export class EditExcursionZonesStepComponent implements OnInit {
       position = zoneRef.properties['position'];
     }
 
-    return find(this.zones, { position: position });
+    return find(this.zones, zone => zone.getPositionInTrail(this.trailHref) === position);
   }
 
 }

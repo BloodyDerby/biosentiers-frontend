@@ -38,7 +38,8 @@ export class ExcursionQrcodeComponent implements OnInit {
           name: this.participant.name,
         },
         themes: this.excursion.themes,
-        zones: this.excursion.zones
+        // FIXME: determine zone index from their position in the database
+        zones: this.excursion.zones.map(n => n - 1)
       }
     };
 

@@ -102,7 +102,7 @@ export class EditExcursionService {
   private initExcursionForm() {
     this.excursionForm = this.formBuilder.group({
       id: [ '' ],
-      trailId: [ '', Validators.required ],
+      trailHref: [ '', Validators.required ],
       name: [ '', Validators.maxLength(60) ],
       plannedAt: [ '', Validators.required ],
       participantsCount: [ 0 ],
@@ -116,7 +116,7 @@ export class EditExcursionService {
     this.excursionForm.patchValue({
       id: excursion.id,
       name: excursion.name,
-      trailId: excursion.trailId,
+      trailHref: excursion.trailHref,
       plannedAt: {
         date: {
           year: plannedAt.getFullYear(),

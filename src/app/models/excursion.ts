@@ -5,8 +5,9 @@ import { parsePropertiesInto, parseRelationshipInto } from '../utils/models';
 export class Excursion {
 
   id: string;
+  href: string;
   name: string;
-  trailId: string;
+  trailHref: string;
   participantsCount: number;
   themes: string[];
   zones: number[];
@@ -18,7 +19,7 @@ export class Excursion {
   trail: Trail;
 
   constructor(data?: any) {
-    parsePropertiesInto(this, data, 'id', 'name', 'trailId', 'participantsCount', 'themes', 'zones', 'plannedAt', 'createdAt', 'updatedAt');
+    parsePropertiesInto(this, data, 'id', 'href', 'name', 'trailHref', 'participantsCount', 'themes', 'zones', 'plannedAt', 'createdAt', 'updatedAt');
     parseRelationshipInto(this, 'creator', User, data);
     parseRelationshipInto(this, 'trail', Trail, data);
   }
