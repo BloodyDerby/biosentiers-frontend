@@ -20,7 +20,7 @@ export class PoisService {
     return retrieveAllRecursive(
       this.api
         .get(`/trails/${trail.id}/pois`)
-        .modify(applyRetrievePoiParams.bind(undefined, params)),
+        .modify(options => applyRetrievePoiParams(params, options)),
       data => new Poi(data)
     );
   }
