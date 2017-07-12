@@ -138,6 +138,6 @@ class ZonesStepIsEnabled extends ComponentAddon<EditExcursionPageComponent> impl
 
 class ThemesStepIsEnabled extends ComponentAddon<EditExcursionPageComponent> implements StepIsEnabled {
   isEnabled(): Observable<boolean> {
-    return this.component.getExcursion().map(excursion => !!excursion.zones.length);
+    return this.component.getExcursion().map(excursion => !!excursion.zoneHrefs.length);
   }
 }

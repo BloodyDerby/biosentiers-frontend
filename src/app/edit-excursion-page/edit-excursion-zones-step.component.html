@@ -18,8 +18,8 @@
   <tbody>
     <tr *ngFor='let zone of zones' [ngClass]='{success: isZoneSelected(zone), danger: !isZoneSelected(zone)}'>
       <td>{{ zone.position }}</td>
-      <td>{{ zone.keyword }}</td>
-      <td>{{ zone.description | truncate: 100 }}</td>
+      <td>{{ zone.type }}</td>
+      <td>{{ zone.description }}</td>
       <td>
         <button type='button' class='btn btn-success btn-xs' *ngIf='isZoneSelected(zone)' (click)='toggleZone(zone)'>
           <span class='glyphicon glyphicon-remove'></span>

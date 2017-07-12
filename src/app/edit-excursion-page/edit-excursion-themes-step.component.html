@@ -1,7 +1,19 @@
-<ng-container *ngIf='themes'>
+<div class='themes clearfix' *ngIf='map'>
   <div class='checkbox' *ngFor='let theme of themes'>
-    <label>
-      <input type='checkbox' [checked]='isThemeSelected(theme)' (change)='toggleTheme(theme)'> {{ theme.description }}
+    <label [ngClass]='{selected: theme.selected}'>
+      <input type='checkbox' [checked]='theme.selected' (change)='toggleTheme(theme)'>
+      <img src='/assets/img/theme-icons/{{ theme.name }}.png' width=30 height=30 />
+      {{ theme.description }} ({{ theme.poiCount }})
     </label>
   </div>
-</ng-container>
+</div>
+
+<div style='height:300px;'
+  *ngIf='mapData'
+  #map
+  leaflet
+  (leafletMapReady)='onMapReady($event)'
+  [leafletOptions]='mapData.options'
+  [leafletFitBounds]='mapData.bounds'
+  [leafletFitBoundsOptions]='mapData.boundsOptions'>
+</div>

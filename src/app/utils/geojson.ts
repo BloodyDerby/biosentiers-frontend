@@ -1,3 +1,5 @@
+import identity from 'lodash/identity';
+
 type Properties = { [key: string]: any };
 type PropertiesGenerator<T extends GeoJsonGeometry> = (geometry: T) => Properties;
 
@@ -27,10 +29,10 @@ export class GeoJsonFeatureCollection {
   }
 }
 
-export function toFeature<T extends GeoJsonGeometry>(geometry: T, properties: PropertiesGenerator<T>): GeoJsonFeature {
+export function toFeature<T extends GeoJsonGeometry>(geometry: T, properties: PropertiesGenerator<T> = identity): GeoJsonFeature {
   return new GeoJsonFeature(geometry, properties(geometry));
 }
 
-export function toFeatureCollection<T extends GeoJsonGeometry>(geometries: T[], properties: PropertiesGenerator<T>): GeoJsonFeatureCollection {
+export function toFeatureCollection<T extends GeoJsonGeometry>(geometries: T[], properties: PropertiesGenerator<T> = identity): GeoJsonFeatureCollection {
   return new GeoJsonFeatureCollection(geometries.map(geometry => toFeature<T>(geometry, properties)));
 }

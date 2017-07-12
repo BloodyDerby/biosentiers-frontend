@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild, Input } from '@angular
 import { FormGroup } from '@angular/forms';
 import { LeafletDirective } from '@asymmetrik/angular2-leaflet';
 import { geoJSON, Layer as LeafletLayer, Map as LeafletMap, tileLayer } from 'leaflet';
+import each from 'lodash/each';
 import extend from 'lodash/find';
 import find from 'lodash/find';
 import includes from 'lodash/includes';
@@ -59,13 +60,10 @@ export class EditExcursionZonesStepComponent implements OnInit {
   }
 
   private initZones(excursion: Excursion): Observable<Zone[]> {
-    return this.zonesService.retrieveAll(excursion.trail).do((zones) => {
-
-      zones.forEach(zone => {
-        zone[ZONE_SELECTED] = includes(excursion.zones || [], zone.getPositionInTrail(this.trailHref));
+    return this.zonesService.retrieveAll(excursion.trail).do((zones: Zone[]) => {
+      this.zones = each(zones, (zone: Zone) => {
+        zone[ZONE_SELECTED] = includes(excursion.zoneHrefs || [], zone.href);
       });
-
-      this.zones = zones;
     });
   }
 
@@ -108,11 +106,11 @@ export class EditExcursionZonesStepComponent implements OnInit {
   private toggleZone(zone: Zone) {
     zone[ZONE_SELECTED] = !zone[ZONE_SELECTED];
     zone[ZONE_UPDATE_STYLE]();
-    this.excursionForm.controls.zones.setValue(this.getSelectedZones());
+    this.excursionForm.controls.zoneHrefs.setValue(this.getSelectedZones());
   }
 
-  private getSelectedZones(): number[] {
-    return this.zones.filter(zone => this.isZoneSelected(zone)).map(zone => zone.getPositionInTrail(this.trailHref));
+  private getSelectedZones(): string[] {
+    return this.zones.filter(zone => this.isZoneSelected(zone)).map(zone => zone.href);
   }
 
   private getZonesFeatureCollection(): GeoJsonFeatureCollection {

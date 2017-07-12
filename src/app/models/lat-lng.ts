@@ -1,15 +1,17 @@
 import { LatLng as LeafletLatLng } from 'leaflet';
+import compact from 'lodash/compact';
 
 export class LatLng {
 
   static fromGeoJson(coords: number[]) {
-    return new LatLng(coords[1], coords[0]);
+    return new LatLng(coords[1], coords[0], coords[2]);
   }
 
   latitude: number;
   longitude: number;
+  altitude: number;
 
-  constructor(latitude: number, longitude: number) {
+  constructor(latitude: number, longitude: number, altitude?: number) {
     if (latitude < -90 || latitude > 90) {
       throw new Error(`Latitude ${latitude} is out of bounds`);
     } else if (longitude < -180 || longitude > 180) {
@@ -18,13 +20,14 @@ export class LatLng {
 
     this.latitude = latitude;
     this.longitude = longitude;
+    this.altitude = altitude;
   }
 
   toGeoJson(): number[] {
-    return [ this.longitude, this.latitude ];
+    return compact([ this.longitude, this.latitude, this.altitude ]);
   }
 
   toLeaflet(): LeafletLatLng {
-    return L.latLng(this.latitude, this.longitude);
+    return L.latLng(this.latitude, this.longitude, this.altitude);
   }
 }

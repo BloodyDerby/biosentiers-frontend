@@ -55,7 +55,7 @@ export class EditExcursionService {
     } else {
       this.setExcursion(new Excursion({
         themes: [],
-        zones: [],
+        zoneHrefs: [],
         plannedAt: new Date().toISOString()
       }));
     }
@@ -107,7 +107,7 @@ export class EditExcursionService {
       plannedAt: [ '', Validators.required ],
       participantsCount: [ 0 ],
       themes: [ [] ],
-      zones: [ [] ]
+      zoneHrefs: [ [] ]
     });
   }
 
@@ -126,7 +126,7 @@ export class EditExcursionService {
         jsdate: plannedAt
       },
       themes: excursion.themes,
-      zones: excursion.zones
+      zoneHrefs: excursion.zoneHrefs
     });
   }
 

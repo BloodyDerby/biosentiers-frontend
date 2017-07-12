@@ -7,16 +7,18 @@ import { GeoJsonGeometry } from '../utils/geojson';
 import { parsePropertiesInto } from '../utils/models';
 
 export class Zone implements GeoJsonGeometry {
-  keyword: string;
+  id: string;
+  href: string;
+  type: string;
   description: string;
-  nature: string;
+  natureType: string;
   polygon: LatLng[];
   bounds: LatLngBounds;
   createdAt: Date;
   trailHrefs: { [key: string]: ZoneTrailData };
 
   constructor(data?: any) {
-    parsePropertiesInto(this, data, 'keyword', 'description', 'nature', 'createdAt');
+    parsePropertiesInto(this, data, 'id', 'href', 'type', 'description', 'natureType', 'createdAt');
     this.polygon = data['geometry']['coordinates'][0].map(LatLng.fromGeoJson);
     this.bounds = LatLngBounds.fromCoordinates(this.polygon);
     this.trailHrefs = reduce(get(data, 'trailHrefs', {}), (memo, trailData, href) => {

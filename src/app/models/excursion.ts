@@ -10,7 +10,7 @@ export class Excursion {
   trailHref: string;
   participantsCount: number;
   themes: string[];
-  zones: number[];
+  zoneHrefs: string[];
   plannedAt: string;
   createdAt: string;
   updatedAt: string;
@@ -19,7 +19,7 @@ export class Excursion {
   trail: Trail;
 
   constructor(data?: any) {
-    parsePropertiesInto(this, data, 'id', 'href', 'name', 'trailHref', 'participantsCount', 'themes', 'zones', 'plannedAt', 'createdAt', 'updatedAt');
+    parsePropertiesInto(this, data, 'id', 'href', 'name', 'trailHref', 'participantsCount', 'themes', 'zoneHrefs', 'plannedAt', 'createdAt', 'updatedAt');
     parseRelationshipInto(this, 'creator', User, data);
     parseRelationshipInto(this, 'trail', Trail, data);
   }
