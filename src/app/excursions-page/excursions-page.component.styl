@@ -1,0 +1,20 @@
+@require '../../variables'
+
+table
+  th, td
+    vertical-align middle
+    &.participants-count
+      text-align center
+    &:not(.actions)
+      cursor pointer
+
+@media (min-width: $screen-md-min)
+  table
+    tbody
+      td
+        &.participants-count
+          width 12em
+        &.date
+          width 11em
+        &.actions
+          width 15em
