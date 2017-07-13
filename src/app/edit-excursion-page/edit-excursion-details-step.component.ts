@@ -63,7 +63,7 @@ export class EditExcursionDetailsStepComponent implements AfterViewInit, OnInit 
     return this.trailsService.retrieveAll().do(trails => {
       this.trailChoices = reduce(trails, (memo, trail) => {
         memo.push({
-          value: trail.id,
+          value: trail.href,
           label: trail.name
         });
 
@@ -73,8 +73,8 @@ export class EditExcursionDetailsStepComponent implements AfterViewInit, OnInit 
   }
 
   selectDefaultTrail() {
-    if (!this.excursionForm.controls.id.value) {
-      setTimeout(() => this.trailHrefSelect.select(this.trailChoices[0].value), 0);
+    if (!this.excursionForm.controls.trailHref.value) {
+      this.excursionForm.controls.trailHref.setValue(this.trailChoices[0].value);
     }
   }
 
