@@ -5,7 +5,7 @@ import moment from 'moment';
 
 export function parsePropertiesInto(model, data?: any, ...properties) {
   each(pick(data || {}, ...properties), (value, key) => {
-    if (key.match(/[a-z]At$/)) {
+    if (key.toString().match(/[a-z]At$/)) {
       model[key] = moment(data[key]).toDate();
     } else {
       model[key] = value;

@@ -29,7 +29,7 @@ export class BioAuthService {
     headers.set('Content-Type', 'application/json');
 
     return this.http
-      .post(url, credentials, headers)
+      .post(url, credentials, { headers: headers })
       .map((res) => res.json())
       .do((authData) => this.setAuthData(authData, true))
       .map(() => this.user.getValue());
