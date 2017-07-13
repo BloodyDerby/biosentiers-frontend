@@ -1,0 +1,29 @@
+<nav aria-label='Page navigation'>
+  <ul class='pagination'>
+    <li [ngClass]='{disabled: !isPageEnabled(1)}'>
+      <a aria-label='First' (click)='goToPage(1)' tooltip='Première page' [isDisabled]='!isPageEnabled(1)'>
+        <span class='glyphicon glyphicon-backward' aria-hidden='true'></span>
+      </a>
+    </li>
+    <li [ngClass]='{disabled: !isPageEnabled(currentPage - 1)}'>
+      <a aria-label='Previous' (click)='goToPage(currentPage - 1)' tooltip='Page précédente' [isDisabled]='!isPageEnabled(currentPage - 1)'>
+        <span class='glyphicon glyphicon-chevron-left' aria-hidden='true'></span>
+      </a>
+    </li>
+    <ng-template ngFor let-page [ngForOf]='pages'>
+      <li [ngClass]='{active: page === currentPage}'>
+        <a (click)='goToPage(page)'>{{ page }}</a>
+      </li>
+    </ng-template>
+    <li [ngClass]='{disabled: !isPageEnabled(currentPage + 1)}'>
+      <a aria-label='Next' (click)='goToPage(currentPage + 1)' tooltip='Page suivante' [isDisabled]='!isPageEnabled(currentPage + 1)'>
+        <span class='glyphicon glyphicon-chevron-right' aria-hidden='true'></span>
+      </a>
+    </li>
+    <li [ngClass]='{disabled: !isPageEnabled(lastPage)}'>
+      <a aria-label='Last' (click)='goToPage(lastPage)' tooltip='Dernière page' [isDisabled]='!isPageEnabled(lastPage)'>
+        <span class='glyphicon glyphicon-forward' aria-hidden='true'></span>
+      </a>
+    </li>
+  </ul>
+</nav>

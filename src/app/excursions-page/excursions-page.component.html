@@ -8,50 +8,53 @@
     </div>
     <h1>
       Sorties
+      <small *ngIf='excursionsTableConfig.effectiveTotalObs | async'>{{ excursionsTableConfig.effectiveTotalObs | async }} au total</small>
     </h1>
   </div>
 
   <em class='text-muted' *ngIf='excursions !== undefined && !excursions.length'>Aucune sortie n'a encore été faite</em>
 
-  <table class='table table-striped table-hover'>
-    <thead>
-      <tr>
-        <th>Responsable</th>
-        <th class='hidden-xs'>Nom</th>
-        <th class='participants-count hidden-xs'>Participants</th>
-        <th>Date</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor='let excursion of excursions'>
-        <td class='creator' routerLink='/excursions/{{ excursion.id }}/edit'>
-          {{ excursion.creator.fullName }}
-        </td>
-        <td class='name hidden-xs' routerLink='/excursions/{{ excursion.id }}/edit'>
-          <span *ngIf='excursion.name'>{{ excursion.name }}</span>
-          <em class='empty' *ngIf='!excursion.name'>Aucun</em>
-        </td>
-        <td class='participants-count hidden-xs' routerLink='/excursions/{{ excursion.id }}/edit/participants'>
-          <span *ngIf='excursion.participantsCount'>{{ excursion.participantsCount | number }}</span>
-          <em class='empty' *ngIf='!excursion.participantsCount'>Aucun</em>
-        </td>
-        <td class='date' routerLink='/excursions/{{ excursion.id }}/edit'>
-          {{ excursion.plannedAt | date: 'dd.MM.yyyy' }}
-        </td>
-        <td class='actions'>
-          <div class='btn-group btn-group-xs'>
-            <button type='button' class='btn btn-warning' routerLink='/excursions/{{ excursion.id }}/edit'>
-              <span class='glyphicon glyphicon-edit'></span>
-              <span class='hidden-xs hidden-sm'>Modifier</span>
-            </button>
-            <button type='button' class='btn btn-primary' routerLink='/excursions/{{ excursion.id }}/print'>
-              <span class='glyphicon glyphicon-print'></span>
-              <span class='hidden-xs hidden-sm'>Imprimer</span>
-            </button>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <bio-table #table [config]='excursionsTableConfig'>
+    <table class='table table-striped table-hover'>
+      <thead>
+        <tr>
+          <th>Responsable</th>
+          <th class='hidden-xs'>Nom</th>
+          <th class='participants-count hidden-xs'>Participants</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor='let excursion of excursionsTableConfig.recordsObs | async'>
+          <td class='creator' routerLink='/excursions/{{ excursion.id }}/edit'>
+            {{ excursion.creator.fullName }}
+          </td>
+          <td class='name hidden-xs' routerLink='/excursions/{{ excursion.id }}/edit'>
+            <span *ngIf='excursion.name'>{{ excursion.name }}</span>
+            <em class='empty' *ngIf='!excursion.name'>Aucun</em>
+          </td>
+          <td class='participants-count hidden-xs' routerLink='/excursions/{{ excursion.id }}/edit/participants'>
+            <span *ngIf='excursion.participantsCount'>{{ excursion.participantsCount | number }}</span>
+            <em class='empty' *ngIf='!excursion.participantsCount'>Aucun</em>
+          </td>
+          <td class='date' routerLink='/excursions/{{ excursion.id }}/edit'>
+            {{ excursion.plannedAt | date: 'dd.MM.yyyy' }}
+          </td>
+          <td class='actions'>
+            <div class='btn-group btn-group-xs'>
+              <button type='button' class='btn btn-warning' routerLink='/excursions/{{ excursion.id }}/edit'>
+                <span class='glyphicon glyphicon-edit'></span>
+                <span class='hidden-xs hidden-sm'>Modifier</span>
+              </button>
+              <button type='button' class='btn btn-primary' routerLink='/excursions/{{ excursion.id }}/print'>
+                <span class='glyphicon glyphicon-print'></span>
+                <span class='hidden-xs hidden-sm'>Imprimer</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </bio-table>
 </div>

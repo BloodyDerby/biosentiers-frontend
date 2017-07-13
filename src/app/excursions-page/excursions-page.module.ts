@@ -5,12 +5,15 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { BioExcursionsModule } from '../excursions/excursions.module';
 import { ExcursionsPageComponent } from './excursions-page.component';
+import { TableComponent } from '../tables/table.component';
+import { TablesModule } from '../tables/tables.module';
 
 @NgModule({
   imports: [
     CommonModule,
     BioExcursionsModule,
     RouterModule,
+    TablesModule,
     TooltipModule
   ],
   declarations: [

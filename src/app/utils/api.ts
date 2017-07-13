@@ -21,6 +21,16 @@ export function retrieveAllRecursive<T>(builder: RequestBuilder, converter: (dat
     });
 }
 
+export class PaginatedResponse<T> {
+  records: T[];
+  pagination: PaginationData;
+
+  constructor(res: Response, converter: (data?: any) => T) {
+    this.pagination = new PaginationData(res);
+    this.records = res.json().map(data => converter(data));
+  }
+}
+
 export class PaginationData {
   offset: number;
   limit: number;
@@ -33,6 +43,10 @@ export class PaginationData {
     this.limit = parsePaginationHeader(headers, 'Limit');
     this.total = parsePaginationHeader(headers, 'Total');
     this.filtered = parsePaginationHeader(headers, 'Filtered', false);
+  }
+
+  get pagesCount(): number {
+    return Math.ceil(this.effectiveTotal / this.limit);
   }
 
   get effectiveTotal(): number {
