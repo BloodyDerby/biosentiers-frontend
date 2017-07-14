@@ -14,7 +14,7 @@ export class BioExcursionsService {
 
   create(excursion: Excursion, params?: RetrieveExcursionParams): Observable<Excursion> {
     return this.api
-      .post(`/excursions`, excursion)
+      .post(`/excursions`, excursion.toJson())
       .modify(this.api.paramsModifier<RetrieveExcursionParams>(applyRetrieveExcursionParams, params))
       .execute()
       .map(res => new Excursion(res.json()));
@@ -38,7 +38,7 @@ export class BioExcursionsService {
 
   update(excursion: Excursion, params?: RetrieveExcursionParams): Observable<Excursion> {
     return this.api
-      .patch(`/excursions/${excursion.id}`, excursion)
+      .patch(`/excursions/${excursion.id}`, excursion.toJson())
       .modify(this.api.paramsModifier<RetrieveExcursionParams>(applyRetrieveExcursionParams, params))
       .execute()
       .map(res => new Excursion(res.json()));

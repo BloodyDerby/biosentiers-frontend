@@ -41,7 +41,7 @@ class ExcursionsTableManager extends TableManager<Excursion, ExcursionsTableFilt
     const original = super.getInitialState();
     original.sorts = [
       {
-        property: 'createdAt',
+        property: 'plannedAt',
         direction: 'desc'
       }
     ];

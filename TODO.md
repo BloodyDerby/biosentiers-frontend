@@ -17,3 +17,4 @@
 
 * Loading bar
 * Excursion display page
+* Excursion date range filter
