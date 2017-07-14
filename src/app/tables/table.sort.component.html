@@ -1,0 +1,4 @@
+<div (click)='toggleSort()'>
+  <ng-content></ng-content>
+  <span class='glyphicon' *ngIf='state' [ngClass]='{"glyphicon-arrow-down": state == "asc", "glyphicon-arrow-up": state == "desc"}'></span>
+</div>

@@ -1,6 +1,34 @@
-import { Headers, Response } from '@angular/http';
+import { Headers, RequestOptions, Response } from '@angular/http';
 import { RequestBuilder } from 'ng-request-builder';
 import { Observable } from 'rxjs/Rx';
+
+import { TableSort } from '../tables/table.manager';
+
+export interface PaginationParams {
+  offset?: number;
+  limit?: number;
+  sorts?: TableSort[];
+}
+
+export function applyPaginationParams(params: PaginationParams, options: RequestOptions) {
+  if (!params) {
+    return;
+  }
+
+  if (params.offset) {
+    options.search.append('offset', params.offset.toString());
+  }
+
+  if (params.limit) {
+    options.search.append('limit', params.limit.toString());
+  }
+
+  if (params.sorts) {
+    params.sorts.forEach((sort: TableSort) => {
+      options.search.append('sort', `${sort.property}-${sort.direction}`);
+    });
+  }
+}
 
 export function retrieveAllRecursive<T>(builder: RequestBuilder, converter: (data: any) => T, batchSize: number = 100, offset: number = 0, records: T[] = []): Observable<T[]> {
   return builder

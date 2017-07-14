@@ -4,6 +4,7 @@ import { TooltipModule } from 'ngx-bootstrap';
 
 import { TableComponent } from './table.component';
 import { TablePaginationComponent } from './table.pagination.component';
+import { TableSortComponent } from './table.sort.component';
 
 @NgModule({
   imports: [
@@ -12,11 +13,13 @@ import { TablePaginationComponent } from './table.pagination.component';
   ],
   declarations: [
     TableComponent,
-    TablePaginationComponent
+    TablePaginationComponent,
+    TableSortComponent
   ],
   exports: [
     TableComponent,
-    TablePaginationComponent
+    TablePaginationComponent,
+    TableSortComponent
   ]
 })
 export class TablesModule { }

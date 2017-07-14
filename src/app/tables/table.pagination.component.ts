@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { TableConfig } from './table.config';
+import { TableManager } from './table.manager';
 import { PaginatedResponse } from '../utils/api';
 
 const NUMBER_OF_PAGES = 5;
@@ -16,11 +16,11 @@ export class TablePaginationComponent<T> {
   lastPage: number;
 
   @Input()
-  private config: TableConfig<T>;
+  private manager: TableManager<T>;
   private limit: number;
 
   ngOnInit() {
-    this.config.resObs.subscribe((res: PaginatedResponse<T>) => this.updatePages(res));
+    this.manager.resObs.subscribe((res: PaginatedResponse<T>) => this.updatePages(res));
   }
 
   goToPage(page: number) {
@@ -28,7 +28,7 @@ export class TablePaginationComponent<T> {
       return;
     }
 
-    this.config.changeState({
+    this.manager.changeState({
       offset: (page - 1) * this.limit
     });
   }

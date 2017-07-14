@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { TableConfig } from './table.config';
+import { TableManager } from './table.manager';
 import { PaginatedResponse } from '../utils/api';
 
 @Component({
@@ -10,12 +10,12 @@ import { PaginatedResponse } from '../utils/api';
 })
 export class TableComponent<T> {
   @Input()
-  config: TableConfig<T>;
+  manager: TableManager<T>;
   @Input()
   pagination: boolean;
 
   ngOnInit() {
-    this.config.changeState();
+    this.manager.changeState();
     this.pagination = this.pagination !== undefined ? this.pagination : true;
   }
 }

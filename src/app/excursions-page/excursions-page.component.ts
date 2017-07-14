@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { BioExcursionsService, RetrieveExcursionParams } from '../excursions/excursions.service';
 import { Excursion } from '../models/excursion';
-import { TableConfig } from '../tables/table.config';
+import { TableManager, TableState } from '../tables/table.manager';
 import { PaginatedResponse } from '../utils/api';
 
 @Component({
@@ -13,27 +13,37 @@ import { PaginatedResponse } from '../utils/api';
   styleUrls: ['./excursions-page.component.styl']
 })
 export class ExcursionsPageComponent implements OnInit {
-  excursionsTableConfig: ExcursionsTableConfig;
+  tableManager: ExcursionsTableManager;
 
   constructor(private excursionsService: BioExcursionsService) {
   }
 
   ngOnInit() {
-    this.excursionsTableConfig = new ExcursionsTableConfig(this.excursionsService, {
+    this.tableManager = new ExcursionsTableManager(this.excursionsService, {
       includeCreator: true
     });
   }
 }
 
-class ExcursionsTableConfig extends TableConfig<Excursion> {
+class ExcursionsTableManager extends TableManager<Excursion> {
   constructor(private excursionsService: BioExcursionsService, private params?: RetrieveExcursionParams) {
     super();
   }
 
-  retrievePage(offset: number, limit: number): Observable<PaginatedResponse<Excursion>> {
-    return this.excursionsService.retrievePaginated(extend(this.params, {
-      offset: offset,
-      limit: limit
-    }));
+  getInitialState(): TableState {
+
+    const original = super.getInitialState();
+    original.sorts = [
+      {
+        property: 'createdAt',
+        direction: 'desc'
+      }
+    ];
+
+    return original;
+  }
+
+  retrievePage(state: TableState): Observable<PaginatedResponse<Excursion>> {
+    return this.excursionsService.retrievePaginated(extend(this.params, state));
   }
 }

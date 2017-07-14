@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { BioApiService } from '../api/api.service';
 import { Excursion } from '../models/excursion';
-import { PaginatedResponse } from '../utils/api';
+import { applyPaginationParams, PaginationParams, PaginatedResponse } from '../utils/api';
 
 @Injectable()
 export class BioExcursionsService {
@@ -51,21 +51,14 @@ export interface RetrieveExcursionParams {
   includeTrail?: boolean;
 }
 
-export interface RetrievePaginatedExcursionsParams extends RetrieveExcursionParams {
+export interface RetrievePaginatedExcursionsParams extends PaginationParams, RetrieveExcursionParams {
   offset?: number;
   limit?: number;
 }
 
 function applyRetrievePaginatedExcursionsParams(params: RetrievePaginatedExcursionsParams, options: RequestOptions) {
+  applyPaginationParams(params, options);
   applyRetrieveExcursionParams(params, options);
-
-  if (params.offset) {
-    options.search.append('offset', params.offset.toString());
-  }
-
-  if (params.limit) {
-    options.search.append('limit', params.limit.toString());
-  }
 }
 
 function applyRetrieveExcursionParams(params: RetrieveExcursionParams, options: RequestOptions) {

@@ -8,25 +8,41 @@
     </div>
     <h1>
       Sorties
-      <small *ngIf='excursionsTableConfig.effectiveTotalObs | async'>{{ excursionsTableConfig.effectiveTotalObs | async }} au total</small>
+      <small *ngIf='tableManager.effectiveTotalObs | async'>{{ tableManager.effectiveTotalObs | async }} au total</small>
     </h1>
   </div>
 
   <em class='text-muted' *ngIf='excursions !== undefined && !excursions.length'>Aucune sortie n'a encore été faite</em>
 
-  <bio-table #table [config]='excursionsTableConfig'>
+  <bio-table #table [manager]='tableManager'>
     <table class='table table-striped table-hover'>
       <thead>
         <tr>
-          <th>Responsable</th>
-          <th class='hidden-xs'>Nom</th>
-          <th class='participants-count hidden-xs'>Participants</th>
-          <th>Date</th>
+          <th>
+            <bio-table-sort [manager]='tableManager' [properties]='["creatorLastName","creatorFirstName"]'>
+              Responsable
+            </bio-table-sort>
+          </th>
+          <th class='hidden-xs'>
+            <bio-table-sort [manager]='tableManager' property='name'>
+              Description
+            </bio-table-sort>
+          </th>
+          <th class='participants-count hidden-xs'>
+            <bio-table-sort [manager]='tableManager' property='participantsCount'>
+              Participants
+            </bio-table-sort>
+          </th>
+          <th>
+            <bio-table-sort [manager]='tableManager' property='createdAt'>
+              Date
+            </bio-table-sort>
+          </th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor='let excursion of excursionsTableConfig.recordsObs | async'>
+        <tr *ngFor='let excursion of tableManager.recordsObs | async'>
           <td class='creator' routerLink='/excursions/{{ excursion.id }}/edit'>
             {{ excursion.creator.fullName }}
           </td>
