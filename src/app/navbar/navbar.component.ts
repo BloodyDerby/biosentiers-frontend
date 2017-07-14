@@ -18,7 +18,7 @@ export class NavbarComponent implements OnInit {
   constructor(private auth: BioAuthService) { }
 
   ngOnInit() {
-    this.auth.user$.subscribe((user) => {
+    this.auth.userObs.subscribe((user) => {
       this.user = user;
     })
   }

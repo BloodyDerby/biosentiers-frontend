@@ -20,7 +20,7 @@ export class User {
     return compact([ this.firstName, this.lastName ]).join(' ');
   }
 
-  hasRole(role) {
+  hasRole(role: string): boolean {
 
     const roleIndex = User.ROLES.indexOf(role),
           userRoleIndex = User.ROLES.indexOf(this.role);

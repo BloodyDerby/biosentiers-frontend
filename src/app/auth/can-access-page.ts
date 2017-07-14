@@ -16,7 +16,7 @@ export class CanAccessPage implements CanActivate {
       return true;
     }
 
-    return this.auth.user$.take(1).map((user) => {
+    return this.auth.userObs.take(1).map((user) => {
 
       const authorized = user && user.hasRole(requiredRole);
       if (!authorized) {

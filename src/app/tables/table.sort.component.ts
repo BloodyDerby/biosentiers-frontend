@@ -9,11 +9,11 @@ import { TableManager, TableSort, TableState } from './table.manager';
   templateUrl: './table.sort.component.html',
   styleUrls: ['./table.sort.component.styl']
 })
-export class TableSortComponent<T> implements OnInit {
+export class TableSortComponent<T, F> implements OnInit {
   state: string;
 
   @Input()
-  private manager: TableManager<T>;
+  private manager: TableManager<T, F>;
   @Input()
   private property: string;
   @Input()
@@ -26,7 +26,7 @@ export class TableSortComponent<T> implements OnInit {
       throw new Error('"property" or "properties" must be set');
     }
 
-    this.manager.stateObs.subscribe((state: TableState) => this.updateState(state));
+    this.manager.stateObs.subscribe((state: TableState<F>) => this.updateState(state));
   }
 
   toggleSort() {
@@ -36,7 +36,7 @@ export class TableSortComponent<T> implements OnInit {
     });
   }
 
-  private updateState(state: TableState) {
+  private updateState(state: TableState<F>) {
     const sortProperties = map(state.sorts || [], 'property');
     if (isEqual(this.properties || [ this.property ], sortProperties)) {
       this.state = state.sorts[0].direction || 'asc';

@@ -49,6 +49,7 @@ export class BioExcursionsService {
 export interface RetrieveExcursionParams {
   includeCreator?: boolean;
   includeTrail?: boolean;
+  search?: string;
 }
 
 export interface RetrievePaginatedExcursionsParams extends PaginationParams, RetrieveExcursionParams {
@@ -68,5 +69,9 @@ function applyRetrieveExcursionParams(params: RetrieveExcursionParams, options: 
 
   if (params.includeTrail) {
     options.search.append('include', 'trail');
+  }
+
+  if (params.search) {
+    options.search.append('search', params.search);
   }
 }

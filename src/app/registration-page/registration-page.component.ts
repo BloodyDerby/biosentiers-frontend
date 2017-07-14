@@ -43,7 +43,7 @@ export class RegistrationPageComponent implements OnInit {
       ]
     });
 
-    this.auth.user$.subscribe((user) => {
+    this.auth.userObs.subscribe((user) => {
       this.existingUser = user;
     });
 

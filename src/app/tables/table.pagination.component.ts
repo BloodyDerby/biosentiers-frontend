@@ -10,13 +10,13 @@ const NUMBER_OF_PAGES = 5;
   templateUrl: './table.pagination.component.html',
   styleUrls: ['./table.pagination.component.styl']
 })
-export class TablePaginationComponent<T> {
+export class TablePaginationComponent<T, F> {
   pages: number[];
   currentPage: number;
   lastPage: number;
 
   @Input()
-  private manager: TableManager<T>;
+  private manager: TableManager<T, F>;
   private limit: number;
 
   ngOnInit() {

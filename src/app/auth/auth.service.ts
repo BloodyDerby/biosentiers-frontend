@@ -10,14 +10,14 @@ import { User } from '../models/user';
 @Injectable()
 export class BioAuthService {
 
-  user$: Observable<User>;
+  userObs: Observable<User>;
 
   private token: string;
-  private user: BehaviorSubject<User>;
+  private userSubject: BehaviorSubject<User>;
 
   constructor(private http: Http, private storage: BioStorageService) {
-    this.user = new BehaviorSubject(null);
-    this.user$ = this.user.asObservable();
+    this.userSubject = new BehaviorSubject(null);
+    this.userObs = this.userSubject.asObservable();
     this.initialize();
   }
 
@@ -32,14 +32,19 @@ export class BioAuthService {
       .post(url, credentials, { headers: headers })
       .map((res) => res.json())
       .do((authData) => this.setAuthData(authData, true))
-      .map(() => this.user.getValue());
+      .map(() => this.userSubject.getValue());
   }
 
   unauthenticate() {
-    const user = this.user.getValue();
+    const user = this.userSubject.getValue();
     this.unsetAuthData();
     // FIXME: redirect user to home if current page is protected
     return user;
+  }
+
+  hasRole(role: string): boolean {
+    const user = this.userSubject.getValue();
+    return user && user.hasRole(role);
   }
 
   addAuthorization(requestBuilder: RequestBuilder) {
@@ -53,7 +58,7 @@ export class BioAuthService {
 
   private setAuthData(authData: any, save: boolean) {
     this.token = authData.token;
-    this.user.next(new User(authData.user));
+    this.userSubject.next(new User(authData.user));
 
     if (save) {
       this.storage.set('biosentiers.auth', authData);
@@ -62,7 +67,7 @@ export class BioAuthService {
 
   private unsetAuthData() {
     delete this.token;
-    this.user.next(null);
+    this.userSubject.next(null);
     this.storage.remove('biosentiers.auth');
   }
 

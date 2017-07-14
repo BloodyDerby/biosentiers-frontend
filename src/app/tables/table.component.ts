@@ -8,9 +8,9 @@ import { PaginatedResponse } from '../utils/api';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.styl']
 })
-export class TableComponent<T> {
+export class TableComponent<T, F> {
   @Input()
-  manager: TableManager<T>;
+  manager: TableManager<T, F>;
   @Input()
   pagination: boolean;
 

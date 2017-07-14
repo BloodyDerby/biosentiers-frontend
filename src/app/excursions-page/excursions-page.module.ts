@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
@@ -12,6 +13,7 @@ import { TablesModule } from '../tables/tables.module';
   imports: [
     CommonModule,
     BioExcursionsModule,
+    ReactiveFormsModule,
     RouterModule,
     TablesModule,
     TooltipModule

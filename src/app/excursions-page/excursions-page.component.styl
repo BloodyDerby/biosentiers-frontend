@@ -1,5 +1,9 @@
 @require '../../variables'
 
+#excursion-table-filters
+  .search
+    width 30em
+
 table
   th, td
     vertical-align middle
@@ -8,6 +12,11 @@ table
   td
     &:not(.actions)
       cursor pointer
+
+@media (max-width: $screen-sm-min)
+  #excursion-table-filters
+    .search
+      width 100%
 
 @media (min-width: $screen-md-min)
   table
