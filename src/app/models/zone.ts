@@ -1,6 +1,7 @@
 import { LatLng } from './lat-lng';
 import { LatLngBounds } from './lat-lng-bounds';
 import get from 'lodash/get';
+import isInteger from 'lodash/isInteger';
 import reduce from 'lodash/reduce';
 import { Trail } from './trail';
 import { GeoJsonGeometry } from '../utils/geojson';
@@ -28,8 +29,22 @@ export class Zone implements GeoJsonGeometry {
   }
 
   getPositionInTrail(trailRef: string | Trail): number {
+
     const trailHref = typeof(trailRef) == 'string' ? trailRef : trailRef.href;
-    return this.trailHrefs[trailHref].position;
+
+    const trailData: ZoneTrailData = this.trailHrefs[trailHref];
+    if (!trailData) {
+      throw new Error(`Zone ${this.href} is not linked to trail ${trailHref}`);
+    }
+
+    const position = trailData.position;
+    if (position === undefined) {
+      throw new Error(`No position found for zone ${this.href} in trail ${trailHref}`);
+    } else if (!isInteger(position) || position < 1) {
+      throw new Error(`Position ${position} is invalid for zone ${this.href} in trail ${trailHref}`);
+    }
+
+    return position;
   }
 
   toGeoJson() {

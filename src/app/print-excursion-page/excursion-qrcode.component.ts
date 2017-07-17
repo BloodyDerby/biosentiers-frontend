@@ -1,8 +1,8 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import find from 'lodash/find';
 import moment from 'moment';
 
-import { Excursion } from '../models/excursion';
-import { Participant } from '../models/participant';
+import { Excursion, Participant, Zone } from '../models';
 
 declare const bioqr: any;
 declare const qrcodelib: any;
@@ -19,6 +19,9 @@ export class ExcursionQrcodeComponent implements OnInit {
   @Input()
   private participant: Participant;
 
+  @Input()
+  private zones: Zone[];
+
   @ViewChild('canvas')
   private canvas: ElementRef;
 
@@ -26,6 +29,48 @@ export class ExcursionQrcodeComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    const qrSegments = [
+      { data: this.getEncodedBioCodeData(), mode: 'numeric' }
+    ];
+
+    this.renderQrCode(qrSegments, this.canvas.nativeElement);
+  }
+
+  private renderQrCode(segments: any[], element: ElementRef) {
+
+    var qrOptions = {
+      version: 10,
+      errorCorrectionLevel: 'Q',
+      scale: 6,
+      margin: 0
+    };
+
+    qrcodelib.toCanvas(element, segments, qrOptions, function(err) {
+      if (err) {
+        console.warn(err);
+      }
+    });
+  }
+
+  private getEncodedBioCodeData() {
+    if (!this.excursion) {
+      throw new Error('Excursion is required');
+    } else if (!this.participant) {
+      throw new Error('Participant is required');
+    } else if (!this.zones) {
+      throw new Error('Excursion zones are required');
+    }
+
+    const zonePositions = this.excursion.zoneHrefs.map(href => {
+      const zone = find(this.zones, { href: href });
+      if (!zone) {
+        throw new Error(`Zone ${href} was not loaded`);
+      }
+
+      return zone.getPositionInTrail(this.excursion.trail);
+    });
+
     const qrData = {
       version: 1,
       excursion: {
@@ -38,28 +83,13 @@ export class ExcursionQrcodeComponent implements OnInit {
           name: this.participant.name,
         },
         themes: this.excursion.themes,
-        // FIXME: qr code zone positions
-        zones: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+        // Zone positions are 1-based in the API, but 0-based in the QR code
+        zones: zonePositions.map(p => p - 1)
       }
     };
 
-    const encodedQrData = bioqr.encode(qrData, { format: 'numeric' });
-
-    var qrSegments = [
-      { data: encodedQrData, mode: 'numeric' }
-    ];
-
-    var qrOptions = {
-      version: 10,
-      errorCorrectionLevel: 'Q',
-      scale: 6,
-      margin: 0
-    };
-
-    qrcodelib.toCanvas(this.canvas.nativeElement, qrSegments, qrOptions, function(err) {
-      if (err) {
-        console.warn(err);
-      }
+    return bioqr.encode(qrData, {
+      format: 'numeric'
     });
   }
 
