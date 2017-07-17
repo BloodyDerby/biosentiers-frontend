@@ -27,7 +27,7 @@
     <table class='table table-striped table-hover'>
       <thead>
         <tr>
-          <th *ngIf='hasRole("admin")'>
+          <th *ngIf='auth.hasRole("admin")'>
             <bio-table-sort [manager]='tableManager' [properties]='["creatorLastName","creatorFirstName"]'>
               Responsable
             </bio-table-sort>
@@ -52,7 +52,7 @@
       </thead>
       <tbody>
         <tr *ngFor='let excursion of tableManager.recordsObs | async'>
-          <td class='creator' routerLink='/excursions/{{ excursion.id }}/edit' *ngIf='hasRole("admin")'>
+          <td class='creator' routerLink='/excursions/{{ excursion.id }}/edit' *ngIf='auth.hasRole("admin")'>
             {{ excursion.creator.firstName }}
             <strong>{{ excursion.creator.lastName }}</strong>
           </td>

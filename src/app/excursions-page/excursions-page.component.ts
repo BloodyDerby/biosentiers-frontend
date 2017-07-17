@@ -4,7 +4,7 @@ import extend from 'lodash/extend';
 import pick from 'lodash/pick';
 import { Observable } from 'rxjs/Rx';
 
-import { BioAuthService } from '../auth/auth.service';
+import { AuthViewService } from '../auth/auth.view.service';
 import { BioExcursionsService, RetrieveExcursionParams } from '../excursions/excursions.service';
 import { Excursion, User } from '../models';
 import { TableManager, TableState } from '../tables/table.manager';
@@ -16,18 +16,15 @@ import { PaginatedResponse } from '../utils/api';
   styleUrls: ['./excursions-page.component.styl']
 })
 export class ExcursionsPageComponent implements OnInit {
-  hasRole: (role: string) => boolean;
   tableManager: ExcursionsTableManager;
 
-  constructor(private authService: BioAuthService, private excursionsService: BioExcursionsService) {
+  constructor(private auth: AuthViewService, private excursionsService: BioExcursionsService) {
   }
 
   ngOnInit() {
     this.tableManager = new ExcursionsTableManager(this.excursionsService, {
       includeCreator: true
     });
-
-    this.hasRole = this.authService.hasRole.bind(this.authService);
   }
 }
 

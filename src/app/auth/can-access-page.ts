@@ -1,8 +1,10 @@
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, Router } from '@angular/router';
 import { Injectable } from '@angular/core';
+import every from 'lodash/every';
 import { Observable } from 'rxjs/Rx';
 
 import { BioAuthService } from './auth.service';
+import { getRouteRequiredRoles } from './auth.utils';
 
 @Injectable()
 export class CanAccessPage implements CanActivate {
@@ -11,16 +13,16 @@ export class CanAccessPage implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
 
-    const requiredRole = route.data['requiredRole'];
-    if (!requiredRole) {
+    const requiredRoles = getRouteRequiredRoles(route);
+    if (!requiredRoles.length) {
       return true;
     }
 
-    return this.auth.userObs.take(1).map((user) => {
+    return this.auth.userObs.first().map(user => {
 
-      const authorized = user && user.hasRole(requiredRole);
+      const authorized = user && every(requiredRoles, role => user.hasRole(role));
       if (!authorized) {
-        this.router.navigate([ 'home' ]);
+        this.router.navigate([ '' ]);
       }
 
       return authorized;

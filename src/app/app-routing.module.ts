@@ -14,6 +14,8 @@ import { EditExcursionThemesStepComponent } from './edit-excursion-page/edit-exc
 import { EditExcursionZonesStepComponent } from './edit-excursion-page/edit-excursion-zones-step.component';
 
 const routes: Routes = [
+
+  // PUBLIC ROUTES
   {
     path: '',
     component: HomePageComponent
@@ -22,57 +24,72 @@ const routes: Routes = [
     path: 'register',
     component: RegistrationPageComponent
   },
+
+  // PROTECTED ROUTES
+  // All children of this route require the user to be authenticated to access.
   {
-    path: 'excursions/new',
-    component: EditExcursionPageComponent,
-    canActivate: [ CanAccessPage ],
-    children: [
-      {
-        path: '',
-        component: EditExcursionDetailsStepComponent
-      }
-    ]
-  },
-  {
-    path: 'excursions/:id/edit',
-    component: EditExcursionPageComponent,
-    canActivate: [ CanAccessPage ],
-    children: [
-      {
-        path: '',
-        component: EditExcursionDetailsStepComponent
-      },
-      {
-        path: 'participants',
-        component: EditExcursionParticipantsStepComponent
-      },
-      {
-        path: 'zones',
-        component: EditExcursionZonesStepComponent
-      },
-      {
-        path: 'themes',
-        component: EditExcursionThemesStepComponent
-      }
-    ]
-  },
-  {
-    path: 'excursions/:id/print',
-    component: PrintExcursionPageComponent,
-    canActivate: [ CanAccessPage ]
-  },
-  {
-    path: 'register',
-    component: RegistrationPageComponent,
-    canActivate: [ CanAccessPage ]
-  },
-  {
-    path: 'users',
-    component: UsersPageComponent,
+    path: '',
     canActivate: [ CanAccessPage ],
     data: {
-      requiredRole: 'admin'
-    }
+      requiredRole: 'user'
+    },
+    children: [
+      {
+        path: 'excursions',
+        component: ExcursionsPageComponent
+      },
+      {
+        path: 'excursions/new',
+        component: EditExcursionPageComponent,
+        children: [
+          {
+            path: '',
+            component: EditExcursionDetailsStepComponent
+          }
+        ]
+      },
+      {
+        path: 'excursions/:id/edit',
+        component: EditExcursionPageComponent,
+        children: [
+          {
+            path: '',
+            component: EditExcursionDetailsStepComponent
+          },
+          {
+            path: 'participants',
+            component: EditExcursionParticipantsStepComponent
+          },
+          {
+            path: 'zones',
+            component: EditExcursionZonesStepComponent
+          },
+          {
+            path: 'themes',
+            component: EditExcursionThemesStepComponent
+          }
+        ]
+      },
+      {
+        path: 'excursions/:id/print',
+        component: PrintExcursionPageComponent
+      },
+
+      // ADMIN ROUTES
+      // All children of this route requires the user to have the "admin" role
+      {
+        path: '',
+        data: {
+          requiredRole: 'admin'
+        },
+        children: [
+          {
+            path: 'users',
+            component: UsersPageComponent
+          }
+        ]
+      }
+    ]
   }
 ];
 

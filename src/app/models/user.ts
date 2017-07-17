@@ -1,11 +1,11 @@
 import compact from 'lodash/compact';
+import includes from 'lodash/includes';
 
 import { parsePropertiesInto } from '../utils/models';
 
+export const roles: ReadonlyArray<string> = Object.freeze([ 'user', 'admin' ]);
+
 export class User {
-
-  static ROLES: Array<string> = [ 'user', 'admin' ];
-
   id: string;
   email: string;
   firstName: string;
@@ -21,9 +21,12 @@ export class User {
   }
 
   hasRole(role: string): boolean {
+    if (!includes(roles, role)) {
+      throw new Error(`Unknown role ${role} (valid roles are ${roles.join(', ')})`);
+    }
 
-    const roleIndex = User.ROLES.indexOf(role),
-          userRoleIndex = User.ROLES.indexOf(this.role);
+    const roleIndex = roles.indexOf(role),
+          userRoleIndex = roles.indexOf(this.role);
 
     return roleIndex >= 0 && userRoleIndex >= 0 && userRoleIndex >= roleIndex;
   }

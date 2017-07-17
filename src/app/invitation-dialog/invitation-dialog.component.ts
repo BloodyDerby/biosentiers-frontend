@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import { BioApiService } from '../api/api.service';
-import { User } from '../models/user';
+import { roles } from '../models';
 
 @Component({
   selector: 'bio-invitation-dialog',
@@ -28,7 +28,7 @@ export class InvitationDialogComponent implements OnInit {
         Validators.required
       ],
       role: [
-        User.ROLES[0],
+        roles[0],
         Validators.required
       ],
       firstName: [
@@ -41,7 +41,7 @@ export class InvitationDialogComponent implements OnInit {
       ]
     });
 
-    this.userRoleChoices = reduce(User.ROLES, (memo, role) => {
+    this.userRoleChoices = reduce(roles, (memo, role) => {
       memo.push({
         value: role,
         label: role
