@@ -19,7 +19,8 @@
       <form id='excursion-table-filters' class='form-inline' [formGroup]='filters.form'>
         <div class='form-group'>
           <label class='sr-only' for='excursions-table-search'>Recherche</label>
-          <input type='text' class='form-control search' placeholder='Cherchez par description ou nom/prénom du responsable' formControlName='search'>
+          <input *ngIf='auth.hasRole("admin")' type='text' class='form-control search' placeholder='Chercher par description ou nom/prénom du responsable' formControlName='search'>
+          <input *ngIf='!auth.hasRole("admin")' type='text' class='form-control search' placeholder='Chercher par description' formControlName='search'>
         </div>
       </form>
     </bio-table-filters>
