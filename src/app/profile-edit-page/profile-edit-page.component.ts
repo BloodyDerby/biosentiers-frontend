@@ -12,7 +12,7 @@ import { AuthViewService } from '../auth/auth.view.service';
 import { markAsPristine, waitForValidations } from '../forms';
 import { User } from '../models';
 import { NotificationsService } from '../notifications';
-import { UsersService } from '../users/users.service';
+import { UsersService, UserPasswordChange } from '../users/users.service';
 
 const PASSWORD_FORM_FIELDS = [ 'oldPassword', 'password', 'passwordConfirmation' ];
 
@@ -91,11 +91,11 @@ export class ProfileEditPageComponent implements OnInit {
         .first()
         .switchMap((user: User) => {
 
-          const update = new User({
+          const update: UserPasswordChange = {
             id: user.id,
             password: newPassword,
             previousPassword: oldPassword
-          });
+          };
 
           return this.usersService.update(update);
         }).subscribe((user: User) => {

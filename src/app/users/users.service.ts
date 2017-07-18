@@ -10,7 +10,7 @@ export class UsersService {
   constructor(private api: BioApiService) {
   }
 
-  update(user: User): Observable<User> {
+  update(user: UserUpdate): Observable<User> {
     return this.api
       .patch(`/users/${user.id}`, user)
       .execute()
@@ -18,3 +18,11 @@ export class UsersService {
   }
 
 }
+
+export interface UserPasswordChange {
+  id: string;
+  password: string;
+  previousPassword: string;
+}
+
+type UserUpdate = User | UserPasswordChange;
