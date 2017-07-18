@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import { BioAuthService } from '../auth/auth.service';
+import { reset } from '../forms';
+import { NotificationsService } from '../notifications';
 
 @Component({
   selector: 'bio-login-modal',
@@ -16,7 +18,7 @@ export class LoginModalComponent implements OnInit {
   @ViewChild('email') private email: ElementRef;
   @ViewChild('modal') modal: ModalDirective;
 
-  constructor(private authService: BioAuthService, private formBuilder: FormBuilder) { }
+  constructor(private authService: BioAuthService, private formBuilder: FormBuilder, private notifications: NotificationsService) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -47,9 +49,15 @@ export class LoginModalComponent implements OnInit {
     }
 
     var credentials = this.loginForm.value;
-    this.authService.authenticate(credentials).subscribe((user) => {
-      this.loginForm.reset();
+    this.authService.authenticate(credentials).subscribe(() => {
+      reset(this.loginForm, {
+        email: '',
+        password: ''
+      });
+
       this.close();
+    }, err => {
+      this.notifications.warning("L'adresse e-mail ou le mot de passe ne sont pas corrects");
     });
   }
 

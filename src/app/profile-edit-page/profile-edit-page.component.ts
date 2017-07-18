@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Rx';
 import { hasError } from '../api';
 import { BioAuthService } from '../auth/auth.service';
 import { AuthViewService } from '../auth/auth.view.service';
-import { markAsPristine, waitForValidations } from '../forms';
+import { reset, waitForValidations } from '../forms';
 import { User } from '../models';
 import { NotificationsService } from '../notifications';
 import { UsersService, UserPasswordChange } from '../users/users.service';
@@ -123,13 +123,11 @@ export class ProfileEditPageComponent implements OnInit {
   }
 
   resetPasswordChange() {
-    this.passwordChangeForm.setValue({
+    reset(this.passwordChangeForm, {
       oldPassword: '',
       password: '',
       passwordConfirmation: ''
     });
-
-    markAsPristine(this.passwordChangeForm);
   }
 
   initProfileForm(user: User) {

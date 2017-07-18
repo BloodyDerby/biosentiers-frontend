@@ -2,12 +2,16 @@ import { AbstractControl, FormGroup } from '@angular/forms';
 import each from 'lodash/each';
 import { Observable } from 'rxjs/Rx';
 
-export function markAsPristine(control: AbstractControl | FormGroup) {
+export function reset(control: AbstractControl | FormGroup, value?: any) {
   control.setErrors(null);
   control.markAsPristine();
 
   if (control instanceof FormGroup) {
-    each(control.controls, control => markAsPristine(control));
+    if (value) {
+      control.reset(value);
+    }
+
+    each(control.controls, control => reset(control));
   }
 }
 

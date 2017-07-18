@@ -5,14 +5,14 @@
       <a class='btn btn-default' tooltip='Liste des sorties' routerLink='/excursions'>
         <span class='glyphicon glyphicon-list'></span>
       </a>
-      <a class='btn btn-default' *ngIf='excursion.id'
-         tooltip='Modifier la sortie'
+      <a class='btn btn-warning' *ngIf='excursion.id'
          routerLink='/excursions/{{ excursion.id }}/edit'>
         <span class='glyphicon glyphicon-pencil'></span>
+        Modifier
       </a>
     </div>
 
-    <h1>Impression de la sortie du {{ excursion.plannedAt | date: 'dd.MM.yyyy' }} avec {{ excursion.creator.fullName }}</h1>
+    <h1>Sortie du {{ excursion.plannedAt | date: 'dd.MM.yyyy' }} avec {{ excursion.creator.fullName }}</h1>
   </div>
 
   <p *ngIf='participants && !participants.length'><em class='text-muted'>Personne ne participe à cette sortie pour le moment</em></p>

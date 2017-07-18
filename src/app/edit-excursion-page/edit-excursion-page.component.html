@@ -2,6 +2,9 @@
 
   <div class='page-header' *ngIf='excursion'>
     <div class='btn-group pull-right'>
+      <a class='btn btn-default' tooltip='Liste des sorties' routerLink='/excursions'>
+        <span class='glyphicon glyphicon-list'></span>
+      </a>
       <!-- TODO: disable print button if excursion not fully configured -->
       <a class='btn btn-info'
          *ngIf='excursion.id' routerLink='/excursions/{{ excursion.id }}/print'>

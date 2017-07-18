@@ -101,13 +101,30 @@ export class EditExcursionService {
 
   private initExcursionForm() {
     this.excursionForm = this.formBuilder.group({
-      id: [ '' ],
-      trailHref: [ '', Validators.required ],
-      name: [ '', Validators.maxLength(60) ],
-      plannedAt: [ '', Validators.required ],
-      participantsCount: [ 0 ],
-      themes: [ [] ],
-      zoneHrefs: [ [] ]
+      id: [
+        ''
+      ],
+      trailHref: [
+        '',
+        Validators.required
+      ],
+      name: [
+        '',
+        Validators.maxLength(60)
+      ],
+      plannedAt: [
+        '',
+        Validators.required
+      ],
+      participantsCount: [
+        0
+      ],
+      themes: [
+        []
+      ],
+      zoneHrefs: [
+        []
+      ]
     });
   }
 

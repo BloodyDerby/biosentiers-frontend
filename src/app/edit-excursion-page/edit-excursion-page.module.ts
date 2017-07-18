@@ -5,9 +5,11 @@ import { RouterModule } from '@angular/router';
 import { SelectModule } from 'ng-select';
 import { LeafletModule } from '@asymmetrik/angular2-leaflet/dist';
 import { DatepickerModule } from 'ngx-bootstrap/datepicker';
+import { TooltipModule } from 'ngx-bootstrap/ng2-bootstrap';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 
 import { BioExcursionsModule } from '../excursions/excursions.module';
+import { BioFormsModule } from '../forms';
 import { BioParticipantsModule } from '../participants/participants.module';
 import { BioThemesModule } from '../themes/themes.module';
 import { BioTrailsModule } from '../trails/trails.module';
@@ -26,6 +28,7 @@ import { WizardModule } from '../wizard/wizard.module';
 @NgModule({
   imports: [
     BioExcursionsModule,
+    BioFormsModule,
     BioParticipantsModule,
     BioThemesModule,
     BioTrailsModule,
@@ -38,6 +41,7 @@ import { WizardModule } from '../wizard/wizard.module';
     ReactiveFormsModule,
     RouterModule,
     SelectModule,
+    TooltipModule,
     WizardModule
   ],
   declarations: [

@@ -5,6 +5,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { BioAuthModule } from '../auth/auth.module';
 import { LoginModalComponent } from './login-modal.component';
+import { NotificationsModule } from '../notifications';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { LoginModalComponent } from './login-modal.component';
     CommonModule,
     FormsModule,
     ModalModule,
+    NotificationsModule,
     ReactiveFormsModule
   ]
 })

@@ -77,7 +77,7 @@ export class ExcursionQrcodeComponent implements OnInit {
         creatorName: this.excursion.creator.fullName,
         id: this.excursion.id,
         date: moment(this.excursion.plannedAt).toDate(),
-        name: this.excursion.name,
+        name: this.excursion.name || `Sortie du ${moment(this.excursion.plannedAt).format('LL')}`,
         participant: {
           id: this.participant.id,
           name: this.participant.name,
@@ -87,6 +87,8 @@ export class ExcursionQrcodeComponent implements OnInit {
         zones: zonePositions.map(p => p - 1)
       }
     };
+
+    console.log(qrData);
 
     return bioqr.encode(qrData, {
       format: 'numeric'

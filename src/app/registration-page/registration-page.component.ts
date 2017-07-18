@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { BioApiService } from '../api/api.service';
 import { BioAuthService } from '../auth/auth.service';
 import { User } from '../models/user';
+import { NotificationsService } from '../notifications';
 
 @Component({
   selector: 'bio-registration-page',
@@ -18,7 +19,7 @@ export class RegistrationPageComponent implements OnInit {
   existingUser: User;
   registrationForm: FormGroup;
 
-  constructor(private api: BioApiService, private auth: BioAuthService, private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router) { }
+  constructor(private api: BioApiService, private auth: BioAuthService, private formBuilder: FormBuilder, private notifications: NotificationsService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.registrationForm = this.formBuilder.group({
@@ -95,6 +96,7 @@ export class RegistrationPageComponent implements OnInit {
   }
 
   private goToHome() {
+    this.notifications.success('Votre compte a bien été enregistré');
     this.router.navigate([ '/' ]);
   }
 
