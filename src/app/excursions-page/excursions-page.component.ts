@@ -16,9 +16,11 @@ import { PaginatedResponse } from '../utils/api';
   styleUrls: ['./excursions-page.component.styl']
 })
 export class ExcursionsPageComponent implements OnInit {
+  auth: AuthViewService;
   tableManager: ExcursionsTableManager;
 
-  constructor(private auth: AuthViewService, private excursionsService: BioExcursionsService) {
+  constructor(auth: AuthViewService, private excursionsService: BioExcursionsService) {
+    this.auth = auth;
   }
 
   ngOnInit() {

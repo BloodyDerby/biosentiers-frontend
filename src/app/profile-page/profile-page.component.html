@@ -1,0 +1,36 @@
+<div class='container'>
+  <div class='page-header'>
+    <div class='btn-group pull-right'>
+      <a class='btn btn-warning' routerLink='/profile/edit'>
+        <span class='glyphicon glyphicon-pencil'></span>
+        Modifier
+      </a>
+    </div>
+    <h1>Profil utilisateur</h1>
+  </div>
+
+  <dl *ngIf='auth.user' class='dl-horizontal'>
+    <dt>E-mail</dt>
+    <dd>{{ auth.user.email }}</dd>
+
+    <dt>Rôle</dt>
+    <dd>
+      <div class='label' [ngClass]='{"label-primary": auth.user.role != "admin", "label-danger": auth.user.role == "admin"}' [ngSwitch]='auth.user.role'>
+        <span *ngSwitchCase='"admin"'>administrateur</span>
+        <span *ngSwitchDefault>utilisateur</span>
+      </div>
+    </dd>
+
+    <dt>Prénom</dt>
+    <dd>{{ auth.user.firstName }}</dd>
+
+    <dt>Nom</dt>
+    <dd>{{ auth.user.lastName }}</dd>
+
+    <dt>Date d'inscription</dt>
+    <dd>{{ auth.user.createdAt | amDateFormat: 'LL' }}</dd>
+
+    <dt>Dernière modification</dt>
+    <dd>{{ auth.user.updatedAt | amDateFormat: 'LLL' }}</dd>
+  </dl>
+</div>

@@ -1,0 +1,95 @@
+<div class='container'>
+  <div class='page-header'>
+    <div class='btn-group pull-right'>
+      <a class='btn btn-default' routerLink='/profile'>
+        <span class='glyphicon glyphicon-eye-open'></span>
+        Voir le profil
+      </a>
+    </div>
+    <h1>Édition du profil utilisateur</h1>
+  </div>
+
+  <!-- Profile form -->
+  <form *ngIf='profileForm' [formGroup]='profileForm' (ngSubmit)='saveProfile($event)' novalidate>
+
+    <div class='row'>
+      <!-- First name field -->
+      <div class='col-md-6'>
+        <div class='form-group' [formGroupError]='profileForm.get("firstName")'>
+          <label for='user-first-name' class='control-label'>Prénom</label>
+          <input type='text' id='user-first-name' class='form-control' formControlName='firstName' required autofocus />
+          <bio-form-error [control]='profileForm.get("firstName")' error='required'>Le prénom est obligatoire.</bio-form-error>
+          <bio-form-error [control]='profileForm.get("firstName")' error='maxlength'>Le prénom ne doit pas dépasser 20 caractères.</bio-form-error>
+        </div>
+      </div>
+
+      <!-- Last name field -->
+      <div class='col-md-6'>
+        <div class='form-group' [formGroupError]='profileForm.get("lastName")'>
+          <label for='user-last-name' class='control-label'>Nom</label>
+          <input type='text' id='user-last-name' class='form-control' formControlName='lastName' required autofocus />
+          <bio-form-error [control]='profileForm.get("lastName")' error='required'>Le nom est obligatoire.</bio-form-error>
+          <bio-form-error [control]='profileForm.get("lastName")' error='maxlength'>Le nom ne doit pas dépasser 20 caractères.</bio-form-error>
+        </div>
+      </div>
+    </div>
+
+    <div class='btn-group'>
+      <button type='button' class='btn btn-default' [disabled]='!(profileHasChanged() | async)' (click)='resetProfile()'>
+        <span class='glyphicon glyphicon-ban-circle'></span>
+        Annuler
+      </button>
+      <button type='submit' class='btn btn-primary' [disabled]='!(profileHasChanged() | async) || profileForm.invalid'>
+        <span class='glyphicon glyphicon-floppy-disk'></span>
+        Sauvegarder
+      </button>
+    </div>
+  </form>
+
+  <h2>Changement de mot de passe</h2>
+  <form *ngIf='passwordChangeForm' [formGroup]='passwordChangeForm' (ngSubmit)='changePassword($event)' novalidate>
+
+    <div class='row'>
+      <!-- Old password field -->
+      <div class='col-md-6'>
+        <div class='form-group' [formGroupError]='passwordChangeForm.get("oldPassword")'>
+          <label for='user-old-password' class='control-label'>Mot de passe actuel</label>
+          <input type='password' id='user-old-password' class='form-control' formControlName='oldPassword' required autofocus />
+          <bio-form-error [control]='passwordChangeForm.get("oldPassword")' error='required'>Veuillez indiquer votre mot de passe actuel.</bio-form-error>
+        </div>
+      </div>
+    </div>
+
+    <div class='row'>
+      <!-- Password field -->
+      <div class='col-md-6'>
+        <div class='form-group' [formGroupError]='passwordChangeForm.get("password")'>
+          <label for='user-password' class='control-label'>Nouveau mot de passe</label>
+          <input type='password' id='user-password' class='form-control' formControlName='password' required autofocus />
+          <bio-form-error [control]='passwordChangeForm.get("password")' error='required'>Veuillez indiquer le nouveau mot de passe.</bio-form-error>
+        </div>
+      </div>
+
+      <!-- Password confirmation field -->
+      <div class='col-md-6'>
+        <div class='form-group' [formGroupError]='passwordChangeForm.get("passwordConfirmation")'>
+          <label for='user-password-confirmation' class='control-label'>Retapez le nouveau mot de passe</label>
+          <input type='password' id='user-password-confirmation' class='form-control' formControlName='passwordConfirmation' required autofocus />
+          <bio-form-error [control]='passwordChangeForm.get("passwordConfirmation")' error='required'>Veuillez réécrire le nouveau mot de passe.</bio-form-error>
+          <bio-form-error [control]='passwordChangeForm' error='passwordConfirmation'>Veuillez écrire le même nouveau mot de passe.</bio-form-error>
+        </div>
+      </div>
+    </div>
+
+    <div class='btn-group'>
+      <button type='button' class='btn btn-default' [disabled]='!passwordIsBeingChanged()' (click)='resetPasswordChange()'>
+        <span class='glyphicon glyphicon-ban-circle'></span>
+        Annuler
+      </button>
+      <button type='submit' class='btn btn-primary' [disabled]='!passwordIsBeingChanged() || passwordChangeForm.invalid'>
+        <span class='glyphicon glyphicon-floppy-disk'></span>
+        Changer le mot de passe
+      </button>
+    </div>
+  </form>
+</div>

@@ -39,7 +39,7 @@
       <!-- Login/logout buttons & profile -->
       <ul class='nav navbar-nav navbar-right'>
         <li *ngIf='user'>
-          <a href='#'>
+          <a routerLink='/profile'>
             <span class='glyphicon glyphicon-user'></span>
             {{ user.email }}
           </a>

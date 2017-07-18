@@ -11,9 +11,13 @@ export class User {
   firstName: string;
   lastName: string;
   role: string;
+  password: string;
+  previousPassword: string;
+  createdAt: Date;
+  updatedAt: Date;
 
   constructor(data?: any) {
-    parsePropertiesInto(this, data, 'id', 'email', 'firstName', 'lastName', 'role');
+    parsePropertiesInto(this, data, 'id', 'email', 'firstName', 'lastName', 'password', 'previousPassword', 'role', 'createdAt', 'updatedAt');
   }
 
   get fullName(): string {

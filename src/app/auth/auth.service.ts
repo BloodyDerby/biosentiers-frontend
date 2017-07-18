@@ -65,25 +65,51 @@ export class BioAuthService {
     return true;
   }
 
+  updateUser(user: User, save: boolean) {
+    if (!this.currentUser) {
+      throw new Error('No user is authenticated');
+    }
+
+    this.userSubject.next(user);
+
+    if (save) {
+      const authData = this.getAuthData();
+      authData.user = user;
+      this.saveAuthData(authData);
+    }
+  }
+
   private setAuthData(authData: any, save: boolean) {
     this.token = authData.token;
     this.userSubject.next(new User(authData.user));
 
     if (save) {
-      this.storage.set('biosentiers.auth', authData);
+      this.saveAuthData(authData);
     }
   }
 
   private unsetAuthData() {
     delete this.token;
     this.userSubject.next(null);
-    this.storage.remove('biosentiers.auth');
+    this.deleteAuthData();
   }
 
   private initializeAuthData() {
-    const savedAuthData = this.storage.get('biosentiers.auth');
+    const savedAuthData = this.getAuthData();
     if (savedAuthData) {
       this.setAuthData(savedAuthData, false);
     }
+  }
+
+  private getAuthData() {
+    return this.storage.get('biosentiers.auth');
+  }
+
+  private saveAuthData(authData: any) {
+    this.storage.set('biosentiers.auth', authData);
+  }
+
+  private deleteAuthData() {
+    this.storage.remove('biosentiers.auth');
   }
 }
