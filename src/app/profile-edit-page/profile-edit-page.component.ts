@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import extend from 'lodash/extend';
 import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
@@ -12,7 +12,7 @@ import { AuthViewService } from '../auth/auth.view.service';
 import { reset, waitForValidations } from '../forms';
 import { User } from '../models';
 import { NotificationsService } from '../notifications';
-import { UsersService, UserPasswordChange } from '../users/users.service';
+import { passwordConfirmationMustMatch, UsersService, UserPasswordChange } from '../users';
 
 const PASSWORD_FORM_FIELDS = [ 'oldPassword', 'password', 'passwordConfirmation' ];
 
@@ -168,18 +168,4 @@ export class ProfileEditPageComponent implements OnInit {
     });
   }
 
-}
-
-export function passwordConfirmationMustMatch(): ValidatorFn {
-  return (form: FormGroup): {[key: string]: any} => {
-
-    const password = form.get('password').value;
-    const passwordConfirmation = form.get('passwordConfirmation').value;
-
-    if (password && passwordConfirmation && password != passwordConfirmation) {
-      return {
-        passwordConfirmation: true
-      };
-    }
-  };
 }

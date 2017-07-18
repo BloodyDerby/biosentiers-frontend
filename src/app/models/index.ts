@@ -2,6 +2,7 @@ export * from './excursion';
 export * from './lat-lng';
 export * from './lat-lng-bounds';
 export * from './participant';
+export * from './password-reset-request';
 export * from './poi';
 export * from './theme';
 export * from './trail';

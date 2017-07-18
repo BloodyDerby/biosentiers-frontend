@@ -13,6 +13,7 @@ import { PrintExcursionPageComponent } from './print-excursion-page/print-excurs
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { ProfileEditPageComponent } from './profile-edit-page/profile-edit-page.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
+import { ResetPasswordPageComponent } from './reset-password-page/reset-password-page.component';
 import { UsersPageComponent } from './users-page/users-page.component';
 
 const routes: Routes = [
@@ -25,6 +26,10 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegistrationPageComponent
+  },
+  {
+    path: 'resetPassword',
+    component: ResetPasswordPageComponent
   },
 
   // PROTECTED ROUTES

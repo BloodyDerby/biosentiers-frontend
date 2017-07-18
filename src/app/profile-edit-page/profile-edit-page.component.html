@@ -14,7 +14,7 @@
 
     <div class='row'>
       <!-- First name field -->
-      <div class='col-md-6'>
+      <div class='col-xs-12 col-md-6'>
         <div class='form-group' [formGroupError]='profileForm.get("firstName")'>
           <label for='user-first-name' class='control-label'>Prénom</label>
           <input type='text' id='user-first-name' class='form-control' formControlName='firstName' required autofocus />
@@ -24,7 +24,7 @@
       </div>
 
       <!-- Last name field -->
-      <div class='col-md-6'>
+      <div class='col-xs-12 col-md-6'>
         <div class='form-group' [formGroupError]='profileForm.get("lastName")'>
           <label for='user-last-name' class='control-label'>Nom</label>
           <input type='text' id='user-last-name' class='form-control' formControlName='lastName' required autofocus />
@@ -51,7 +51,7 @@
 
     <div class='row'>
       <!-- Old password field -->
-      <div class='col-md-6'>
+      <div class='col-xs-12 col-md-6'>
         <div class='form-group' [formGroupError]='passwordChangeForm.get("oldPassword")'>
           <label for='user-old-password' class='control-label'>Mot de passe actuel</label>
           <input type='password' id='user-old-password' class='form-control' formControlName='oldPassword' required autofocus />
@@ -62,7 +62,7 @@
 
     <div class='row'>
       <!-- Password field -->
-      <div class='col-md-6'>
+      <div class='col-xs-12 col-md-6'>
         <div class='form-group' [formGroupError]='passwordChangeForm.get("password")'>
           <label for='user-password' class='control-label'>Nouveau mot de passe</label>
           <input type='password' id='user-password' class='form-control' formControlName='password' required autofocus />
@@ -71,12 +71,12 @@
       </div>
 
       <!-- Password confirmation field -->
-      <div class='col-md-6'>
+      <div class='col-xs-12 col-md-6'>
         <div class='form-group' [formGroupError]='passwordChangeForm.get("passwordConfirmation")'>
-          <label for='user-password-confirmation' class='control-label'>Retapez le nouveau mot de passe</label>
+          <label for='user-password-confirmation' class='control-label'>Confirmation du nouveau mot de passe</label>
           <input type='password' id='user-password-confirmation' class='form-control' formControlName='passwordConfirmation' required autofocus />
           <bio-form-error [control]='passwordChangeForm.get("passwordConfirmation")' error='required'>Veuillez réécrire le nouveau mot de passe.</bio-form-error>
-          <bio-form-error [control]='passwordChangeForm' error='passwordConfirmation'>Veuillez écrire le même nouveau mot de passe.</bio-form-error>
+          <bio-form-error [control]='passwordChangeForm' error='passwordConfirmation'>Veuillez écrire le même mot de passe.</bio-form-error>
         </div>
       </div>
     </div>

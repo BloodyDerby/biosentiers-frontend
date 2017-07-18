@@ -17,6 +17,7 @@ import { PrintExcursionPageModule } from './print-excursion-page/print-excursion
 import { ProfilePageModule } from './profile-page/profile-page.module';
 import { ProfileEditPageModule } from './profile-edit-page/profile-edit-page.module';
 import { RegistrationPageModule } from './registration-page/registration-page.module';
+import { ResetPasswordPageModule } from './reset-password-page/reset-password-page.module';
 import { UsersPageModule } from './users-page/users-page.module';
 
 import { Observable  } from 'rxjs/Observable';
@@ -55,6 +56,7 @@ import 'rxjs/add/operator/take';
     ProfileEditPageModule,
     ReactiveFormsModule,
     RegistrationPageModule,
+    ResetPasswordPageModule,
     ToastrModule.forRoot(),
     TooltipModule.forRoot(),
     UsersPageModule
