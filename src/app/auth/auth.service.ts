@@ -61,7 +61,12 @@ export class BioAuthService {
       return false;
     }
 
-    requestBuilder.setHeader('Authorization', 'Bearer ' + this.token);
+    requestBuilder.modifyHeaders((headers: Headers) => {
+      if (!headers.has('Authorization')) {
+        headers.set('Authorization', `Bearer ${this.token}`);
+      }
+    });
+
     return true;
   }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 
-import { BioAuthService } from '../auth/auth.service';
+import { BioAuthService, AuthViewService } from '../auth';
 import { LoginModalComponent } from '../login-modal/login-modal.component';
 import { User } from '../models/user';
 
@@ -10,17 +11,22 @@ import { User } from '../models/user';
   styleUrls: ['./navbar.component.styl']
 })
 export class NavbarComponent implements OnInit {
-
-  user: User;
+  auth: AuthViewService;
 
   @ViewChild(LoginModalComponent) loginModal: LoginModalComponent;
 
-  constructor(private auth: BioAuthService) { }
+  constructor(auth: AuthViewService, private authService: BioAuthService, private route: ActivatedRoute) {
+    this.auth = auth;
+  }
 
   ngOnInit() {
-    this.auth.userObs.subscribe((user) => {
-      this.user = user;
-    })
+    this.route.queryParams.subscribe((params: Params) => {
+      if (params.login !== undefined) {
+        this.loginModal.open({
+          email: params.login
+        });
+      }
+    });
   }
 
   openLoginModal(event) {
@@ -30,7 +36,7 @@ export class NavbarComponent implements OnInit {
 
   logOut(event) {
     event.preventDefault();
-    this.auth.unauthenticate();
+    this.authService.unauthenticate();
   }
 
 }

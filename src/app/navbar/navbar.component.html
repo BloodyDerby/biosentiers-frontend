@@ -15,14 +15,14 @@
 
     <div class='collapse navbar-collapse'>
 
-      <ul class='nav navbar-nav' *ngIf='user'>
+      <ul class='nav navbar-nav' *ngIf='auth.user'>
         <li>
           <a routerLink='/excursions'>Sorties</a>
         </li>
       </ul>
 
       <!-- Admin menu -->
-      <ul class='nav navbar-nav' *ngIf='user && user.hasRole("admin")'>
+      <ul class='nav navbar-nav' *ngIf='auth.hasRole("admin")'>
         <li dropdown>
           <a id='admin-menu-toggle' role='button' aria-haspopup='true' aria-expanded='false' dropdownToggle>
             Admin
@@ -38,19 +38,19 @@
 
       <!-- Login/logout buttons & profile -->
       <ul class='nav navbar-nav navbar-right'>
-        <li *ngIf='user'>
+        <li *ngIf='auth.user'>
           <a routerLink='/profile'>
             <span class='glyphicon glyphicon-user'></span>
-            {{ user.email }}
+            {{ auth.user.email }}
           </a>
         </li>
-        <li *ngIf='!user'>
+        <li *ngIf='!auth.user'>
           <a (click)='openLoginModal($event)'>
             <span class='glyphicon glyphicon-log-in'></span>
             Connexion
           </a>
         </li>
-        <li *ngIf='user'>
+        <li *ngIf='auth.user'>
           <a (click)='logOut($event)'>
             <span class='glyphicon glyphicon-log-out'></span>
             Déconnexion

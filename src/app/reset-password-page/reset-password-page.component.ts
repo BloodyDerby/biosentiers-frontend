@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 import { BioApiService } from '../api';
 import { waitForValidations } from '../forms';
-import { PasswordResetRequest } from '../models';
-import { passwordConfirmationMustMatch } from '../users';
+import { PasswordResetRequest, User } from '../models';
+import { NotificationsService } from '../notifications';
+import { passwordConfirmationMustMatch, UsersService } from '../users';
 
 @Component({
   selector: 'bio-reset-password-page',
@@ -18,7 +19,7 @@ export class ResetPasswordPageComponent implements OnInit {
   passwordResetRequest: PasswordResetRequest;
   passwordResetRequestInvalid: boolean;
 
-  constructor(private api: BioApiService, private formBuilder: FormBuilder, private route: ActivatedRoute) {
+  constructor(private api: BioApiService, private formBuilder: FormBuilder, private notifications: NotificationsService, private route: ActivatedRoute, private router: Router, private usersService: UsersService) {
   }
 
   ngOnInit() {
@@ -33,11 +34,31 @@ export class ResetPasswordPageComponent implements OnInit {
 
   resetPassword() {
     waitForValidations(this.passwordResetForm).subscribe(valid => {
-      console.log('@@@ reset password');
+      this.performPasswordReset(this.passwordResetForm.get('password').value)
+        .subscribe(() => this.goToHome(), err => {
+          this.notifications.error(`Votre mot de passe n'a pas pu être changé`);
+        });
+    });
+  }
+
+  private performPasswordReset(password: string): Observable<User> {
+    const otp = this.route.snapshot.queryParams.otp;
+    return this.usersService.updateMe({
+      password: password
+    }, otp);
+  }
+
+  private goToHome() {
+    this.notifications.success('Votre mot de passe a bien été changé');
+    this.router.navigate([ '/' ], {
+      queryParams: {
+        login: this.passwordResetRequest.email
+      }
     });
   }
 
   private loadPasswordResetRequest(): Observable<PasswordResetRequest> {
+    // TODO: move to auth service
     return this.api
       .get('/auth/passwordReset')
       .header('Authorization', `Bearer ${this.route.snapshot.queryParams['otp']}`)

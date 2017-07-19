@@ -5,15 +5,19 @@ import { RouterModule } from '@angular/router';
 
 import { BioApiModule } from '../api';
 import { BioFormsModule } from '../forms';
+import { NotificationsModule } from '../notifications';
 import { ResetPasswordPageComponent } from './reset-password-page.component';
+import { UsersModule } from '../users';
 
 @NgModule({
   imports: [
     BioApiModule,
     BioFormsModule,
     CommonModule,
+    NotificationsModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    UsersModule
   ],
   declarations: [
     ResetPasswordPageComponent

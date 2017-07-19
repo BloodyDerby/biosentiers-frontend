@@ -1,6 +1,7 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { BioAuthModule } from '../auth/auth.module';
@@ -20,7 +21,8 @@ import { NotificationsModule } from '../notifications';
     FormsModule,
     ModalModule,
     NotificationsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ]
 })
 export class LoginModalModule { }

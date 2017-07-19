@@ -1,9 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import omit from 'lodash/omit';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
-import { BioAuthService } from '../auth/auth.service';
-import { reset } from '../forms';
+import { BioAuthService, AuthApiService } from '../auth';
+import { reset, waitForValidations } from '../forms';
+import { PasswordResetRequest } from '../models';
 import { NotificationsService } from '../notifications';
 
 @Component({
@@ -14,17 +17,21 @@ import { NotificationsService } from '../notifications';
 export class LoginModalComponent implements OnInit {
 
   loginForm: FormGroup;
+  forgottenPassword: boolean;
 
-  @ViewChild('email') private email: ElementRef;
   @ViewChild('modal') modal: ModalDirective;
+  @ViewChild('email') private email: ElementRef;
 
-  constructor(private authService: BioAuthService, private formBuilder: FormBuilder, private notifications: NotificationsService) { }
+  constructor(private authService: BioAuthService, private authApiService: AuthApiService, private formBuilder: FormBuilder, private notifications: NotificationsService, private router: Router) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       email: [
         '',
-        Validators.required
+        Validators.compose([
+          Validators.required,
+          Validators.email
+        ])
       ],
       password: [
         '',
@@ -37,27 +44,74 @@ export class LoginModalComponent implements OnInit {
     this.email.nativeElement.focus();
   }
 
-  open() {
+  onModalHide() {
+
+    const currentRoute: ActivatedRoute = this.router.routerState.root;
+    const currentQueryParams: Params = currentRoute.snapshot.queryParams;
+
+    // Remove the "login" query param
+    this.router.navigate([], {
+      relativeTo: currentRoute,
+      queryParams: omit(currentQueryParams, 'login')
+    });
+  }
+
+  open(user?: LoginModalUser) {
+    this.forgottenPassword = false;
     this.modal.show();
+
+    if (user) {
+      this.loginForm.patchValue(user);
+    }
   }
 
   logIn(event) {
     event.preventDefault();
 
-    if (!this.loginForm.valid) {
-      return;
+    if (this.forgottenPassword) {
+      return this.requestPasswordReset();
     }
 
-    var credentials = this.loginForm.value;
-    this.authService.authenticate(credentials).subscribe(() => {
-      reset(this.loginForm, {
-        email: '',
-        password: ''
+    waitForValidations(this.loginForm).subscribe(valid => {
+      if (!valid) {
+        return;
+      }
+
+      const credentials = this.loginForm.value;
+      this.authService.authenticate(credentials).subscribe(() => {
+        reset(this.loginForm, {
+          email: '',
+          password: ''
+        });
+
+        this.close();
+      }, err => {
+        this.notifications.warning("L'adresse e-mail ou le mot de passe ne sont pas corrects");
+      });
+    });
+  }
+
+  forgotPassword() {
+    this.forgottenPassword = true;
+  }
+
+  requestPasswordReset() {
+
+    const emailControl = this.loginForm.get("email");
+    const email = emailControl.value;
+
+    waitForValidations(emailControl).subscribe(valid => {
+
+      const passwordResetRequest = new PasswordResetRequest({
+        email: email
       });
 
-      this.close();
-    }, err => {
-      this.notifications.warning("L'adresse e-mail ou le mot de passe ne sont pas corrects");
+      this.authApiService.requestPasswordReset(passwordResetRequest).subscribe(() => {
+        this.notifications.success(`E-mail de changement de mot de passe envoyé à ${email}`);
+        this.close();
+      }, err => {
+        this.notifications.error("Votre demande n'a pas pu être prise en compte");
+      });
     });
   }
 
@@ -65,4 +119,9 @@ export class LoginModalComponent implements OnInit {
     this.modal.hide();
   }
 
+}
+
+export interface LoginModalUser {
+  email?: string;
+  password?: string;
 }

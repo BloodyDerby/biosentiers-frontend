@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { SelectModule } from 'ng-select';
 import { LeafletModule } from '@asymmetrik/angular2-leaflet/dist';
 import { DatepickerModule } from 'ngx-bootstrap/datepicker';
-import { TooltipModule } from 'ngx-bootstrap/ng2-bootstrap';
+import { TooltipModule } from 'ngx-bootstrap';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 
 import { BioExcursionsModule } from '../excursions/excursions.module';

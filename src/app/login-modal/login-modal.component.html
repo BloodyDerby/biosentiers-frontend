@@ -1,4 +1,4 @@
-<div class='modal fade' bsModal #modal='bs-modal' tabindex='-1' role='dialog' aria-labelledby='Login dialog' (onShown)='onModalShown()'>
+<div class='modal fade' bsModal #modal='bs-modal' tabindex='-1' role='dialog' aria-labelledby='Login dialog' (onShown)='onModalShown()' (onHide)='onModalHide()'>
   <div class='modal-dialog'>
     <div class='modal-content'>
 
@@ -19,9 +19,16 @@
           </div>
 
           <!-- Password field -->
-          <div class='form-group'>
+          <div class='form-group' *ngIf='!forgottenPassword'>
             <label for='user-password' class='control-label'>Mot de passe</label>
             <input type='password' id='user-password' class='form-control' formControlName='password' required />
+            <span class='help-block forgotten-password'>
+              <a (click)='forgotPassword()'>J'ai oublié mon mot de passe</a>
+            </span>
+          </div>
+
+          <div class='alert alert-info' *ngIf='forgottenPassword'>
+            Entrez votre adresse et nous vous enverrons un e-mail qui vous permettra de changer votre mot de passe.
           </div>
 
         </div>
@@ -30,7 +37,8 @@
         <div class='modal-footer'>
           <div class='btn-group'>
             <button type='button' class='btn btn-default' (click)='modal.hide()'>Annuler</button>
-            <button type='submit' class='btn btn-primary' [disabled]='loginForm.invalid'>Connecter</button>
+            <button type='submit' class='btn btn-primary' *ngIf='!forgottenPassword' [disabled]='loginForm.invalid'>Connecter</button>
+            <button type='submit' class='btn btn-info' *ngIf='forgottenPassword' [disabled]='loginForm.get("email").invalid'>Demander un nouveau mot de passe</button>
           </div>
         </div>
 
