@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ToastrModule } from 'ngx-toastr';
@@ -57,6 +58,7 @@ import 'rxjs/add/operator/take';
     ReactiveFormsModule,
     RegistrationPageModule,
     ResetPasswordPageModule,
+    SlimLoadingBarModule.forRoot(),
     ToastrModule.forRoot(),
     TooltipModule.forRoot(),
     UsersPageModule
