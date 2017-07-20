@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RequestOptions, Response } from '@angular/http';
+import pull from 'lodash/pull';
 import { ObservableInterceptor, RequestBuilder, RequestBuilderService } from 'ng-request-builder';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Observable } from 'rxjs/Rx';
@@ -8,8 +9,11 @@ import { BioAuthService } from '../auth/auth.service';
 
 @Injectable()
 export class BioApiService implements ObservableInterceptor {
+  private currentRequests: Observable<any>[];
+  private completeProgressTimeout;
 
   constructor(private auth: BioAuthService, private loadingBarService: SlimLoadingBarService, private requestBuilderService: RequestBuilderService) {
+    this.currentRequests = [];
   }
 
   post(url: string, body?: any): RequestBuilder {
@@ -30,10 +34,9 @@ export class BioApiService implements ObservableInterceptor {
   }
 
   onRequest(observable: Observable<Response>): Observable<Response> {
-    this.loadingBarService.start();
-    return observable.do(undefined, undefined, () => {
-      this.loadingBarService.complete();
-    });
+    this.startProgress(observable);
+    const completeProgress = this.completeProgress.bind(this, observable);
+    return observable.do(completeProgress, completeProgress, completeProgress);
   }
 
   paramsModifier<T>(func: (params: T, options: RequestOptions) => any, params?: T) {
@@ -42,6 +45,32 @@ export class BioApiService implements ObservableInterceptor {
         func(params, options);
       }
     };
+  }
+
+  private startProgress(observable: Observable<any>) {
+    if (!this.currentRequests.length) {
+      this.loadingBarService.start();
+    }
+
+    this.currentRequests.push(observable);
+  }
+
+  private completeProgress(observable: Observable<any>) {
+    pull(this.currentRequests, observable);
+    this.completeProgressSoon();
+  }
+
+  private completeProgressSoon() {
+    if (this.completeProgressTimeout) {
+      clearTimeout(this.completeProgressTimeout);
+    }
+
+    this.completeProgressTimeout = setTimeout(() => {
+      delete this.completeProgressTimeout;
+      if (!this.currentRequests.length) {
+        this.loadingBarService.complete();
+      }
+    }, 100);
   }
 
   private configure(builder: RequestBuilder): RequestBuilder {
