@@ -20,28 +20,21 @@ export class LoginModalComponent implements OnInit {
   forgottenPassword: boolean;
 
   @ViewChild('modal') modal: ModalDirective;
-  @ViewChild('email') private email: ElementRef;
+  @ViewChild('email') private emailField: ElementRef;
+  @ViewChild('password') private passwordField: ElementRef;
 
   constructor(private authService: BioAuthService, private authApiService: AuthApiService, private formBuilder: FormBuilder, private notifications: NotificationsService, private router: Router) { }
 
   ngOnInit() {
-    this.loginForm = this.formBuilder.group({
-      email: [
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.email
-        ])
-      ],
-      password: [
-        '',
-        Validators.required
-      ]
-    });
+    this.initLoginForm();
   }
 
   onModalShown() {
-    this.email.nativeElement.focus();
+    if (!this.loginForm.get("email").value) {
+      this.emailField.nativeElement.focus();
+    } else {
+      this.passwordField.nativeElement.focus();
+    }
   }
 
   onModalHide() {
@@ -58,11 +51,11 @@ export class LoginModalComponent implements OnInit {
 
   open(user?: LoginModalUser) {
     this.forgottenPassword = false;
-    this.modal.show();
-
     if (user) {
       this.loginForm.patchValue(user);
     }
+
+    this.modal.show();
   }
 
   logIn(event) {
@@ -117,6 +110,22 @@ export class LoginModalComponent implements OnInit {
 
   close() {
     this.modal.hide();
+  }
+
+  private initLoginForm() {
+    this.loginForm = this.formBuilder.group({
+      email: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.email
+        ])
+      ],
+      password: [
+        '',
+        Validators.required
+      ]
+    });
   }
 
 }

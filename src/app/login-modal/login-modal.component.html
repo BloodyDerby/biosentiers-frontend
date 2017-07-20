@@ -14,14 +14,14 @@
 
           <!-- E-mail field -->
           <div class='form-group'>
-            <label for='user-email' class='control-label' #email>Adresse e-mail</label>
-            <input type='email' id='user-email' class='form-control' formControlName='email' required autofocus />
+            <label for='user-email' class='control-label'>Adresse e-mail</label>
+            <input type='email' id='user-email' class='form-control' #email formControlName='email' required [attr.autofocus]='!loginForm.get("email").value ? "" : null' />
           </div>
 
           <!-- Password field -->
           <div class='form-group' *ngIf='!forgottenPassword'>
             <label for='user-password' class='control-label'>Mot de passe</label>
-            <input type='password' id='user-password' class='form-control' formControlName='password' required />
+            <input type='password' id='user-password' class='form-control' #password formControlName='password' required [attr.autofocus]='loginForm.get("email").value ? "" : null' />
             <span class='help-block forgotten-password'>
               <a (click)='forgotPassword()'>J'ai oublié mon mot de passe</a>
             </span>
