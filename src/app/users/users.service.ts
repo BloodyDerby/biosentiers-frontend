@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
+import { RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
 import { BioApiService } from '../api/api.service';
 import { User } from '../models';
+import { applyPaginationParams, PaginatedResponse, PaginationParams } from '../utils/api';
 
 @Injectable()
 export class UsersService {
@@ -20,6 +22,21 @@ export class UsersService {
     return builder
       .execute()
       .map(res => new User(res.json()));
+  }
+
+  retrieve(id: string): Observable<User> {
+    return this.api
+      .get(`/users/${id}`)
+      .execute()
+      .map(res => new User(res.json()));
+  }
+
+  retrievePaginated(params?: RetrievePaginatedUsersParams): Observable<PaginatedResponse<User>> {
+    return this.api
+      .get('/users')
+      .modify(this.api.paramsModifier<RetrievePaginatedUsersParams>(applyRetrievePaginatedUsersParams, params))
+      .execute()
+      .map(res => new PaginatedResponse<User>(res, data => new User(data)));
   }
 
   update(user: IdentifiedUserUpdate): Observable<User> {
@@ -43,20 +60,6 @@ export class UsersService {
 
 }
 
-export interface UserPasswordChange {
-  id: string;
-  password: string;
-  previousPassword: string;
-}
-
-export interface IdentifiedUserPasswordChange extends UserPasswordChange {
-  id: string;
-}
-
-export interface UserPasswordReset {
-  password: string;
-}
-
 export interface UserRegistration {
   email: string;
   password: string;
@@ -65,5 +68,46 @@ export interface UserRegistration {
 }
 
 type UserCreation = User | UserRegistration;
+
+export interface UserActivation {
+  id: string;
+  active: boolean;
+}
+
+export interface UserPasswordChange {
+  password: string;
+  previousPassword: string;
+}
+
+export interface IdentifiedUserPasswordChange extends UserPasswordChange {
+  id: string;
+}
+
+export interface AdminPasswordChange {
+  id: string;
+  password: string;
+}
+
+export interface UserPasswordReset {
+  password: string;
+}
 type UserUpdate = User | UserPasswordChange | UserPasswordReset;
-type IdentifiedUserUpdate = User | IdentifiedUserPasswordChange;
+type IdentifiedUserUpdate = User | UserActivation | IdentifiedUserPasswordChange | AdminPasswordChange;
+
+export interface RetrieveUserParams {
+  search?: string;
+}
+
+export interface RetrievePaginatedUsersParams extends PaginationParams, RetrieveUserParams {
+}
+
+function applyRetrievePaginatedUsersParams(params: RetrievePaginatedUsersParams, options: RequestOptions) {
+  applyPaginationParams(params, options);
+  applyRetrieveUserParams(params, options);
+}
+
+function applyRetrieveUserParams(params: RetrieveUserParams, options: RequestOptions) {
+  if (params.search) {
+    options.search.append('search', params.search);
+  }
+}

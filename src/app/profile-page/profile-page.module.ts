@@ -5,13 +5,15 @@ import { MomentModule } from 'angular2-moment';
 
 import { BioAuthModule } from '../auth/auth.module';
 import { ProfilePageComponent } from './profile-page.component';
+import { UsersModule } from '../users';
 
 @NgModule({
   imports: [
     BioAuthModule,
     CommonModule,
     MomentModule,
-    RouterModule
+    RouterModule,
+    UsersModule
   ],
   declarations: [
     ProfilePageComponent

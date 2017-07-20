@@ -28,7 +28,7 @@ export class BioExcursionsService {
       .map(res => new PaginatedResponse<Excursion>(res, data => new Excursion(data)));
   }
 
-  retrieve(id, params?: RetrieveExcursionParams): Observable<Excursion> {
+  retrieve(id: string, params?: RetrieveExcursionParams): Observable<Excursion> {
     return this.api
       .get(`/excursions/${id}`)
       .modify(this.api.paramsModifier<RetrieveExcursionParams>(applyRetrieveExcursionParams, params))
@@ -53,8 +53,6 @@ export interface RetrieveExcursionParams {
 }
 
 export interface RetrievePaginatedExcursionsParams extends PaginationParams, RetrieveExcursionParams {
-  offset?: number;
-  limit?: number;
 }
 
 function applyRetrievePaginatedExcursionsParams(params: RetrievePaginatedExcursionsParams, options: RequestOptions) {

@@ -20,6 +20,7 @@ import { ProfileEditPageModule } from './profile-edit-page/profile-edit-page.mod
 import { RegistrationPageModule } from './registration-page/registration-page.module';
 import { ResetPasswordPageModule } from './reset-password-page/reset-password-page.module';
 import { UsersPageModule } from './users-page/users-page.module';
+import { ShowUserPageModule } from './users-show-page';
 
 import { Observable  } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
@@ -58,6 +59,7 @@ import 'rxjs/add/operator/take';
     ReactiveFormsModule,
     RegistrationPageModule,
     ResetPasswordPageModule,
+    ShowUserPageModule,
     SlimLoadingBarModule.forRoot(),
     ToastrModule.forRoot(),
     TooltipModule.forRoot(),

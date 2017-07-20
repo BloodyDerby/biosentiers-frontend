@@ -60,7 +60,7 @@ class ExcursionsTableManager extends TableManager<Excursion, ExcursionsTableFilt
   }
 
   retrievePage(state: TableState<ExcursionsTableFilters>): Observable<PaginatedResponse<Excursion>> {
-    return this.excursionsService.retrievePaginated(extend(this.params, pick(state, 'offset', 'limit', 'sorts'), state.filters));
+    return this.excursionsService.retrievePaginated(extend({}, this.params, pick(state, 'offset', 'limit', 'sorts'), state.filters));
   }
 }
 

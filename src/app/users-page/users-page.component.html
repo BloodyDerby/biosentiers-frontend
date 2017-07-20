@@ -7,6 +7,96 @@
     </button>
     <h1>
       Utilisateurs
+      <small *ngIf='tableManager.effectiveTotalObs | async'>{{ tableManager.effectiveTotalObs | async }} au total</small>
     </h1>
   </div>
+
+  <bio-table #table [manager]='tableManager'>
+    <bio-table-filters #filters [manager]='tableManager'>
+      <form class='form-inline' [formGroup]='filters.form'>
+        <div class='form-group'>
+          <label class='sr-only' for='users-table-search'>Recherche</label>
+          <input id='users-table-search' type='text' class='form-control search' placeholder='Chercher par nom, prénom ou e-mail' formControlName='search'>
+        </div>
+      </form>
+    </bio-table-filters>
+
+    <table class='table table-striped table-hover'>
+      <thead>
+        <tr>
+          <th>
+            <bio-table-sort [manager]='tableManager' property='lastName'>
+              Nom
+            </bio-table-sort>
+          </th>
+          <th>
+            <bio-table-sort [manager]='tableManager' property='firstName'>
+              Prénom
+            </bio-table-sort>
+          </th>
+          <th>
+            <bio-table-sort [manager]='tableManager' property='email'>
+              E-mail
+            </bio-table-sort>
+          </th>
+          <th>
+            Rôle
+          </th>
+          <th>
+            <bio-table-sort [manager]='tableManager' property='lastActiveAt'>
+              Actif le
+            </bio-table-sort>
+          </th>
+          <th>
+            <bio-table-sort [manager]='tableManager' property='createdAt'>
+              Inscrit le
+            </bio-table-sort>
+          </th>
+          <th>
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class='empty' *ngIf='tableManager.initialized && !(tableManager.recordsObs | async).length'>
+          <td colspan=3>
+            <em *ngIf='tableManager.hasFilters()'>Aucun utilisateur ne correspond à vos critères de recherche</em>
+            <em *ngIf='!tableManager.hasFilters()'>Aucun utilisateur n'est enregistré</em>
+          </td>
+        </tr>
+        <tr *ngFor='let user of tableManager.recordsObs | async'>
+          <td class='lastName' routerLink='/users/{{ user.id }}'>
+            {{ user.lastName }}
+          </td>
+          <td class='firstName' routerLink='/users/{{ user.id }}'>
+            {{ user.firstName }}
+          </td>
+          <td class='email' routerLink='/users/{{ user.id }}'>
+            {{ user.email }}
+          </td>
+          <td class='role' routerLink='/users/{{ user.id }}'>
+            <bio-user-roles [user]='user'></bio-user-roles>
+          </td>
+          <td class='user-active' routerLink='/users/{{ user.id }}'>
+            <ng-container *ngIf='user.active'>
+              <ng-container *ngIf='user.lastActiveAt'>{{ user.lastActiveAt | amDateFormat: 'LL' }}</ng-container>
+              <ng-container *ngIf='!user.lastActiveAt'><em class='empty'>N/A</em></ng-container>
+            </ng-container>
+            <div class='label label-danger' *ngIf='!user.active' [tooltip]='"Actif le " + (user.lastActiveAt | amDateFormat: "LL")'>Désactivé</div>
+          </td>
+          <td class='createdAt' routerLink='/users/{{ user.id }}'>
+            {{ user.createdAt | amDateFormat: 'LL' }}
+          </td>
+          <td class='actions'>
+            <div class='btn-group btn-group-xs'>
+              <button type='button' class='btn btn-info' routerLink='/users/{{ user.id }}'>
+                <span class='glyphicon glyphicon-info-sign'></span>
+                <span class='hidden-xs hidden-sm'>Détails</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </bio-table>
 </div>

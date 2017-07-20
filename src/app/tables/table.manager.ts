@@ -32,7 +32,7 @@ export abstract class TableManager<T,F extends TableFilters> {
   getInitialState(): TableState<F> {
     return {
       offset: 0,
-      limit: 5
+      limit: 10
     };
   }
 

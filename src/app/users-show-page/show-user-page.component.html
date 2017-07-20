@@ -1,0 +1,65 @@
+<bio-change-user-password-dialog></bio-change-user-password-dialog>
+
+<div class='container'>
+  <div class='page-header'>
+    <div class='btn-group pull-right'>
+      <a class='btn btn-default' tooltip='Liste des utilisateurs' routerLink='/users'>
+        <span class='glyphicon glyphicon-list'></span>
+      </a>
+    </div>
+
+    <h1>
+      Profil utilisateur
+      <small *ngIf='user'>{{ user.fullName }}</small>
+    </h1>
+  </div>
+
+  <dl class='dl-horizontal' *ngIf='user'>
+    <dt>Prénom</dt>
+    <dd>{{ user.firstName }}</dd>
+    <dt>Nom</dt>
+    <dd>{{ user.lastName }}</dd>
+    <dt>E-mail</dt>
+    <dd>{{ user.email }}</dd>
+    <dt>Actif</dt>
+    <dd>
+      <div class='label label-success' *ngIf='user.active'>oui</div>
+      <div class='label label-danger' *ngIf='!user.active'>non</div>
+    </dd>
+    <dt>Rôle</dt>
+    <dd>
+      <bio-user-roles user='user'></bio-user-roles>
+    </dd>
+    <dt>Enregistrement</dt>
+    <dd><span [tooltip]='user.createdAt | amDateFormat: "LLLL"' placement='right'>{{ user.createdAt | amTimeAgo }}</span></dd>
+    <dt>Dernière modification</dt>
+    <dd><span [tooltip]='user.updatedAt | amDateFormat: "LLLL"' placement='right'>{{ user.updatedAt | amTimeAgo }}</span></dd>
+    <dt>Connexions</dt>
+    <dd>{{ user.loginCount | number }}</dd>
+    <dt>Dernière connexion</dt>
+    <dd>
+      <span *ngIf='user.lastLoginAt' [tooltip]='user.lastLoginAt | amDateFormat: "LLLL"' placement='right'>{{ user.lastLoginAt | amTimeAgo }}</span>
+      <em class='empty' *ngIf='!user.lastLoginAt'>Jamais</em>
+    </dd>
+    <dt>Dernière activité</dt>
+    <dd>
+      <span *ngIf='user.lastActiveAt' [tooltip]='user.lastActiveAt | amDateFormat: "LLLL"' placement='right'>{{ user.lastActiveAt | amTimeAgo }}</span>
+      <em class='empty' *ngIf='!user.lastActiveAt'>Jamais</em>
+    </dd>
+  </dl>
+
+  <div class='btn-group' *ngIf='user'>
+    <button type='button' class='btn btn-danger' *ngIf='user.active' (click)='setUserActive(false)'>
+      <span class='glyphicon glyphicon-ban-circle'></span>
+      Désactiver
+    </button>
+    <button type='button' class='btn btn-warning' *ngIf='!user.active' (click)='setUserActive(true)'>
+      <span class='glyphicon glyphicon-ok-circle'></span>
+      Réactiver
+    </button>
+    <button type='button' class='btn btn-default' (click)='changeUserPassword()'>
+      <span class='glyphicon glyphicon-lock'></span>
+      Changer le mot de passe
+    </button>
+  </div>
+</div>

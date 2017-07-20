@@ -12,7 +12,7 @@ import { AuthViewService } from '../auth/auth.view.service';
 import { reset, waitForValidations } from '../forms';
 import { User } from '../models';
 import { NotificationsService } from '../notifications';
-import { passwordConfirmationMustMatch, UsersService, UserPasswordChange } from '../users';
+import { IdentifiedUserPasswordChange, passwordConfirmationMustMatch, UsersService } from '../users';
 
 const PASSWORD_FORM_FIELDS = [ 'oldPassword', 'password', 'passwordConfirmation' ];
 
@@ -91,7 +91,7 @@ export class ProfileEditPageComponent implements OnInit {
         .first()
         .switchMap((user: User) => {
 
-          const update: UserPasswordChange = {
+          const update: IdentifiedUserPasswordChange = {
             id: user.id,
             password: newPassword,
             previousPassword: oldPassword

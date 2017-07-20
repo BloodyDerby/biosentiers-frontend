@@ -1,0 +1,4 @@
+<div class='label' [ngClass]='{"label-primary": user.role != "admin", "label-danger": user.role == "admin"}' [ngSwitch]='user.role'>
+  <span *ngSwitchCase='"admin"'>administrateur</span>
+  <span *ngSwitchDefault>utilisateur</span>
+</div>

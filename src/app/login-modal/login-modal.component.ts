@@ -58,9 +58,7 @@ export class LoginModalComponent implements OnInit {
     this.modal.show();
   }
 
-  logIn(event) {
-    event.preventDefault();
-
+  logIn() {
     if (this.forgottenPassword) {
       return this.requestPasswordReset();
     }

@@ -69,14 +69,14 @@
           </td>
           <td class='name hidden-xs' routerLink='/excursions/{{ excursion.id }}/edit'>
             <span *ngIf='excursion.name'>{{ excursion.name }}</span>
-            <em class='empty' *ngIf='!excursion.name'>Aucun</em>
+            <em class='empty' *ngIf='!excursion.name'>Aucune</em>
           </td>
           <td class='participants-count hidden-xs' routerLink='/excursions/{{ excursion.id }}/edit/participants'>
             <span *ngIf='excursion.participantsCount'>{{ excursion.participantsCount | number }}</span>
             <em class='empty' *ngIf='!excursion.participantsCount'>Aucun</em>
           </td>
           <td class='date' routerLink='/excursions/{{ excursion.id }}/edit'>
-            {{ excursion.plannedAt | date: 'dd.MM.yyyy' }}
+            {{ excursion.plannedAt | amDateFormat: 'LL' }}
           </td>
           <td class='actions'>
             <div class='btn-group btn-group-xs'>

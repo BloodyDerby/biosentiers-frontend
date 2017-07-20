@@ -15,10 +15,7 @@
 
     <dt>Rôle</dt>
     <dd>
-      <div class='label' [ngClass]='{"label-primary": auth.user.role != "admin", "label-danger": auth.user.role == "admin"}' [ngSwitch]='auth.user.role'>
-        <span *ngSwitchCase='"admin"'>administrateur</span>
-        <span *ngSwitchDefault>utilisateur</span>
-      </div>
+      <bio-user-roles [user]='auth.user'></bio-user-roles>
     </dd>
 
     <dt>Prénom</dt>
