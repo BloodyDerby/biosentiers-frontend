@@ -26,6 +26,7 @@ export class ChangeUserPasswordDialogComponent implements OnInit {
   }
 
   onModalShown() {
+    this.passwordField.nativeElement.focus();
   }
 
   onModalHide() {
