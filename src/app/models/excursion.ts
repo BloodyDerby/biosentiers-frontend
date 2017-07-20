@@ -27,6 +27,10 @@ export class Excursion {
     parseRelationshipInto(this, 'trail', Trail, data);
   }
 
+  isComplete(): boolean {
+    return !!this.id && !!this.participantsCount && !!this.themes.length && !! this.zoneHrefs.length;
+  }
+
   toJson(): any {
     return toJson(this, 'name', 'trailHref', 'themes', 'zoneHrefs', {
       plannedAt: () => moment(this.plannedAt).format()

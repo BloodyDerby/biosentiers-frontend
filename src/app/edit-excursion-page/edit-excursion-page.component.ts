@@ -57,9 +57,7 @@ export class EditExcursionPageComponent implements OnInit {
   }
 
   excursionIsComplete(): Observable<boolean> {
-    return this.editExcursionService.excursionObs.first().map(excursion => {
-      return !!excursion.id && !!excursion.participantsCount && !!excursion.themes.length && !!excursion.zoneHrefs.length;
-    });
+    return this.editExcursionService.excursionObs.first().map(excursion => excursion.isComplete());
   }
 
   excursionIsValid(): boolean {

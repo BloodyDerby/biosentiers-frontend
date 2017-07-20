@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { MomentModule } from 'angular2-moment';
 import { SelectModule } from 'ng-select';
 import { LeafletModule } from '@asymmetrik/angular2-leaflet/dist';
 import { DatepickerModule } from 'ngx-bootstrap/datepicker';
@@ -36,6 +37,7 @@ import { WizardModule } from '../wizard/wizard.module';
     CommonModule,
     DatepickerModule,
     LeafletModule,
+    MomentModule,
     NgxMyDatePickerModule,
     PoisModule,
     ReactiveFormsModule,

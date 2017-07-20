@@ -5,14 +5,18 @@
       <a class='btn btn-default' tooltip='Liste des sorties' routerLink='/excursions'>
         <span class='glyphicon glyphicon-list'></span>
       </a>
-      <a class='btn btn-info'
+      <a class='btn btn-info' *ngIf='excursion.id' routerLink='/excursions/{{ excursion.id }}'>
+        <span class='glyphicon glyphicon-info-sign'></span>
+        Détails
+      </a>
+      <a class='btn btn-primary'
         *ngIf='excursionIsComplete() | async' routerLink='/excursions/{{ excursion.id }}/print'>
         <span class='glyphicon glyphicon-print'></span>
         Imprimer
       </a>
     </div>
 
-    <h1 *ngIf='excursion.id'>Sortie du {{ excursion.plannedAt | date: 'dd.MM.yyyy' }} avec {{ excursion.creator.fullName }}</h1>
+    <h1 *ngIf='excursion.id'>Sortie du {{ excursion.plannedAt | amDateFormat: 'LL' }} avec {{ excursion.creator.fullName }}</h1>
     <h1 *ngIf='!excursion.id'>Nouvelle sortie</h1>
   </div>
 

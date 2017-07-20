@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MomentModule } from 'angular2-moment';
 import { RouterModule } from '@angular/router';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
@@ -13,6 +14,7 @@ import { PrintExcursionPageComponent } from './print-excursion-page.component';
     BioExcursionsModule,
     BioParticipantsModule,
     CommonModule,
+    MomentModule,
     RouterModule,
     TooltipModule
   ],

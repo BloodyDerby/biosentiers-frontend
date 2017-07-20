@@ -15,6 +15,7 @@ import { ProfileEditPageComponent } from './profile-edit-page/profile-edit-page.
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
 import { ResetPasswordPageComponent } from './reset-password-page/reset-password-page.component';
 import { UsersPageComponent } from './users-page/users-page.component';
+import { ShowExcursionPageComponent } from './excursions-show-page';
 import { ShowUserPageComponent } from './users-show-page';
 
 const routes: Routes = [
@@ -55,6 +56,10 @@ const routes: Routes = [
             component: EditExcursionDetailsStepComponent
           }
         ]
+      },
+      {
+        path: 'excursions/:id',
+        component: ShowExcursionPageComponent
       },
       {
         path: 'excursions/:id/edit',
