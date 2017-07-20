@@ -1,4 +1,5 @@
 export * from './excursion';
+export * from './invitation';
 export * from './lat-lng';
 export * from './lat-lng-bounds';
 export * from './participant';

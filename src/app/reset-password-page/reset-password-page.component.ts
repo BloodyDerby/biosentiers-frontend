@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { BioApiService } from '../api';
+import { AuthApiService } from '../auth';
 import { waitForValidations } from '../forms';
 import { PasswordResetRequest, User } from '../models';
 import { NotificationsService } from '../notifications';
@@ -19,7 +19,7 @@ export class ResetPasswordPageComponent implements OnInit {
   passwordResetRequest: PasswordResetRequest;
   passwordResetRequestInvalid: boolean;
 
-  constructor(private api: BioApiService, private formBuilder: FormBuilder, private notifications: NotificationsService, private route: ActivatedRoute, private router: Router, private usersService: UsersService) {
+  constructor(private authApiService: AuthApiService, private formBuilder: FormBuilder, private notifications: NotificationsService, private route: ActivatedRoute, private router: Router, private usersService: UsersService) {
   }
 
   ngOnInit() {
@@ -58,12 +58,8 @@ export class ResetPasswordPageComponent implements OnInit {
   }
 
   private loadPasswordResetRequest(): Observable<PasswordResetRequest> {
-    // TODO: move to auth service
-    return this.api
-      .get('/auth/passwordReset')
-      .header('Authorization', `Bearer ${this.route.snapshot.queryParams['otp']}`)
-      .execute()
-      .map(res => new PasswordResetRequest(res.json()));
+    const otp = this.route.snapshot.queryParams.otp;
+    return this.authApiService.retrievePasswordReset(otp);
   }
 
   private initPasswordResetForm() {

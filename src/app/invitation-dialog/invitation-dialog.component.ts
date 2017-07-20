@@ -3,8 +3,10 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
-import { BioApiService } from '../api/api.service';
-import { roles } from '../models';
+import { AuthApiService } from '../auth';
+import { waitForValidations } from '../forms';
+import { Invitation, roles } from '../models';
+import { NotificationsService } from '../notifications';
 
 @Component({
   selector: 'bio-invitation-dialog',
@@ -19,7 +21,8 @@ export class InvitationDialogComponent implements OnInit {
   @ViewChild('email') private email: ElementRef;
   @ViewChild('modal') private modal: ModalDirective;
 
-  constructor(private api: BioApiService, private formBuilder: FormBuilder) { }
+  constructor(private authApi: AuthApiService, private formBuilder: FormBuilder, private notifications: NotificationsService) {
+  }
 
   ngOnInit() {
     this.invitationForm = this.formBuilder.group({
@@ -59,26 +62,27 @@ export class InvitationDialogComponent implements OnInit {
     this.modal.show();
   }
 
-  invite(event) {
-    event.preventDefault();
+  invite() {
+    waitForValidations(this.invitationForm).subscribe(valid => {
+      if (!this.invitationForm.valid) {
+        return;
+      }
 
-    if (!this.invitationForm.valid) {
-      return;
-    }
+      const invitation = new Invitation(this.invitationForm.value);
 
-    return this.sendInvitation()
-      .map((res) => res.json())
-      .subscribe((invitation) => {
-        this.close();
-      });
+      return this.authApi
+        .sendInvitation(invitation)
+        .subscribe(() => {
+          this.notifications.success('Votre invitation a bien été envoyée');
+          this.close();
+        }, err => {
+          this.notifications.error("Votre invitation n'as pas pu être envoyée");
+        });
+    });
   }
 
   close() {
     this.modal.hide();
-  }
-
-  private sendInvitation() {
-    return this.api.post('/auth/invitation', this.invitationForm.value).execute();
   }
 
 }

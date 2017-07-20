@@ -1,11 +1,13 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { Observable } from 'rxjs/Rx';
 
-import { BioApiService } from '../api/api.service';
-import { BioAuthService } from '../auth/auth.service';
-import { User } from '../models/user';
+import { BioAuthService, AuthApiService, AuthViewService } from '../auth';
+import { waitForValidations } from '../forms';
+import { Invitation, User } from '../models';
 import { NotificationsService } from '../notifications';
+import { UsersService } from '../users';
 
 @Component({
   selector: 'bio-registration-page',
@@ -14,14 +16,45 @@ import { NotificationsService } from '../notifications';
 })
 export class RegistrationPageComponent implements OnInit {
 
-  invitation: Object;
+  auth: AuthViewService;
   invitationInvalid: boolean;
-  existingUser: User;
   registrationForm: FormGroup;
 
-  constructor(private api: BioApiService, private auth: BioAuthService, private formBuilder: FormBuilder, private notifications: NotificationsService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private authService: BioAuthService, private authApiService: AuthApiService, authViewService: AuthViewService, private formBuilder: FormBuilder, private notifications: NotificationsService, private route: ActivatedRoute, private router: Router, private usersService: UsersService) {
+    this.auth = authViewService;
+  }
 
   ngOnInit() {
+    this.retrieveInvitation().subscribe(invitation => {
+      this.initRegistrationForm();
+      this.registrationForm.patchValue({
+        email: invitation.email,
+        firstName: invitation.firstName,
+        lastName: invitation.lastName
+      });
+    }, err => {
+      this.invitationInvalid = true;
+    });
+  }
+
+  invite() {
+    waitForValidations(this.registrationForm).subscribe(valid => {
+      if (!this.registrationForm.valid) {
+        return;
+      }
+
+      this.createUser()
+        .switchMap(user => this.autoLogIn(user))
+        .subscribe(() => {
+          this.notifications.success('Bienvenue sur le site BioSentiers !');
+          this.goToHome();
+        }, err => {
+          this.notifications.error("Votre compte n'a pas pu être créé");
+        });
+    })
+  }
+
+  private initRegistrationForm() {
     this.registrationForm = this.formBuilder.group({
       email: new FormControl({ value: '', disabled: true }, Validators.required),
       password: [
@@ -43,60 +76,24 @@ export class RegistrationPageComponent implements OnInit {
         ])
       ]
     });
-
-    this.auth.userObs.subscribe((user) => {
-      this.existingUser = user;
-    });
-
-    this.retrieveInvitation().subscribe((invitation) => {
-      this.invitation = invitation;
-      this.registrationForm.patchValue({
-        email: invitation.email,
-        firstName: invitation.firstName,
-        lastName: invitation.lastName
-      });
-    }, (err) => {
-      this.invitationInvalid = true;
-    });
   }
 
-  invite(event) {
-    event.preventDefault();
-
-    if (!this.registrationForm.valid) {
-      return;
-    }
-
-    this.createUser()
-      .switchMap((user) => this.autoLogIn(user))
-      .subscribe(() => this.goToHome());
+  private retrieveInvitation(): Observable<Invitation> {
+    return this.authApiService.retrieveInvitation(this.route.snapshot.queryParams.invitation);
   }
 
-  private retrieveInvitation() {
-    return this.api
-      .get('/auth/invitation')
-      .header('Authorization', 'Bearer ' + this.route.snapshot.queryParams['invitation'])
-      .execute()
-      .map((res) => res.json());
-  }
-
-  private createUser() {
-    return this.api
-      .post('/users', this.registrationForm.value)
-      .header('Authorization', 'Bearer ' + this.route.snapshot.queryParams['invitation'])
-      .execute()
-      .map((res) => res.json());
+  private createUser(): Observable<User> {
+    return this.usersService.create(this.registrationForm.value, this.route.snapshot.queryParams.invitation);
   }
 
   private autoLogIn(user) {
-    return this.auth.authenticate({
+    return this.authService.authenticate({
       email: user.email,
-      password: this.registrationForm.value.password
+      password: this.registrationForm.get('password').value
     });
   }
 
   private goToHome() {
-    this.notifications.success('Votre compte a bien été enregistré');
     this.router.navigate([ '/' ]);
   }
 

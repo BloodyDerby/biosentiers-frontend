@@ -4,8 +4,9 @@ import { CommonModule } from '@angular/common';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { SelectModule } from 'ng-select';
 
-import { BioApiModule } from '../api/api.module';
+import { BioAuthModule } from '../auth';
 import { InvitationDialogComponent } from './invitation-dialog.component';
+import { NotificationsModule } from '../notifications';
 
 @NgModule({
   declarations: [
@@ -15,10 +16,11 @@ import { InvitationDialogComponent } from './invitation-dialog.component';
     InvitationDialogComponent
   ],
   imports: [
-    BioApiModule,
+    BioAuthModule,
     CommonModule,
     FormsModule,
     ModalModule,
+    NotificationsModule,
     ReactiveFormsModule,
     SelectModule
   ]

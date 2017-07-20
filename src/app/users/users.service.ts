@@ -10,6 +10,18 @@ export class UsersService {
   constructor(private api: BioApiService) {
   }
 
+  create(user: UserCreation, authToken?: string): Observable<User> {
+
+    let builder = this.api.post('/users', user);
+    if (authToken) {
+      builder = builder.header('Authorization', `Bearer ${authToken}`);
+    }
+
+    return builder
+      .execute()
+      .map(res => new User(res.json()));
+  }
+
   update(user: IdentifiedUserUpdate): Observable<User> {
     return this.api
       .patch(`/users/${user.id}`, user)
@@ -45,5 +57,13 @@ export interface UserPasswordReset {
   password: string;
 }
 
+export interface UserRegistration {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+}
+
+type UserCreation = User | UserRegistration;
 type UserUpdate = User | UserPasswordChange | UserPasswordReset;
 type IdentifiedUserUpdate = User | IdentifiedUserPasswordChange;
