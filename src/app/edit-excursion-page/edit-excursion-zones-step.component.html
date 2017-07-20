@@ -1,3 +1,5 @@
+<p class='lead'>Sélectionnez les zones du sentier sur lesquelles vous voulez vous promener.</p>
+
 <div style='height:300px;'
   *ngIf='mapData'
   #map
@@ -7,6 +9,7 @@
   [leafletFitBounds]='mapData.bounds'
   [leafletFitBoundsOptions]='mapData.boundsOptions'>
 </div>
+
 <table class='table' *ngIf='map && zones'>
   <thead>
     <tr>

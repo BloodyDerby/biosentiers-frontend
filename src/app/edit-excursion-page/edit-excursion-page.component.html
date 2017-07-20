@@ -5,9 +5,8 @@
       <a class='btn btn-default' tooltip='Liste des sorties' routerLink='/excursions'>
         <span class='glyphicon glyphicon-list'></span>
       </a>
-      <!-- TODO: disable print button if excursion not fully configured -->
       <a class='btn btn-info'
-         *ngIf='excursion.id' routerLink='/excursions/{{ excursion.id }}/print'>
+        *ngIf='excursionIsComplete() | async' routerLink='/excursions/{{ excursion.id }}/print'>
         <span class='glyphicon glyphicon-print'></span>
         Imprimer
       </a>
@@ -22,11 +21,47 @@
   <router-outlet></router-outlet>
 
   <div class='wizard-controls' *ngIf='wizard'>
-    <div class='btn-group'>
-      <button type='button' class='btn btn-primary' [disabled]='!wizard.isPreviousStepEnabled()' (click)='wizard.goToPreviousStep()'>Précédent</button>
+    <div class='btn-group' *ngIf='wizard.isPreviousStepEnabled() | async'>
+      <button type='button' class='btn btn-primary' (click)='wizard.goToPreviousStep()' [ngSwitch]='wizard.currentStep'>
+        <ng-container *ngSwitchCase='1'>
+          <span class='fa fa-info'></span>
+          Modifier les détails de la sortie
+        </ng-container>
+        <ng-container *ngSwitchCase='2'>
+          <span class='fa fa-users'></span>
+          Modifier les participants
+        </ng-container>
+        <ng-container *ngSwitchCase='3'>
+          <span class='fa fa-map-marker'></span>
+          Sélectionner les zones
+        </ng-container>
+        <ng-container *ngSwitchDefault>Précédent</ng-container>
+      </button>
     </div>
     <div class='btn-group pull-right'>
-      <button type='button' class='btn btn-primary' [disabled]='!wizard.isNextStepEnabled()' (click)='wizard.goToNextStep()'>Suivant</button>
+      <button type='button' class='btn btn-success' *ngIf='!excursion.id' (click)='wizard.goToNextStep()'>
+        <span class='glyphicon glyphicon-plus'></span>
+        Créer la sortie
+      </button>
+      <button type='button' class='btn btn-primary' *ngIf='excursion.id && !wizard.isLastStep()' [disabled]='!(wizard.isNextStepEnabled() | async)' (click)='wizard.goToNextStep()' [ngSwitch]='wizard.currentStep'>
+        <ng-container *ngSwitchCase='0'>
+          <span class='fa fa-users'></span>
+          Modifier les participants
+        </ng-container>
+        <ng-container *ngSwitchCase='1'>
+          <span class='fa fa-map-marker'></span>
+          Sélectionner les zones
+        </ng-container>
+        <ng-container *ngSwitchCase='2'>
+          <span class='fa fa-leaf'></span>
+          Sélectionner les thèmes
+        </ng-container>
+        <ng-container *ngSwitchDefault>Suivant</ng-container>
+      </button>
+      <a class='btn btn-info' *ngIf='excursion.id && wizard.isLastStep() && (excursionIsComplete() | async)' routerLink='/excursions/{{ excursion.id }}/print'>
+        <span class='glyphicon glyphicon-print'></span>
+        Imprimer
+      </a>
     </div>
   </div>
 </div>

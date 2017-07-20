@@ -75,9 +75,13 @@ export class WizardComponent implements OnInit {
     return this.isStepEnabled(stepRef).merge(this.getStep(stepRef).canActivate()).every((result: boolean) => result);
   }
 
+  isLastStep(): boolean {
+    return this.currentStep == this.steps.length - 1;
+  }
+
   isNextStepEnabled(): Observable<boolean> {
     const nextStep = this.getNextStep();
-    return !!nextStep && nextStep.isEnabled();
+    return nextStep ? nextStep.isEnabled() : Observable.of(false);
   }
 
   goToNextStep(): Promise<WizardStep> {
@@ -87,7 +91,7 @@ export class WizardComponent implements OnInit {
 
   isPreviousStepEnabled(): Observable<boolean> {
     const previousStep = this.getPreviousStep();
-    return !!previousStep && previousStep.isEnabled();
+    return previousStep ? previousStep.isEnabled() : Observable.of(false);
   }
 
   goToPreviousStep(): Promise<WizardStep> {
@@ -119,7 +123,7 @@ export class WizardComponent implements OnInit {
   }
 
   private getNextStep() {
-    return this.currentStep < this.steps.length -1 ? this.steps[this.currentStep + 1] : undefined;
+    return this.currentStep < this.steps.length - 1 ? this.steps[this.currentStep + 1] : undefined;
   }
 
   private getPreviousStep() {

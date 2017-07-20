@@ -56,7 +56,25 @@ export class EditExcursionPageComponent implements OnInit {
     this.editExcursionService.stopEditing();
   }
 
-  initWizard() {
+  excursionIsComplete(): Observable<boolean> {
+    return this.editExcursionService.excursionObs.first().map(excursion => {
+      return !!excursion.id && !!excursion.participantsCount && !!excursion.themes.length && !!excursion.zoneHrefs.length;
+    });
+  }
+
+  excursionIsValid(): boolean {
+    return this.editExcursionService.excursionForm.valid;
+  }
+
+  createExcursion(): Observable<Excursion> {
+    return this.editExcursionService.save();
+  }
+
+  getExcursion(): Observable<Excursion> {
+    return this.editExcursionService.excursionObs.first();
+  }
+
+  private initWizard() {
 
     const component = this;
 
@@ -92,18 +110,6 @@ export class EditExcursionPageComponent implements OnInit {
     ];
 
     this.cdr.detectChanges();
-  }
-
-  excursionIsValid(): boolean {
-    return this.editExcursionService.excursionForm.valid;
-  }
-
-  createExcursion(): Observable<Excursion> {
-    return this.editExcursionService.save();
-  }
-
-  getExcursion(): Observable<Excursion> {
-    return this.editExcursionService.excursionObs.first();
   }
 
   private getStepRoute(...additionalPathFragments): Observable<WizardStepRoute> {
