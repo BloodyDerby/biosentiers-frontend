@@ -2,14 +2,14 @@ import { Component, Input, OnInit } from '@angular/core';
 import isEqual from 'lodash/isEqual';
 import map from 'lodash/map';
 
-import { TableManager, TableSort, TableState } from './table.manager';
+import { TableFilters, TableManager, TableSort, TableState } from './table.manager';
 
 @Component({
   selector: 'bio-table-sort',
   templateUrl: './table.sort.component.html',
   styleUrls: ['./table.sort.component.styl']
 })
-export class TableSortComponent<T, F> implements OnInit {
+export class TableSortComponent<T, F extends TableFilters> implements OnInit {
   state: string;
 
   @Input()

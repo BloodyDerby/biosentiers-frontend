@@ -2,14 +2,14 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import isEqual from 'lodash/isEqual';
 
-import { TableManager } from './table.manager';
+import { TableFilters, TableManager } from './table.manager';
 
 @Component({
   selector: 'bio-table-filters',
   templateUrl: './table.filters.component.html',
   styleUrls: ['./table.filters.component.styl']
 })
-export class TableFiltersComponent<T, F> implements OnInit {
+export class TableFiltersComponent<T, F extends TableFilters> implements OnInit {
   form: FormGroup;
 
   @Input()

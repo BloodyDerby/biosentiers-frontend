@@ -1,10 +1,12 @@
 import { FormBuilder, FormGroup } from '@angular/forms';
+import isEmpty from 'lodash/isEmpty';
 import { Observable, ReplaySubject } from 'rxjs/Rx';
 
 import { PaginatedResponse } from '../utils/api';
 import { triggerObservable } from '../utils/async';
 
-export abstract class TableManager<T,F> {
+export abstract class TableManager<T,F extends TableFilters> {
+  initialized: boolean;
   stateObs: Observable<TableState<F>>;
   resObs: Observable<PaginatedResponse<T>>;
   recordsObs: Observable<T[]>;
@@ -38,6 +40,10 @@ export abstract class TableManager<T,F> {
     return formBuilder.group({});
   }
 
+  hasFilters(): boolean {
+    return !!this.state.filters && !this.state.filters.isEmpty();
+  }
+
   convertFilters(formValues: any): F {
     return formValues;
   }
@@ -66,6 +72,7 @@ export abstract class TableManager<T,F> {
 
   retrieveCurrentPage(): Observable<PaginatedResponse<T>> {
     return this.retrievePage(this.state).do((res: PaginatedResponse<T>) => {
+      this.initialized = true;
       this.resSubject.next(res);
     });
   }
@@ -83,4 +90,8 @@ export interface TableState<F> {
 export interface TableSort {
   property?: string;
   direction?: string;
+}
+
+export interface TableFilters {
+  isEmpty(): boolean;
 }

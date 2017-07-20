@@ -9,9 +9,10 @@ table
     vertical-align middle
     &.participants-count
       text-align center
-  td
-    &:not(.actions)
-      cursor pointer
+  tr:not(.empty)
+    td
+      &:not(.actions)
+        cursor pointer
 
 @media (max-width: $screen-sm-min)
   #excursion-table-filters

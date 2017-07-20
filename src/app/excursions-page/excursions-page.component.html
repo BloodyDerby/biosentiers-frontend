@@ -52,6 +52,16 @@
         </tr>
       </thead>
       <tbody>
+        <tr class='empty' *ngIf='tableManager.initialized && !(tableManager.recordsObs | async).length'>
+          <td *ngIf='auth.hasRole("admin")' colspan=5>
+            <em *ngIf='tableManager.hasFilters()'>Aucune sortie ne correspond à vos critères de recherche</em>
+            <em *ngIf='!tableManager.hasFilters()'>Aucune sortie n'a été créée</em>
+          </td>
+          <td *ngIf='!auth.hasRole("admin")' colspan=4>
+            <em *ngIf='tableManager.hasFilters()'>Aucune sortie ne correspond à vos critères de recherche</em>
+            <em *ngIf='!tableManager.hasFilters()'>Vous n'avez créé aucune sortie</em>
+          </td>
+        </tr>
         <tr *ngFor='let excursion of tableManager.recordsObs | async'>
           <td class='creator' routerLink='/excursions/{{ excursion.id }}/edit' *ngIf='auth.hasRole("admin")'>
             {{ excursion.creator.firstName }}

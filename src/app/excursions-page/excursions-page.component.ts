@@ -7,8 +7,9 @@ import { Observable } from 'rxjs/Rx';
 import { AuthViewService } from '../auth/auth.view.service';
 import { BioExcursionsService, RetrieveExcursionParams } from '../excursions/excursions.service';
 import { Excursion, User } from '../models';
-import { TableManager, TableState } from '../tables/table.manager';
+import { TableFilters, TableManager, TableState } from '../tables';
 import { PaginatedResponse } from '../utils/api';
+import { parsePropertiesInto } from '../utils/models';
 
 @Component({
   selector: 'bio-excursions-page',
@@ -54,11 +55,23 @@ class ExcursionsTableManager extends TableManager<Excursion, ExcursionsTableFilt
     });
   }
 
+  convertFilters(values: any): ExcursionsTableFilters {
+    return new ExcursionsTableFilters(values);
+  }
+
   retrievePage(state: TableState<ExcursionsTableFilters>): Observable<PaginatedResponse<Excursion>> {
     return this.excursionsService.retrievePaginated(extend(this.params, pick(state, 'offset', 'limit', 'sorts'), state.filters));
   }
 }
 
-interface ExcursionsTableFilters {
+class ExcursionsTableFilters implements TableFilters {
   search?: string;
+
+  constructor(values?: any) {
+    parsePropertiesInto(this, values, 'search');
+  }
+
+  isEmpty(): boolean {
+    return !this.search || !this.search.length;
+  }
 }

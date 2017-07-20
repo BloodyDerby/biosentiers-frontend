@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { TableManager } from './table.manager';
+import { TableFilters, TableManager } from './table.manager';
 import { PaginatedResponse } from '../utils/api';
 
 @Component({
@@ -8,7 +8,7 @@ import { PaginatedResponse } from '../utils/api';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.styl']
 })
-export class TableComponent<T, F> {
+export class TableComponent<T, F extends TableFilters> {
   @Input()
   manager: TableManager<T, F>;
   @Input()

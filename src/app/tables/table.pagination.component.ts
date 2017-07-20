@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { TableManager } from './table.manager';
+import { TableFilters, TableManager } from './table.manager';
 import { PaginatedResponse } from '../utils/api';
 
 const NUMBER_OF_PAGES = 5;
@@ -10,7 +10,7 @@ const NUMBER_OF_PAGES = 5;
   templateUrl: './table.pagination.component.html',
   styleUrls: ['./table.pagination.component.styl']
 })
-export class TablePaginationComponent<T, F> {
+export class TablePaginationComponent<T, F extends TableFilters> {
   pages: number[];
   currentPage: number;
   lastPage: number;
