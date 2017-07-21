@@ -88,8 +88,6 @@ export class ExcursionQrcodeComponent implements OnInit {
       }
     };
 
-    console.log(qrData);
-
     return bioqr.encode(qrData, {
       format: 'numeric'
     });
