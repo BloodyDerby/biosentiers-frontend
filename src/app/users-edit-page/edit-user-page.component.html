@@ -1,0 +1,20 @@
+<div class='container'>
+  <div class='page-header'>
+    <div class='btn-group pull-right'>
+      <a class='btn btn-default' tooltip='Liste des utilisateurs' routerLink='/users'>
+        <span class='glyphicon glyphicon-list'></span>
+      </a>
+      <a class='btn btn-info' *ngIf='user' routerLink='/users/{{ user.id }}'>
+        <span class='glyphicon glyphicon-info-sign'></span>
+        Détails
+      </a>
+    </div>
+
+    <h1>
+      Édition de l'utilisateur
+      <small *ngIf='user'>{{ user.fullName }}</small>
+    </h1>
+  </div>
+
+  <bio-edit-user-form *ngIf='user' [user]='user' (onUserUpdated)='onUserUpdated($event)'></bio-edit-user-form>
+</div>

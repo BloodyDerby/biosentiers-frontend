@@ -11,6 +11,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { EditExcursionPageModule } from './edit-excursion-page/edit-excursion-page.module';
+import { EditUserPageModule } from './users-edit-page';
 import { ExcursionsPageModule } from './excursions-page/excursions-page.module';
 import { HomePageModule } from './home-page/home-page.module';
 import { NavbarModule } from './navbar/navbar.module';
@@ -51,6 +52,7 @@ import 'rxjs/add/operator/take';
     ModalModule.forRoot(),
     AppRoutingModule,
     EditExcursionPageModule,
+    EditUserPageModule,
     ExcursionsPageModule,
     HomePageModule,
     NavbarModule,

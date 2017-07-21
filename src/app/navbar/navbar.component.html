@@ -41,7 +41,7 @@
         <li *ngIf='auth.user'>
           <a routerLink='/profile'>
             <span class='glyphicon glyphicon-user'></span>
-            {{ auth.user.email }}
+            {{ auth.user.fullName }}
           </a>
         </li>
         <li *ngIf='!auth.user'>

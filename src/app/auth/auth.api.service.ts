@@ -12,32 +12,32 @@ export class AuthApiService {
 
   sendInvitation(invitation: Invitation): Observable<Invitation> {
     return this.api
-      .post('/auth/invitation', invitation)
+      .post('/auth/invitations', invitation)
       .execute()
       .map(res => new Invitation(res.json()));
   }
 
   retrieveInvitation(authToken: string): Observable<Invitation> {
     return this.api
-      .get('/auth/invitation')
+      .get('/auth/invitations')
       .header('Authorization', `Bearer ${authToken}`)
       .execute()
-      .map(res => new Invitation(res.json()));
+      .map(res => new Invitation(res.json()[0]));
   }
 
   requestPasswordReset(passwordResetRequest: PasswordResetRequest): Observable<PasswordResetRequest> {
     return this.api
-      .post(`/auth/passwordReset`, passwordResetRequest)
+      .post(`/auth/passwordResets`, passwordResetRequest)
       .execute()
       .map(res => new PasswordResetRequest(res.json()));
   }
 
   retrievePasswordReset(authToken: string): Observable<PasswordResetRequest> {
     return this.api
-      .get('/auth/passwordReset')
+      .get('/auth/passwordResets')
       .header('Authorization', `Bearer ${authToken}`)
       .execute()
-      .map(res => new PasswordResetRequest(res.json()));
+      .map(res => new PasswordResetRequest(res.json()[0]));
   }
 
 }

@@ -95,6 +95,7 @@ type UserUpdate = User | UserPasswordChange | UserPasswordReset;
 type IdentifiedUserUpdate = User | UserActivation | IdentifiedUserPasswordChange | AdminPasswordChange;
 
 export interface RetrieveUserParams {
+  email?: string;
   search?: string;
 }
 
@@ -107,6 +108,10 @@ function applyRetrievePaginatedUsersParams(params: RetrievePaginatedUsersParams,
 }
 
 function applyRetrieveUserParams(params: RetrieveUserParams, options: RequestOptions) {
+  if (params.email) {
+    options.search.append('email', params.email);
+  }
+
   if (params.search) {
     options.search.append('search', params.search);
   }

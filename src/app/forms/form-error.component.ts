@@ -6,7 +6,14 @@ import { Subscription } from 'rxjs/Rx';
   selector: 'bio-form-error',
   template: `
     <span class='help-block' *ngIf='visible'><ng-content></ng-content></span>
-  `
+  `,
+  styles: [
+    `
+      .help-block {
+        font-weight: bold;
+      }
+    `
+  ]
 })
 export class FormErrorComponent implements OnInit, OnDestroy {
 

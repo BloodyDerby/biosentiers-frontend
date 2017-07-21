@@ -1,30 +1,30 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MomentModule } from 'angular2-moment';
 import { ModalModule, TooltipModule } from 'ngx-bootstrap';
+import { ClipboardModule } from 'ngx-clipboard';
 
-import { ChangeUserPasswordDialogComponent } from './change-user-password-dialog.component';
-import { BioFormsModule } from '../forms';
+import { BioAuthModule } from '../auth';
 import { NotificationsModule } from '../notifications';
+import { PasswordResetLinkDialogComponent } from './password-reset-link-dialog.component';
 import { ShowUserPageComponent } from './show-user-page.component';
 import { UsersModule } from '../users';
 
 @NgModule({
   imports: [
-    BioFormsModule,
+    BioAuthModule,
+    ClipboardModule,
     CommonModule,
     ModalModule,
     MomentModule,
     NotificationsModule,
-    ReactiveFormsModule,
     RouterModule,
     TooltipModule,
     UsersModule
   ],
   declarations: [
-    ChangeUserPasswordDialogComponent,
+    PasswordResetLinkDialogComponent,
     ShowUserPageComponent
   ]
 })

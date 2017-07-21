@@ -15,8 +15,8 @@ export class NavbarComponent implements OnInit {
 
   @ViewChild(LoginModalComponent) loginModal: LoginModalComponent;
 
-  constructor(auth: AuthViewService, private authService: BioAuthService, private route: ActivatedRoute) {
-    this.auth = auth;
+  constructor(authViewService: AuthViewService, private authService: BioAuthService, private route: ActivatedRoute) {
+    this.auth = authViewService;
   }
 
   ngOnInit() {

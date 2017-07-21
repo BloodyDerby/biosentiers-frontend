@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { ChangeUserPasswordDialogComponent } from './';
+import { PasswordResetLinkDialogComponent } from './';
 import { User } from '../models';
 import { NotificationsService } from '../notifications';
 import { UserActivation, UsersService } from '../users';
@@ -15,8 +15,8 @@ import { UserActivation, UsersService } from '../users';
 export class ShowUserPageComponent implements OnInit {
   user: User;
 
-  @ViewChild(ChangeUserPasswordDialogComponent)
-  changeUserPasswordDialog: ChangeUserPasswordDialogComponent;
+  @ViewChild(PasswordResetLinkDialogComponent)
+  passwordResetLinkDialog: PasswordResetLinkDialogComponent;
 
   constructor(private notifications: NotificationsService, private route: ActivatedRoute, private usersService: UsersService) {
   }
@@ -25,8 +25,8 @@ export class ShowUserPageComponent implements OnInit {
     this.loadUser().subscribe(user => this.user = user);
   }
 
-  changeUserPassword() {
-    this.changeUserPasswordDialog.open(this.user);
+  openPasswordResetLinkDialog() {
+    this.passwordResetLinkDialog.open(this.user);
   }
 
   setUserActive(active: boolean) {

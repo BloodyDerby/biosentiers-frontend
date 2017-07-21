@@ -1,28 +1,38 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MomentModule } from 'angular2-moment';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { ClipboardModule } from 'ngx-clipboard';
 import { SelectModule } from 'ng-select';
+import { TooltipModule } from 'ngx-bootstrap';
 
 import { BioAuthModule } from '../auth';
+import { BioFormsModule } from '../forms';
 import { InvitationDialogComponent } from './invitation-dialog.component';
 import { NotificationsModule } from '../notifications';
+import { UsersModule } from '../users';
 
 @NgModule({
+  imports: [
+    BioAuthModule,
+    BioFormsModule,
+    ClipboardModule,
+    CommonModule,
+    FormsModule,
+    ModalModule,
+    MomentModule,
+    NotificationsModule,
+    ReactiveFormsModule,
+    SelectModule,
+    TooltipModule,
+    UsersModule
+  ],
   declarations: [
     InvitationDialogComponent
   ],
   exports: [
     InvitationDialogComponent
-  ],
-  imports: [
-    BioAuthModule,
-    CommonModule,
-    FormsModule,
-    ModalModule,
-    NotificationsModule,
-    ReactiveFormsModule,
-    SelectModule
   ]
 })
 export class InvitationDialogModule { }

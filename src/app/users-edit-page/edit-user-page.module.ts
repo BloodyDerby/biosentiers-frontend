@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { TooltipModule } from 'ngx-bootstrap';
 
 import { BioAuthModule } from '../auth/auth.module';
-import { ProfileEditPageComponent } from './profile-edit-page.component';
+import { EditUserPageComponent } from './edit-user-page.component';
+import { UsersModule } from '../users';
 import { EditUserFormModule } from '../users-edit-form';
 
 @NgModule({
@@ -11,10 +13,12 @@ import { EditUserFormModule } from '../users-edit-form';
     BioAuthModule,
     CommonModule,
     EditUserFormModule,
-    RouterModule
+    RouterModule,
+    TooltipModule,
+    UsersModule
   ],
   declarations: [
-    ProfileEditPageComponent
+    EditUserPageComponent
   ]
 })
-export class ProfileEditPageModule { }
+export class EditUserPageModule { }

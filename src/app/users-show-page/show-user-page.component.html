@@ -1,4 +1,4 @@
-<bio-change-user-password-dialog></bio-change-user-password-dialog>
+<bio-password-reset-link-dialog></bio-password-reset-link-dialog>
 
 <div class='container'>
   <div class='page-header'>
@@ -6,10 +6,14 @@
       <a class='btn btn-default' tooltip='Liste des utilisateurs' routerLink='/users'>
         <span class='glyphicon glyphicon-list'></span>
       </a>
+      <a class='btn btn-warning' *ngIf='user' routerLink='/users/{{ user.id }}/edit'>
+        <span class='glyphicon glyphicon-pencil'></span>
+        Modifier
+      </a>
     </div>
 
     <h1>
-      Profil utilisateur
+      Détails de l'utilisateur
       <small *ngIf='user'>{{ user.fullName }}</small>
     </h1>
   </div>
@@ -28,7 +32,7 @@
     </dd>
     <dt>Rôle</dt>
     <dd>
-      <bio-user-roles user='user'></bio-user-roles>
+      <bio-user-roles [user]='user'></bio-user-roles>
     </dd>
     <dt>Enregistrement</dt>
     <dd><span [tooltip]='user.createdAt | amDateFormat: "LLLL"' placement='right'>{{ user.createdAt | amTimeAgo }}</span></dd>
@@ -57,9 +61,9 @@
       <span class='glyphicon glyphicon-ok-circle'></span>
       Réactiver
     </button>
-    <button type='button' class='btn btn-default' (click)='changeUserPassword()'>
+    <button type='button' class='btn btn-default' (click)='openPasswordResetLinkDialog()'>
       <span class='glyphicon glyphicon-lock'></span>
-      Changer le mot de passe
+      Lien de changement de mot de passe
     </button>
   </div>
 </div>

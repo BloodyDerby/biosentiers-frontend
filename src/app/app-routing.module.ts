@@ -16,6 +16,7 @@ import { RegistrationPageComponent } from './registration-page/registration-page
 import { ResetPasswordPageComponent } from './reset-password-page/reset-password-page.component';
 import { UsersPageComponent } from './users-page/users-page.component';
 import { ShowExcursionPageComponent } from './excursions-show-page';
+import { EditUserPageComponent } from './users-edit-page';
 import { ShowUserPageComponent } from './users-show-page';
 
 const routes: Routes = [
@@ -111,6 +112,10 @@ const routes: Routes = [
           {
             path: 'users/:id',
             component: ShowUserPageComponent
+          },
+          {
+            path: 'users/:id/edit',
+            component: EditUserPageComponent
           }
         ]
       }
