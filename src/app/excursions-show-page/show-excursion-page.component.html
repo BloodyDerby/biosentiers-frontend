@@ -30,5 +30,7 @@
       <dt>Prévue le</dt>
       <dd>{{ excursion.plannedAt | amDateFormat: 'LL' }}</dd>
     </dl>
+
+    <bio-excursion-pois-map *ngIf='excursion && themes && zones' [trail]='excursion.trail' [themes]='themes' [zones]='zones'></bio-excursion-pois-map>
   </ng-container>
 </div>

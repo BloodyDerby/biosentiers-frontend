@@ -1,6 +1,6 @@
 <p class='lead'>Sélectionnez les types de points qui seront affichés sur le sentier.</p>
 
-<div class='themes clearfix' *ngIf='map'>
+<div class='themes clearfix' *ngIf='themes'>
   <div class='checkbox' *ngFor='let theme of themes'>
     <label [ngClass]='{selected: theme.selected}'>
       <input type='checkbox' [checked]='theme.selected' (change)='toggleTheme(theme)'>
@@ -10,12 +10,4 @@
   </div>
 </div>
 
-<div style='height:300px;'
-  *ngIf='mapData'
-  #map
-  leaflet
-  (leafletMapReady)='onMapReady($event)'
-  [leafletOptions]='mapData.options'
-  [leafletFitBounds]='mapData.bounds'
-  [leafletFitBoundsOptions]='mapData.boundsOptions'>
-</div>
+<bio-excursion-pois-map *ngIf='excursion && excursionThemes && zones' [trail]='excursion.trail' [themes]='excursionThemes' [zones]='zones'></bio-excursion-pois-map>

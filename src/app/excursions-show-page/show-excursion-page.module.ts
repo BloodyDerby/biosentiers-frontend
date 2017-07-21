@@ -6,11 +6,15 @@ import { TooltipModule } from 'ngx-bootstrap';
 
 import { BioExcursionsModule } from '../excursions/excursions.module';
 import { ShowExcursionPageComponent } from './show-excursion-page.component';
+import { BioThemesModule } from '../themes';
+import { BioZonesModule } from '../zones';
 
 @NgModule({
   imports: [
     CommonModule,
     BioExcursionsModule,
+    BioThemesModule,
+    BioZonesModule,
     MomentModule,
     RouterModule,
     TooltipModule

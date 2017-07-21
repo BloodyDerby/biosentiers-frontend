@@ -15,116 +15,73 @@ import { BioThemesService } from '../themes/themes.service';
 import { GeoJsonFeature, GeoJsonFeatureCollection, toFeatureCollection } from '../utils/geojson';
 import { BioZonesService, RetrieveZonesParams } from '../zones/zones.service';
 
-const POI_FILL_OPACITY = 0.5;
-const POI_STROKE_OPACITY = 1;
-
 @Component({
   selector: 'bio-edit-excursion-themes-step',
   templateUrl: './edit-excursion-themes-step.component.html',
   styleUrls: ['./edit-excursion-themes-step.component.styl']
 })
 export class EditExcursionThemesStepComponent implements OnInit {
-
+  excursion: Excursion
   excursionForm: FormGroup;
+  excursionThemes: Theme[];
   map: LeafletMap;
   mapData: any;
   themes: ThemeView[];
+  zones: Zone[];
+  initError: Error;
 
   constructor(private cdr: ChangeDetectorRef, private editExcursionService: EditExcursionService, private poisService: PoisService, private themesService: BioThemesService, private zonesService: BioZonesService) {
   }
 
   ngOnInit() {
 
-    const initObs = this.editExcursionService.excursionObs.first().do(() => {
+    const initObs = this.editExcursionService.excursionObs.first().do(excursion => {
+      this.excursion = excursion;
       this.excursionForm = this.editExcursionService.excursionForm;
     });
 
     initObs
-      .switchMap((excursion: Excursion) => {
-        return Observable.forkJoin(
-          this.initPois(excursion),
-          this.initThemes(excursion),
-          this.initZones(excursion)
-        );
-      })
-      .subscribe((results) => this.initMap(results[0], results[2]));
-  }
-
-  onMapReady(map: LeafletMap) {
-    this.map = map;
-    this.cdr.detectChanges();
+      .switchMap(excursion => Observable.forkJoin(
+        Observable.of(excursion),
+        this.initZones(excursion)
+      ))
+      .switchMap(results => this.initThemes(results[0], results[1]))
+      .subscribe(undefined, err => this.initError = err);
   }
 
   toggleTheme(theme: ThemeView) {
     theme.selected = !theme.selected;
     this.excursionForm.controls.themes.setValue(this.getSelectedThemes());
-
-    theme.layer.setStyle({
-      opacity: theme.selected ? POI_STROKE_OPACITY : 0,
-      fillOpacity: theme.selected ? POI_FILL_OPACITY : 0
-    });
+    this.updateExcursionThemes();
   }
 
-  private initPois(excursion: Excursion): Observable<Poi[]> {
-
-    const params: RetrievePoiParams = {
-      zones: excursion.zoneHrefs
-    };
-
-    return this.poisService.retrieveAll(excursion.trail, params);
-  }
-
-  private initThemes(excursion: Excursion): Observable<Theme[]> {
+  private initThemes(excursion: Excursion, zones: Zone[]): Observable<Theme[]> {
     return this.themesService.retrieveAll().do(themes => {
       this.themes = themes.map(theme => {
         return new ThemeView(theme, includes(excursion.themes, theme.name));
       });
+
+      this.updateExcursionThemes();
+
+      // TODO: display poi counts
+      const loadCounts = themes.map(theme => this.countPois(excursion, zones, theme));
+      Observable.forkJoin(...loadCounts).subscribe(results => {
+        console.log(results);
+      });
     });
   }
 
-  private initMap(pois: Poi[], zones: Zone[]) {
-
-    this.mapData = {};
-
-    this.mapData.bounds = LatLngBounds.fromBounds(zones.map(zone => zone.bounds)).toLeaflet();
-
-    this.mapData.boundsOptions = {
-      padding: [ 20, 20 ]
-    };
-
-    this.themes.forEach(theme => {
-      const themePois = pois.filter(poi => poi.theme === theme.name);
-      theme.poiCount = themePois.length;
-      theme.layer = leafletGeoJsonLayer(toFeatureCollection<Poi>(themePois), {
-        pointToLayer: (feature: GeoJsonFeature, latLng) => {
-          return L.circleMarker(latLng);
-        },
-        style: (feature: GeoJsonFeature) => {
-          return this.getPoiLayerStyle(feature);
-        }
-      });
-    });
-
-    const zonesLayer = leafletGeoJsonLayer(toFeatureCollection<Zone>(zones), {
-      style: (feature: GeoJsonFeature) => this.getZoneLayerStyle(feature)
-    });
-
-    const mapLayers = [
-      leafletTileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
-      zonesLayer,
-      ...this.themes.map(theme => theme.layer)
-    ];
-
-    this.mapData.options = {
-      scrollWheelZoom: false,
-      layers: mapLayers
-    };
+  private countPois(excursion: Excursion, zones: Zone[], theme: Theme): Observable<number> {
+    return this.poisService.count(excursion.trail, {
+      themes: [ theme.name ],
+      zones: zones.map(zone => zone.href)
+    }).map(res => res.pagination.effectiveTotal);
   }
 
   private initZones(excursion: Excursion): Observable<Zone[]> {
     return this.zonesService.retrieveAll(excursion.trail, {
       hrefs: excursion.zoneHrefs
-    });
+    }).do(zones => this.zones = zones);
   }
 
   private isThemeSelected(theme: string): boolean {
@@ -135,43 +92,20 @@ export class EditExcursionThemesStepComponent implements OnInit {
     return this.themes.filter(theme => theme.selected).map(theme => theme.name);
   }
 
-  private getPoiLayerStyle(poi: GeoJsonFeature): any {
-
-    const theme = poi.properties.theme;
-    const color = Theme.color(theme);
-    const visible = this.isThemeSelected(theme);
-
-    return {
-      radius: 5,
-      stroke: true,
-      color: new Color(color).darken(0.5).hex(),
-      opacity: visible ? POI_STROKE_OPACITY : 0,
-      fill: true,
-      fillColor: color,
-      fillOpacity: visible ? POI_FILL_OPACITY : 0
-    };
-  }
-
-  private getZoneLayerStyle(zone: GeoJsonFeature): any {
-    return {
-      stroke: true,
-      color: '#000000',
-      opacity: 1,
-      fill: true,
-      fillColor: '#000000',
-      fillOpacity: 0.5
-    };
+  private updateExcursionThemes() {
+    this.excursionThemes = this.themes.filter(themeView => themeView.selected).map(themeView => themeView.theme);
   }
 
 }
 
 class ThemeView {
-  layer: LeafletFeatureGroup;
   poiCount: number;
   selected: boolean;
+  theme: Theme;
 
-  constructor(private theme: Theme, selected: boolean) {
+  constructor(theme: Theme, selected: boolean) {
     this.selected = selected;
+    this.theme = theme;
   }
 
   get name() {

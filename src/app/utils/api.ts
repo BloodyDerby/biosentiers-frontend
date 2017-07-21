@@ -15,11 +15,11 @@ export function applyPaginationParams(params: PaginationParams, options: Request
     return;
   }
 
-  if (params.offset) {
+  if (params.offset !== undefined) {
     options.search.append('offset', params.offset.toString());
   }
 
-  if (params.limit) {
+  if (params.limit !== undefined) {
     options.search.append('limit', params.limit.toString());
   }
 
