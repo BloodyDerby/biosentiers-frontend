@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import extend from 'lodash/extend';
 import pick from 'lodash/pick';
+import { IMyDrpOptions } from 'mydaterangepicker';
 import { Observable } from 'rxjs/Rx';
 
 import { AuthViewService } from '../auth/auth.view.service';
@@ -18,10 +19,16 @@ import { parsePropertiesInto } from '../utils/models';
 })
 export class ExcursionsPageComponent implements OnInit {
   auth: AuthViewService;
+  dateRangePickerOptions: IMyDrpOptions;
   tableManager: ExcursionsTableManager;
 
   constructor(auth: AuthViewService, private excursionsService: BioExcursionsService) {
     this.auth = auth;
+
+    this.dateRangePickerOptions = {
+      dateFormat: 'dd.mm.yyyy',
+      height: '32px'
+    };
   }
 
   ngOnInit() {

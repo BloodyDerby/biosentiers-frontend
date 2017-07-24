@@ -22,6 +22,9 @@
           <input *ngIf='auth.hasRole("admin")' type='text' class='form-control search' placeholder='Chercher par description ou nom/prénom du responsable' formControlName='search'>
           <input *ngIf='!auth.hasRole("admin")' type='text' class='form-control search' placeholder='Chercher par description' formControlName='search'>
         </div>
+        <div class='form-group'>
+          <my-date-range-picker class='date-range' [options]="dateRangePickerOptions"></my-date-range-picker>
+        </div>
       </form>
     </bio-table-filters>
 
