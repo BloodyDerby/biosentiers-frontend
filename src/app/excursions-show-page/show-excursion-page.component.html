@@ -19,18 +19,47 @@
   </div>
 
   <ng-container *ngIf='excursion'>
+    <p class='lead' *ngIf='excursion.name'>{{ excursion.name }}</p>
+
     <dl class='dl-horizontal'>
       <dt>Sentier</dt>
       <dd>{{ excursion.trail.name }}</dd>
-      <dt>Description</dt>
+      <dt>Participants</dt>
       <dd>
-        <ng-container *ngIf='excursion.name'>{{ excursion.name }}</ng-container>
-        <em class='empty' *ngIf='!excursion.name'>Aucune</em>
+        <ng-container *ngIf='excursion.participantsCount'>{{ excursion.participantsCount | number }}</ng-container>
+        <em class='empty' *ngIf='!excursion.participantsCount'>Aucun</em>
       </dd>
       <dt>Prévue le</dt>
       <dd>{{ excursion.plannedAt | amDateFormat: 'LL' }}</dd>
+
+      <dt class='themes'>Thèmes</dt>
+      <dd class='themes'>
+        <em class='empty' *ngIf='!themes'>Chargement...</em>
+        <ng-container *ngIf='themes'>
+          <bio-theme class='theme' *ngFor='let theme of themes' [theme]='theme' [trail]='excursion.trail' [zones]='zones' [countPois]='!!zones && !!zones.length'></bio-theme>
+          <em class='empty' *ngIf='!themes.length'>Aucun</em>
+        </ng-container>
+      </dd>
     </dl>
 
-    <bio-excursion-pois-map *ngIf='excursion && themes && zones' [trail]='excursion.trail' [themes]='themes' [zones]='zones'></bio-excursion-pois-map>
+    <bio-excursion-pois-map *ngIf='excursion' [excursion]='excursion' (onZonesLoaded)='onZonesLoaded($event)'></bio-excursion-pois-map>
+
+    <ng-container *ngIf='participants'>
+      <h2>Liste des participants</h2>
+      <div class='row'>
+        <div class='col-xs-12 col-sm-6 col-md-4' *ngFor='let participant of participants'>
+          <div class='panel panel-default'>
+            <div class='panel-body'>
+              {{ participant.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf='excursion && zones && zones.length'>
+      <h2>Liste des zones</h2>
+      <bio-zone-list [zones]='zones' [trail]='excursion.trail'></bio-zone-list>
+    </ng-container>
   </ng-container>
 </div>

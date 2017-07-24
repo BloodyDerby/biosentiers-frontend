@@ -1,0 +1,8 @@
+<div class='map' style='height:300px;'
+  *ngIf='mapData'
+  leaflet
+  (leafletMapReady)='onMapReady($event)'
+  [leafletOptions]='mapData.options'
+  [leafletFitBounds]='mapData.bounds'
+  [leafletFitBoundsOptions]='mapData.boundsOptions'>
+</div>

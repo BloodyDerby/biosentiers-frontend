@@ -1,5 +1,12 @@
+import flatten from 'lodash/flatten';
 import isFunction from 'lodash/isFunction';
 import { Observable } from 'rxjs/Rx';
+
+export function spread<T>(func: (...args: any[]) => Observable<T>): (...args: any[]) => Observable<T> {
+  return (...args: any[]): Observable<T> => {
+    return func(...[ ...args[0], ...args.slice(1) ]);
+  };
+}
 
 export function toObservable<T>(value: Observable<T> | Promise<T> | T): Observable<T> {
   if (value && !(value instanceof Observable) && isFunction(value['then'])) {

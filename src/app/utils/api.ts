@@ -50,12 +50,18 @@ export function retrieveAllRecursive<T>(builder: RequestBuilder, converter: (dat
 }
 
 export class PaginatedResponse<T> {
+  static head<T>(res: Response) {
+    return new PaginatedResponse<T>(res, undefined, false);
+  }
+
   records: T[];
   pagination: PaginationData;
 
-  constructor(res: Response, converter: (data?: any) => T) {
+  constructor(res: Response, converter: (data?: any) => T = (data?: any) => data, parse: boolean = true) {
     this.pagination = new PaginationData(res);
-    this.records = res.json().map(data => converter(data));
+    if (parse) {
+      this.records = res.json().map(data => converter(data));
+    }
   }
 }
 

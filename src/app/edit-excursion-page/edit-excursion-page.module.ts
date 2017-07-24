@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MomentModule } from 'angular2-moment';
 import { SelectModule } from 'ng-select';
-import { LeafletModule } from '@asymmetrik/angular2-leaflet/dist';
 import { DatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TooltipModule } from 'ngx-bootstrap';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
@@ -23,7 +22,6 @@ import { EditExcursionParticipantsStepComponent } from './edit-excursion-partici
 import { EditExcursionService } from './edit-excursion.service';
 import { EditExcursionThemesStepComponent } from './edit-excursion-themes-step.component';
 import { EditExcursionZonesStepComponent } from './edit-excursion-zones-step.component';
-import { PoisModule } from '../pois/pois.module';
 import { WizardModule } from '../wizard/wizard.module';
 
 @NgModule({
@@ -36,10 +34,8 @@ import { WizardModule } from '../wizard/wizard.module';
     BioZonesModule,
     CommonModule,
     DatepickerModule,
-    LeafletModule,
     MomentModule,
     NgxMyDatePickerModule,
-    PoisModule,
     ReactiveFormsModule,
     RouterModule,
     SelectModule,

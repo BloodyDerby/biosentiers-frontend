@@ -1,0 +1,11 @@
+<ul class='list-group'>
+  <li class='list-group-item' *ngFor='let zone of zones' [ngClass]='{"list-group-item-success": isZoneSelected(zone)}' (click)='toggleZone(zone)'>
+    <h4 class='list-group-item-heading'>
+      <span class='badge' *ngIf='trail'>{{ zone.getPositionInTrail(trail) }}</span>
+      {{ zone.type }}
+      <small>{{ zone.natureType }}</small>
+    </h4>
+
+    <p class='list-group-item-text'>{{ zone.description }}</p>
+  </li>
+</ul>

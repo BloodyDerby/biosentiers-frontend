@@ -1,13 +1,12 @@
 <p class='lead'>Sélectionnez les types de points qui seront affichés sur le sentier.</p>
 
-<div class='themes clearfix' *ngIf='themes'>
-  <div class='checkbox' *ngFor='let theme of themes'>
-    <label [ngClass]='{selected: theme.selected}'>
-      <input type='checkbox' [checked]='theme.selected' (change)='toggleTheme(theme)'>
-      <img src='/assets/img/theme-icons/{{ theme.name }}.png' width=30 height=30 />
-      {{ theme.description }} ({{ theme.poiCount }})
+<div class='themes clearfix' *ngIf='themeViews'>
+  <div class='checkbox' *ngFor='let themeView of themeViews'>
+    <label [ngClass]='{selected: themeView.selected}'>
+      <input type='checkbox' [checked]='themeView.selected' (change)='toggleTheme(themeView)'>
+      <bio-theme [theme]='themeView.theme' [trail]='excursion.trail' [zones]='zones' [countPois]='!!zones && !!zones.length'></bio-theme>
     </label>
   </div>
 </div>
 
-<bio-excursion-pois-map *ngIf='excursion && excursionThemes && zones' [trail]='excursion.trail' [themes]='excursionThemes' [zones]='zones'></bio-excursion-pois-map>
+<bio-excursion-pois-map *ngIf='excursion' [excursion]='excursion' (onZonesLoaded)='onZonesLoaded($event)'></bio-excursion-pois-map>

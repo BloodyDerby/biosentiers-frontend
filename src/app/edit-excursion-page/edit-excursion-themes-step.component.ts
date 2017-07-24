@@ -1,105 +1,78 @@
 import Color from 'color';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { FeatureGroup as LeafletFeatureGroup, geoJSON as leafletGeoJsonLayer, Layer as LeafletLayer, Map as LeafletMap, tileLayer as leafletTileLayer } from 'leaflet';
-import each from 'lodash/each';
-import find from 'lodash/find';
 import includes from 'lodash/includes';
-import reduce from 'lodash/reduce';
-import { Observable } from 'rxjs/Rx';
+import { Observable, ReplaySubject, Subscription } from 'rxjs/Rx';
 
 import { EditExcursionService } from './edit-excursion.service';
-import { Excursion, LatLngBounds, Poi, Theme, Trail, Zone } from '../models';
-import { PoisService, RetrievePoiParams } from '../pois/pois.service';
+import { Excursion, Theme, Trail, Zone } from '../models';
 import { BioThemesService } from '../themes/themes.service';
-import { GeoJsonFeature, GeoJsonFeatureCollection, toFeatureCollection } from '../utils/geojson';
 import { BioZonesService, RetrieveZonesParams } from '../zones/zones.service';
+import { spread } from '../utils/async';
 
 @Component({
   selector: 'bio-edit-excursion-themes-step',
   templateUrl: './edit-excursion-themes-step.component.html',
   styleUrls: ['./edit-excursion-themes-step.component.styl']
 })
-export class EditExcursionThemesStepComponent implements OnInit {
+export class EditExcursionThemesStepComponent implements OnInit, OnDestroy {
   excursion: Excursion
   excursionForm: FormGroup;
-  excursionThemes: Theme[];
-  map: LeafletMap;
-  mapData: any;
-  themes: ThemeView[];
+  excursionSubscription: Subscription;
+  themeViews: ThemeView[];
   zones: Zone[];
   initError: Error;
 
-  constructor(private cdr: ChangeDetectorRef, private editExcursionService: EditExcursionService, private poisService: PoisService, private themesService: BioThemesService, private zonesService: BioZonesService) {
+  private zonesLoadedSubject: ReplaySubject<Zone[]>;
+
+  constructor(private editExcursionService: EditExcursionService, private themesService: BioThemesService, private zonesService: BioZonesService) {
+    this.zonesLoadedSubject = new ReplaySubject<Zone[]>(1);
   }
 
   ngOnInit() {
 
-    const initObs = this.editExcursionService.excursionObs.first().do(excursion => {
-      this.excursion = excursion;
+    const excursionObs = this.editExcursionService.excursionObs.first().do(excursion => {
       this.excursionForm = this.editExcursionService.excursionForm;
     });
 
-    initObs
-      .switchMap(excursion => Observable.forkJoin(
-        Observable.of(excursion),
-        this.initZones(excursion)
-      ))
-      .switchMap(results => this.initThemes(results[0], results[1]))
+    const zonesLoadedObs = this.zonesLoadedSubject.asObservable().first();
+
+    Observable.forkJoin(excursionObs, zonesLoadedObs)
+      .switchMap(spread((excursion, zones) => this.initThemeViews(excursion, zones)))
       .subscribe(undefined, err => this.initError = err);
+
+    this.excursionSubscription = this.editExcursionService.excursionObs.subscribe(excursion => this.excursion = excursion);
   }
 
-  toggleTheme(theme: ThemeView) {
-    theme.selected = !theme.selected;
-    this.excursionForm.controls.themes.setValue(this.getSelectedThemes());
-    this.updateExcursionThemes();
+  ngOnDestroy() {
+    this.excursionSubscription.unsubscribe();
   }
 
-  private initThemes(excursion: Excursion, zones: Zone[]): Observable<Theme[]> {
+  onZonesLoaded(zones: Zone[]) {
+    this.zones = zones;
+    this.zonesLoadedSubject.next(zones);
+  }
+
+  toggleTheme(themeView: ThemeView) {
+    themeView.selected = !themeView.selected;
+    this.excursionForm.controls.themes.setValue(this.getSelectedThemeNames());
+  }
+
+  private initThemeViews(excursion: Excursion, zones: Zone[]): Observable<Theme[]> {
     return this.themesService.retrieveAll().do(themes => {
-      this.themes = themes.map(theme => {
+      this.themeViews = themes.map(theme => {
         return new ThemeView(theme, includes(excursion.themes, theme.name));
-      });
-
-      this.updateExcursionThemes();
-
-      // TODO: display poi counts
-      const loadCounts = themes.map(theme => this.countPois(excursion, zones, theme));
-      Observable.forkJoin(...loadCounts).subscribe(results => {
-        console.log(results);
       });
     });
   }
 
-  private countPois(excursion: Excursion, zones: Zone[], theme: Theme): Observable<number> {
-    return this.poisService.count(excursion.trail, {
-      themes: [ theme.name ],
-      zones: zones.map(zone => zone.href)
-    }).map(res => res.pagination.effectiveTotal);
-  }
-
-  private initZones(excursion: Excursion): Observable<Zone[]> {
-    return this.zonesService.retrieveAll(excursion.trail, {
-      hrefs: excursion.zoneHrefs
-    }).do(zones => this.zones = zones);
-  }
-
-  private isThemeSelected(theme: string): boolean {
-    return find(this.themes, { name: theme }).selected;
-  }
-
-  private getSelectedThemes(): Array<string> {
-    return this.themes.filter(theme => theme.selected).map(theme => theme.name);
-  }
-
-  private updateExcursionThemes() {
-    this.excursionThemes = this.themes.filter(themeView => themeView.selected).map(themeView => themeView.theme);
+  private getSelectedThemeNames(): string[] {
+    return this.themeViews.filter(themeView => themeView.selected).map(theme => theme.name);
   }
 
 }
 
 class ThemeView {
-  poiCount: number;
   selected: boolean;
   theme: Theme;
 

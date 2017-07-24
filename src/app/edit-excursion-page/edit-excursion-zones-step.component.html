@@ -1,36 +1,6 @@
 <p class='lead'>Sélectionnez les zones du sentier sur lesquelles vous voulez vous promener.</p>
 
-<div style='height:300px;'
-  *ngIf='mapData'
-  #map
-  leaflet
-  (leafletMapReady)='onMapReady($event)'
-  [leafletOptions]='mapData.options'
-  [leafletFitBounds]='mapData.bounds'
-  [leafletFitBoundsOptions]='mapData.boundsOptions'>
-</div>
-
-<table class='table' *ngIf='map && zones'>
-  <thead>
-    <tr>
-      <th colspan='2'>Zone</th>
-      <th>Description</th>
-      <th>Désactiver</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor='let zone of zones' [ngClass]='{success: isZoneSelected(zone), danger: !isZoneSelected(zone)}'>
-      <td>{{ zone.position }}</td>
-      <td>{{ zone.type }}</td>
-      <td>{{ zone.description }}</td>
-      <td>
-        <button type='button' class='btn btn-success btn-xs' *ngIf='isZoneSelected(zone)' (click)='toggleZone(zone)'>
-          <span class='glyphicon glyphicon-remove'></span>
-        </button>
-        <button type='button' class='btn btn-danger btn-xs' *ngIf='!isZoneSelected(zone)' (click)='toggleZone(zone)'>
-          <span class='glyphicon glyphicon-ok'></span>
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<form *ngIf='excursionForm' [formGroup]='excursionForm'>
+  <bio-zone-map *ngIf='excursion && zones' [zones]='zones' [trail]='excursion.trail' formControlName='zoneHrefs'></bio-zone-map>
+  <bio-zone-list *ngIf='excursion && zones' [zones]='zones' [trail]='excursion.trail' formControlName='zoneHrefs'></bio-zone-list>
+</form>

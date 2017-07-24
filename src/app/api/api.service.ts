@@ -20,8 +20,11 @@ export class BioApiService implements ObservableInterceptor {
     return this.configure(this.requestBuilderService.post(this.apiUrl(url), body));
   }
 
+  head(url: string): RequestBuilder {
+    return this.configure(this.requestBuilderService.head(this.apiUrl(url)));
+  }
+
   get(url: string): RequestBuilder {
-    this.loadingBarService.start();
     return this.configure(this.requestBuilderService.get(this.apiUrl(url)));
   }
 

@@ -12,13 +12,12 @@ export class PoisService {
   constructor(private api: BioApiService) {
   }
 
-  count(trail: Trail, params: RetrievePaginatedPoiParams = {}): Observable<PaginatedResponse<Poi>> {
-    params.limit = 0;
+  count(trail: Trail, params: RetrievePoiParams = {}): Observable<PaginatedResponse<Poi>> {
     return this.api
-      .get(`/trails/${trail.id}/pois`)
-      .modify(options => applyRetrievePaginatedPoiParams(params, options))
+      .head(`/trails/${trail.id}/pois`)
+      .modify(options => applyRetrievePoiParams(params, options))
       .execute()
-      .map(res => new PaginatedResponse<Poi>(res, data => new Poi(data)));
+      .map(res => PaginatedResponse.head<Poi>(res));
   }
 
   retrieveAll(trail: Trail, params?: RetrievePoiParams, batchSize: number = 100): Observable<Poi[]> {

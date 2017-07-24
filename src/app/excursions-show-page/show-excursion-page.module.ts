@@ -5,6 +5,7 @@ import { MomentModule } from 'angular2-moment';
 import { TooltipModule } from 'ngx-bootstrap';
 
 import { BioExcursionsModule } from '../excursions/excursions.module';
+import { BioParticipantsModule } from '../participants';
 import { ShowExcursionPageComponent } from './show-excursion-page.component';
 import { BioThemesModule } from '../themes';
 import { BioZonesModule } from '../zones';
@@ -13,6 +14,7 @@ import { BioZonesModule } from '../zones';
   imports: [
     CommonModule,
     BioExcursionsModule,
+    BioParticipantsModule,
     BioThemesModule,
     BioZonesModule,
     MomentModule,
