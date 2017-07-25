@@ -3,7 +3,7 @@ import { Event, NavigationEnd, Router } from '@angular/router';
 import find from 'lodash/find';
 import isNumber from 'lodash/isNumber';
 import isString from 'lodash/isString';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs/Rx';
 
 import { CanActivateStep } from './wizard.step.can-activate';
 import { WizardStep } from './wizard.step';
@@ -20,15 +20,22 @@ export class WizardComponent implements OnInit {
 
   @Input()
   steps: WizardStep[];
+
   @Input()
   guards: CanActivateStep[];
+
   @Output()
   onStepChanged: EventEmitter<WizardStep>;
 
   progress: number;
   currentStep: number;
+  stepChangeErrorObs: Observable<Error>;
+
+  private stepChangeErrorSubject: Subject<Error>;
 
   constructor(private router: Router) {
+    this.stepChangeErrorSubject = new Subject<Error>();
+    this.stepChangeErrorObs = this.stepChangeErrorSubject.asObservable();
   }
 
   ngOnInit() {
@@ -107,7 +114,7 @@ export class WizardComponent implements OnInit {
       } else {
         this.currentStep = this.steps.indexOf(step);
       }
-    }).map(() => step).toPromise();
+    }).map(() => step).do(undefined, err => this.stepChangeErrorSubject.next(err)).toPromise();
   }
 
   private updateCurrentStep() {

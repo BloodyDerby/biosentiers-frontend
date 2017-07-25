@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { LeafletDirective } from '@asymmetrik/angular2-leaflet';
@@ -32,13 +32,16 @@ import { WizardStepRoute } from '../wizard/wizard.step.route';
   templateUrl: './edit-excursion-page.component.html',
   styleUrls: ['./edit-excursion-page.component.styl']
 })
-export class EditExcursionPageComponent implements OnInit {
+export class EditExcursionPageComponent implements OnInit, OnDestroy {
 
   @ViewChild(WizardComponent)
   wizard: WizardComponent;
 
   excursion: Excursion;
+  wizardError: Error;
   wizardSteps: WizardStep[];
+
+  private wizardInitialized: boolean;
 
   constructor(private cdr: ChangeDetectorRef, private editExcursionService: EditExcursionService, private route: ActivatedRoute) {
   }
@@ -50,6 +53,13 @@ export class EditExcursionPageComponent implements OnInit {
       this.excursion = excursion;
       this.initWizard();
     });
+  }
+
+  ngDoCheck() {
+    if (!this.wizardInitialized) {
+      this.wizardInitialized = true;
+      this.wizard.stepChangeErrorObs.subscribe(err => this.wizardError = err);
+    }
   }
 
   ngOnDestroy() {
