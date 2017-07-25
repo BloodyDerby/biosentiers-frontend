@@ -7,6 +7,7 @@ import { triggerObservable } from '../utils/async';
 
 export abstract class TableManager<T,F extends TableFilters> {
   initialized: boolean;
+  recordsInitialized: boolean;
   stateObs: Observable<TableState<F>>;
   resObs: Observable<PaginatedResponse<T>>;
   recordsObs: Observable<T[]>;
@@ -49,6 +50,10 @@ export abstract class TableManager<T,F extends TableFilters> {
   }
 
   changeState(state?: TableState<F>): Observable<PaginatedResponse<T>> {
+    if (!this.initialized) {
+      this.initialized = true;
+    }
+
     if (state && state.offset !== undefined) {
       this.state.offset = state.offset;
     }
@@ -72,8 +77,8 @@ export abstract class TableManager<T,F extends TableFilters> {
 
   retrieveCurrentPage(): Observable<PaginatedResponse<T>> {
     return this.retrievePage(this.state).do((res: PaginatedResponse<T>) => {
-      this.initialized = true;
       this.resSubject.next(res);
+      this.recordsInitialized = true;
     });
   }
 

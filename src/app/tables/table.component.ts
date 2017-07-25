@@ -15,7 +15,6 @@ export class TableComponent<T, F extends TableFilters> {
   pagination: boolean;
 
   ngOnInit() {
-    this.manager.changeState();
     this.pagination = this.pagination !== undefined ? this.pagination : true;
   }
 }

@@ -47,9 +47,11 @@ export class BioExcursionsService {
 }
 
 export interface RetrieveExcursionParams {
+  plannedAtGte?: Date;
+  plannedAtLt?: Date;
+  search?: string;
   includeCreator?: boolean;
   includeTrail?: boolean;
-  search?: string;
 }
 
 export interface RetrievePaginatedExcursionsParams extends PaginationParams, RetrieveExcursionParams {
@@ -61,15 +63,23 @@ function applyRetrievePaginatedExcursionsParams(params: RetrievePaginatedExcursi
 }
 
 function applyRetrieveExcursionParams(params: RetrieveExcursionParams, options: RequestOptions) {
+  if (params.plannedAtGte) {
+    options.search.append('plannedAtGte', params.plannedAtGte.toISOString());
+  }
+
+  if (params.plannedAtLt) {
+    options.search.append('plannedAtLt', params.plannedAtLt.toISOString());
+  }
+
+  if (params.search) {
+    options.search.append('search', params.search);
+  }
+
   if (params.includeCreator) {
     options.search.append('include', 'creator');
   }
 
   if (params.includeTrail) {
     options.search.append('include', 'trail');
-  }
-
-  if (params.search) {
-    options.search.append('search', params.search);
   }
 }

@@ -59,7 +59,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr class='empty' *ngIf='tableManager.initialized && !(tableManager.recordsObs | async).length'>
+        <tr class='empty' *ngIf='tableManager.recordsInitialized && !(tableManager.recordsObs | async).length'>
           <td colspan=3>
             <em *ngIf='tableManager.hasFilters()'>Aucun utilisateur ne correspond à vos critères de recherche</em>
             <em *ngIf='!tableManager.hasFilters()'>Aucun utilisateur n'est enregistré</em>

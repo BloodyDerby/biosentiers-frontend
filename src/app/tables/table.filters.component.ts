@@ -24,6 +24,7 @@ export class TableFiltersComponent<T, F extends TableFilters> implements OnInit 
 
   initForm() {
     this.form = this.manager.initializeFilters(this.formBuilder);
+    this.updateFilters(this.form.value);
 
     this.form
       .valueChanges
