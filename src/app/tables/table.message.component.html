@@ -1,0 +1,21 @@
+<td [attr.colspan]='colspan'>
+  <ng-container *ngIf='manager.loadingError'>
+    <bio-error [error]='manager.loadingError'></bio-error>
+  </ng-container>
+
+  <ng-container *ngIf='!manager.loadingError'>
+    <ng-container *ngIf='(!manager.initialized || !manager.recordsInitialized)'>
+      <ng-content select='[message="initializing"]'></ng-content>
+    </ng-container>
+
+    <ng-container *ngIf='manager.recordsInitialized && !(manager.recordsObs | async).length'>
+      <ng-container *ngIf='manager.hasFilters()'>
+        <ng-content select='[message="no-match"]'></ng-content>
+      </ng-container>
+
+      <ng-container *ngIf='!manager.hasFilters()'>
+        <ng-content select='[message="empty"]'></ng-content>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</td>

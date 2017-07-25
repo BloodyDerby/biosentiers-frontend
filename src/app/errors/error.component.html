@@ -1,0 +1,28 @@
+<div class='alert alert-danger'>
+  <strong>Erreur:</strong>
+  {{ errorMessage }}
+
+  <div class='panel panel-info error-details' *ngIf='auth.hasRole("admin")'>
+    <div class='panel-heading'>
+      <h3 class='panel-title'>
+        Error details
+        <small>visible only to administrators</small>
+      </h3>
+    </div>
+    <div class='panel-body'>
+      <strong *ngIf='!isHttpError()'>{{ error.name }} stack trace</strong>
+      <dl class='dl-horizontal' *ngIf='isHttpError()'>
+        <dt>URL</dt>
+        <dd><samp>{{ httpErrorUrl }}</samp></dd>
+        <dt>Status code</dt>
+        <dd>HTTP {{ error.status }} {{ error.statusText }}</dd>
+        <dt>Query params</dt>
+        <dd *ngFor='let param of httpErrorQueryParams'>
+          <code>{{ param.name }}:</code>
+          <samp>{{ param.value }}</samp>
+        </dd>
+      </dl>
+      <pre>{{ errorDetails }}</pre>
+    </div>
+  </div>
+</div>

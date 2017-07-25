@@ -1,6 +1,6 @@
 import { FormBuilder, FormGroup } from '@angular/forms';
 import isEmpty from 'lodash/isEmpty';
-import { Observable, ReplaySubject } from 'rxjs/Rx';
+import { Observable, ReplaySubject, Subject } from 'rxjs/Rx';
 
 import { PaginatedResponse } from '../utils/api';
 import { triggerObservable } from '../utils/async';
@@ -12,7 +12,10 @@ export abstract class TableManager<T,F extends TableFilters> {
   resObs: Observable<PaginatedResponse<T>>;
   recordsObs: Observable<T[]>;
   effectiveTotalObs: Observable<number>;
+  loadingError: Error;
+  loadingErrorObs: Observable<Error>;
 
+  private loadingErrorSubject: Subject<Error>;
   private stateSubject: ReplaySubject<TableState<F>>;
   private resSubject: ReplaySubject<PaginatedResponse<T>>;
   private state: TableState<F>;
@@ -28,6 +31,9 @@ export abstract class TableManager<T,F extends TableFilters> {
 
     this.recordsObs = this.resObs.map(res => res.records);
     this.effectiveTotalObs = this.resObs.map(res => res.pagination.effectiveTotal);
+
+    this.loadingErrorSubject = new Subject<Error>();
+    this.loadingErrorObs = this.loadingErrorSubject.asObservable();
   }
 
   getInitialState(): TableState<F> {
@@ -76,9 +82,13 @@ export abstract class TableManager<T,F extends TableFilters> {
   }
 
   retrieveCurrentPage(): Observable<PaginatedResponse<T>> {
+    delete this.loadingError;
     return this.retrievePage(this.state).do((res: PaginatedResponse<T>) => {
       this.resSubject.next(res);
       this.recordsInitialized = true;
+    }, err => {
+      this.loadingError = err;
+      this.loadingErrorSubject.next(err);
     });
   }
 

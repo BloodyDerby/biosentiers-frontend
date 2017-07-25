@@ -59,11 +59,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr class='empty' *ngIf='tableManager.recordsInitialized && !(tableManager.recordsObs | async).length'>
-          <td colspan=3>
-            <em *ngIf='tableManager.hasFilters()'>Aucun utilisateur ne correspond à vos critères de recherche</em>
-            <em *ngIf='!tableManager.hasFilters()'>Aucun utilisateur n'est enregistré</em>
-          </td>
+        <tr [bio-table-message]='tableManager'>
+          <em class='empty' message='initializing'>Chargement...</em>
+          <em class='empty' message='no-match'>Aucun utilisateur ne correspond aux critères de recherche</em>
+          <em class='empty' message='empty'>Aucun utilisateur n'est enregistré</em>
         </tr>
         <tr *ngFor='let user of tableManager.recordsObs | async'>
           <td class='lastName' routerLink='/users/{{ user.id }}'>

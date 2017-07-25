@@ -55,15 +55,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr class='empty' *ngIf='tableManager.recordsInitialized && !(tableManager.recordsObs | async).length'>
-          <td *ngIf='auth.hasRole("admin")' colspan=5>
-            <em *ngIf='tableManager.hasFilters()'>Aucune sortie ne correspond à vos critères de recherche</em>
-            <em *ngIf='!tableManager.hasFilters()'>Aucune sortie n'a été créée</em>
-          </td>
-          <td *ngIf='!auth.hasRole("admin")' colspan=4>
-            <em *ngIf='tableManager.hasFilters()'>Aucune sortie ne correspond à vos critères de recherche</em>
-            <em *ngIf='!tableManager.hasFilters()'>Vous n'avez créé aucune sortie</em>
-          </td>
+        <tr [bio-table-message]='tableManager'>
+          <em class='empty' message='initializing'>Chargement...</em>
+          <em class='empty' message='no-match'>Aucune sortie ne correspond aux critères de recherche</em>
+          <em class='empty' message='empty'>
+            <ng-container *ngIf='auth.hasRole("admin")'>Aucune sortie n'a été créée</ng-container>
+            <ng-container *ngIf='!auth.hasRole("admin")'>Vous n'avez créé aucune sortie</ng-container>
+          </em>
         </tr>
         <tr *ngFor='let excursion of tableManager.recordsObs | async'>
           <td class='creator' routerLink='/excursions/{{ excursion.id }}' *ngIf='auth.hasRole("admin")'>
