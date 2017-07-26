@@ -10,14 +10,13 @@ import { findClosestParent, findElement } from '../utils/dom';
   styleUrls: ['./table.message.component.styl']
 })
 export class TableMessageComponent<T, F extends TableFilters> {
+  colspan: number;
 
   @Input()
   autoColspan: boolean;
 
   @Input('bio-table-message')
-  private manager: TableManager<T, F>;
-
-  private colspan: number;
+  manager: TableManager<T, F>;
 
   constructor(private element: ElementRef) {
   }

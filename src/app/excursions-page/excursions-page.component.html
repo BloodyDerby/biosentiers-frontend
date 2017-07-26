@@ -12,8 +12,6 @@
     </h1>
   </div>
 
-  <em class='text-muted' *ngIf='excursions !== undefined && !excursions.length'>Aucune sortie n'a encore été faite</em>
-
   <bio-table #table [manager]='tableManager'>
     <bio-table-filters #filters [manager]='tableManager'>
       <form id='excursion-table-filters' class='form-inline' [formGroup]='filters.form'>
