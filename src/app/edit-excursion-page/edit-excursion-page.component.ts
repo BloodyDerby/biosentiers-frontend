@@ -56,7 +56,7 @@ export class EditExcursionPageComponent implements OnInit, OnDestroy {
   }
 
   ngDoCheck() {
-    if (!this.wizardInitialized) {
+    if (this.wizard && !this.wizardInitialized) {
       this.wizardInitialized = true;
       this.wizard.stepChangeErrorObs.subscribe(err => this.wizardError = err);
     }
