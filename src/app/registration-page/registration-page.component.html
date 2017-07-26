@@ -13,7 +13,7 @@
 
       <div class='form-group' [formGroupError]='registrationForm.get("password")'>
         <label for='user-password' class='control-label'>Mot de passe</label>
-        <input type='text' id='user-password' class='form-control' formControlName='password' />
+        <input type='password' id='user-password' class='form-control' formControlName='password' />
         <bio-form-error [control]='registrationForm.get("password")' error='required'>Le mot de passe est obligatoire.</bio-form-error>
       </div>
 
