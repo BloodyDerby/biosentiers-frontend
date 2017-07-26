@@ -2,13 +2,6 @@ import { Injectable } from '@angular/core';
 import { ToastConfig, ToastrService, ToastrConfig } from 'ngx-toastr';
 import { Observable } from 'rxjs/Rx';
 
-enum NotificationType {
-  success = 'toast-success',
-  info = 'toast-info',
-  warning = 'toast-warning',
-  error = 'toast-error'
-}
-
 @Injectable()
 export class NotificationsService {
 
@@ -17,19 +10,19 @@ export class NotificationsService {
   }
 
   success(message: string) {
-    this.notify(NotificationType.success, message);
+    this.notify('toast-success', message);
   }
 
   warning(message: string) {
-    this.notify(NotificationType.warning, message);
+    this.notify('toast-warning', message);
   }
 
   error(message: string) {
-    this.notify(NotificationType.error, message);
+    this.notify('toast-error', message);
   }
 
-  private notify(type: NotificationType, message: string, options?: ToastConfig) {
-    this.toastrService.show(message, undefined, options, type.toString());
+  private notify(type: string, message: string, options?: ToastConfig) {
+    this.toastrService.show(message, undefined, options, type);
   }
 
 }
