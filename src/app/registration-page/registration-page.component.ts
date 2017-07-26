@@ -7,7 +7,7 @@ import { BioAuthService, AuthApiService, AuthViewService } from '../auth';
 import { waitForValidations } from '../forms';
 import { Invitation, User } from '../models';
 import { NotificationsService } from '../notifications';
-import { UsersService } from '../users';
+import { passwordConfirmationMustMatch, UsersService } from '../users';
 
 @Component({
   selector: 'bio-registration-page',
@@ -61,6 +61,10 @@ export class RegistrationPageComponent implements OnInit {
         '',
         Validators.required
       ],
+      passwordConfirmation: [
+        '',
+        Validators.required
+      ],
       firstName: [
         '',
         Validators.compose([
@@ -75,6 +79,8 @@ export class RegistrationPageComponent implements OnInit {
           Validators.maxLength(20)
         ])
       ]
+    }, {
+      validator: passwordConfirmationMustMatch()
     });
   }
 
