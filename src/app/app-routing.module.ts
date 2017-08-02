@@ -14,6 +14,7 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { ProfileEditPageComponent } from './profile-edit-page/profile-edit-page.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
 import { ResetPasswordPageComponent } from './reset-password-page/reset-password-page.component';
+import { StatusPageComponent } from './status-page';
 import { UsersPageComponent } from './users-page/users-page.component';
 import { ShowExcursionPageComponent } from './excursions-show-page';
 import { EditUserPageComponent } from './users-edit-page';
@@ -105,6 +106,10 @@ const routes: Routes = [
           requiredRole: 'admin'
         },
         children: [
+          {
+            path: 'status',
+            component: StatusPageComponent
+          },
           {
             path: 'users',
             component: UsersPageComponent

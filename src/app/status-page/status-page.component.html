@@ -1,0 +1,15 @@
+<div class='container'>
+  <div class='page-header'>
+    <h1>Status</h1>
+  </div>
+
+  <dl class='dl-horizontal'>
+    <dt>API version</dt>
+    <dd>
+      <em class='empty' *ngIf='!apiInfo'>Chargement...</em>
+      <code *ngIf='apiInfo'>{{ apiInfo.version }}</code>
+    </dd>
+    <dt>Frontend version</dt>
+    <dd><code>{{ version }}</code></dd>
+  </dl>
+</div>

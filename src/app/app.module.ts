@@ -20,6 +20,7 @@ import { ProfilePageModule } from './profile-page/profile-page.module';
 import { ProfileEditPageModule } from './profile-edit-page/profile-edit-page.module';
 import { RegistrationPageModule } from './registration-page/registration-page.module';
 import { ResetPasswordPageModule } from './reset-password-page/reset-password-page.module';
+import { StatusPageModule } from './status-page';
 import { UsersPageModule } from './users-page/users-page.module';
 import { ShowExcursionPageModule } from './excursions-show-page';
 import { ShowUserPageModule } from './users-show-page';
@@ -65,6 +66,7 @@ import 'rxjs/add/operator/take';
     ShowExcursionPageModule,
     ShowUserPageModule,
     SlimLoadingBarModule.forRoot(),
+    StatusPageModule,
     ToastrModule.forRoot(),
     TooltipModule.forRoot(),
     UsersPageModule

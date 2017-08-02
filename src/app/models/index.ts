@@ -1,3 +1,4 @@
+export * from './api-info';
 export * from './excursion';
 export * from './invitation';
 export * from './lat-lng';
