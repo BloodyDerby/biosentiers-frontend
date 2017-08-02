@@ -1,0 +1,65 @@
+<div class='container'>
+  <div class='page-header'>
+    <div class='btn-group pull-right'>
+      <a class='btn btn-default' tooltip='Liste des application installées' routerLink='/installations'>
+        <span class='glyphicon glyphicon-list'></span>
+      </a>
+    </div>
+
+    <h1>
+      Événements
+      <small *ngIf='tableManager && tableManager.effectiveTotalObs | async'>{{ tableManager.effectiveTotalObs | async | number }} au total</small>
+    </h1>
+  </div>
+
+  <p class='empty' *ngIf='!tableManager'><em>Chargement...</em></p>
+
+  <dl class='dl-horizontal' *ngIf='installation'>
+    <dt>Installation</dt>
+    <dd><samp>{{ installation.id }}</samp></dd>
+  </dl>
+
+  <bio-table #table [manager]='tableManager' *ngIf='tableManager'>
+    <bio-table-filters #filters [manager]='tableManager'>
+    </bio-table-filters>
+
+    <table class='table table-striped table-hover'>
+      <thead>
+        <tr>
+          <th>
+            <bio-table-sort [manager]='tableManager' property='type'>
+              Type
+            </bio-table-sort>
+          </th>
+          <th>
+            Version
+          </th>
+          <th>
+            <bio-table-sort [manager]='tableManager' property='occurredAt'>
+              Date
+            </bio-table-sort>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr [bio-table-message]='tableManager'>
+          <em class='empty' message='initializing'>Chargement...</em>
+          <em class='empty' message='no-match'>Aucun événement ne correspond aux critères de recherche</em>
+          <em class='empty' message='empty'>Aucun événement n'est enregistré</em>
+        </tr>
+        <tr *ngFor='let event of tableManager.recordsObs | async'>
+          <td class='type'>
+            <samp>{{ event.type }}</samp>
+          </td>
+          <td class='version'>
+            <samp>{{ event.version }}</samp>
+          </td>
+          <td class='occurredAt'>
+            {{ event.occurredAt | amDateFormat: 'll' }}
+            {{ event.occurredAt | amDateFormat: 'HH:mm:ss' }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </bio-table>
+</div>

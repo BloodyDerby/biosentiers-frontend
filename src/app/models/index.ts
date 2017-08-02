@@ -1,5 +1,7 @@
 export * from './api-info';
 export * from './excursion';
+export * from './installation';
+export * from './installation-event';
 export * from './invitation';
 export * from './lat-lng';
 export * from './lat-lng-bounds';

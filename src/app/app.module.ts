@@ -14,6 +14,8 @@ import { EditExcursionPageModule } from './edit-excursion-page/edit-excursion-pa
 import { EditUserPageModule } from './users-edit-page';
 import { ExcursionsPageModule } from './excursions-page/excursions-page.module';
 import { HomePageModule } from './home-page/home-page.module';
+import { InstallationsPageModule } from './installations-page';
+import { ShowInstallationPageModule } from './installations-show-page';
 import { NavbarModule } from './navbar/navbar.module';
 import { PrintExcursionPageModule } from './print-excursion-page/print-excursion-page.module';
 import { ProfilePageModule } from './profile-page/profile-page.module';
@@ -56,6 +58,7 @@ import 'rxjs/add/operator/take';
     EditUserPageModule,
     ExcursionsPageModule,
     HomePageModule,
+    InstallationsPageModule,
     NavbarModule,
     PrintExcursionPageModule,
     ProfilePageModule,
@@ -64,6 +67,7 @@ import 'rxjs/add/operator/take';
     RegistrationPageModule,
     ResetPasswordPageModule,
     ShowExcursionPageModule,
+    ShowInstallationPageModule,
     ShowUserPageModule,
     SlimLoadingBarModule.forRoot(),
     StatusPageModule,

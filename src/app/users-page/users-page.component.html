@@ -8,7 +8,7 @@
     </button>
     <h1>
       Utilisateurs
-      <small *ngIf='tableManager.effectiveTotalObs | async'>{{ tableManager.effectiveTotalObs | async }} au total</small>
+      <small *ngIf='tableManager.effectiveTotalObs | async'>{{ tableManager.effectiveTotalObs | async | number }} au total</small>
     </h1>
   </div>
 

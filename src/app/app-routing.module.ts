@@ -9,6 +9,7 @@ import { EditExcursionParticipantsStepComponent } from './edit-excursion-page/ed
 import { EditExcursionThemesStepComponent } from './edit-excursion-page/edit-excursion-themes-step.component';
 import { EditExcursionZonesStepComponent } from './edit-excursion-page/edit-excursion-zones-step.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { InstallationsPageComponent } from './installations-page';
 import { PrintExcursionPageComponent } from './print-excursion-page/print-excursion-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { ProfileEditPageComponent } from './profile-edit-page/profile-edit-page.component';
@@ -17,6 +18,7 @@ import { ResetPasswordPageComponent } from './reset-password-page/reset-password
 import { StatusPageComponent } from './status-page';
 import { UsersPageComponent } from './users-page/users-page.component';
 import { ShowExcursionPageComponent } from './excursions-show-page';
+import { ShowInstallationPageComponent } from './installations-show-page';
 import { EditUserPageComponent } from './users-edit-page';
 import { ShowUserPageComponent } from './users-show-page';
 
@@ -106,6 +108,14 @@ const routes: Routes = [
           requiredRole: 'admin'
         },
         children: [
+          {
+            path: 'installations',
+            component: InstallationsPageComponent
+          },
+          {
+            path: 'installations/:id',
+            component: ShowInstallationPageComponent
+          },
           {
             path: 'status',
             component: StatusPageComponent
