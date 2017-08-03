@@ -9,13 +9,13 @@
     </ng-container>
 
     <ng-container *ngIf='manager.recordsInitialized && !(manager.recordsObs | async).length'>
-      <ng-container *ngIf='manager.hasFilters()'>
-        <ng-content select='[message="no-match"]'></ng-content>
-      </ng-container>
-
-      <ng-container *ngIf='!manager.hasFilters()'>
+      <ng-container *ngIf='(manager.resObs | async).pagination.total === 0; else noMatch'>
         <ng-content select='[message="empty"]'></ng-content>
       </ng-container>
+
+      <ng-template #noMatch>
+        <ng-content select='[message="no-match"]'></ng-content>
+      </ng-template>
     </ng-container>
   </ng-container>
 </td>
