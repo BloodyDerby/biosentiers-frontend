@@ -1,3 +1,5 @@
+<bio-show-installation-event-dialog (close)='onEventDialogClose()'></bio-show-installation-event-dialog>
+
 <div class='container'>
   <div class='page-header'>
     <div class='btn-group pull-right'>
@@ -90,13 +92,13 @@
           <em class='empty' message='empty'>Aucun événement n'est enregistré</em>
         </tr>
         <tr *ngFor='let event of tableManager.recordsObs | async'>
-          <td class='type'>
-            <samp>{{ event.type }}</samp>
+          <td class='type' (click)='showEvent(event)'>
+            {{ event.type }}
           </td>
-          <td class='version'>
-            <samp>{{ event.version }}</samp>
+          <td class='version' (click)='showEvent(event)'>
+            {{ event.version }}
           </td>
-          <td class='occurredAt'>
+          <td class='occurredAt' (click)='showEvent(event)'>
             {{ event.occurredAt | amDateFormat: 'll' }}
             {{ event.occurredAt | amDateFormat: 'HH:mm:ss' }}
           </td>

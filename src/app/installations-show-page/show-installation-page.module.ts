@@ -7,6 +7,7 @@ import { TooltipModule } from 'ngx-bootstrap';
 
 import { InstallationsModule } from '../installations';
 import { InstallationEventsModule } from '../installation-events';
+import { ShowInstallationEventDialogModule } from '../installation-events-show-dialog';
 import { ShowInstallationPageComponent } from './show-installation-page.component';
 import { TablesModule } from '../tables';
 
@@ -16,6 +17,7 @@ import { TablesModule } from '../tables';
     MomentModule,
     ReactiveFormsModule,
     RouterModule,
+    ShowInstallationEventDialogModule,
     TablesModule,
     TooltipModule,
     InstallationsModule,

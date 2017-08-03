@@ -82,7 +82,7 @@ export class BioApiService implements ObservableInterceptor {
   }
 
   private apiUrl(url: string) {
-    return url.match(/^(https?:\/\/|\/\/)/) ? url : '/api' + url;
+    return url.match(/^(https?:\/\/|\/\/)/) || url.match(/^\/api.+/) ? url : `/api${url}`;
   }
 
 }

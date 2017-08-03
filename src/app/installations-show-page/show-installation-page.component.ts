@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import extend from 'lodash/extend';
 import pick from 'lodash/pick';
 import { Observable } from 'rxjs/Rx';
 
 import { InstallationsService } from '../installations';
 import { RetrieveInstallationEventParams, InstallationEventsService } from '../installation-events';
+import { ShowInstallationEventDialogComponent } from '../installation-events-show-dialog';
 import { Installation, InstallationEvent } from '../models';
 import { TableFilters, TableManager, TableState } from '../tables';
 import { PaginatedResponse } from '../utils/api';
@@ -22,13 +23,47 @@ export class ShowInstallationPageComponent implements OnInit {
   tableManager: InstallationEventsTableManager;
   initError: Error;
 
-  constructor(private installationsService: InstallationsService, private installationEventsService: InstallationEventsService, private route: ActivatedRoute) {
+  @ViewChild(ShowInstallationEventDialogComponent) showInstallationEventDialog: ShowInstallationEventDialogComponent;
+
+  constructor(private installationsService: InstallationsService, private installationEventsService: InstallationEventsService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
     this.initInstallation()
-      .do(() => this.initTable())
+      .switchMap(() => {
+        this.initTable();
+        return this.initEventDialog();
+      })
       .subscribe(undefined, err => this.initError = err);
+  }
+
+  showEvent(installationEvent: InstallationEvent) {
+    this.showInstallationEventDialog.open(installationEvent);
+    this.router.navigate([], {
+      queryParams: {
+        eventId: installationEvent.id
+      }
+    });
+  }
+
+  onEventDialogClose() {
+    this.router.navigate([], {
+      queryParams: {
+        eventId: undefined
+      }
+    });
+  }
+
+  private initEventDialog(): Observable<InstallationEvent> {
+
+    const eventId = this.route.snapshot.queryParams.eventId;
+    if (!eventId) {
+      return Observable.of();
+    }
+
+    return this.installationEventsService.retrieve(eventId).do(installationEvent => {
+      this.showEvent(installationEvent);
+    });
   }
 
   private initInstallation(): Observable<Installation> {

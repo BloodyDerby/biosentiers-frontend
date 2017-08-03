@@ -1,0 +1,54 @@
+<div class='modal fade' bsModal #modal='bs-modal' tabindex='-1' role='dialog' aria-labelledby='Installation event dialog' (onHide)='onModalHide()' (onHidden)='onModalHidden()'>
+  <div class='modal-dialog'>
+    <div class='modal-content'>
+
+      <!-- Header -->
+      <div class='modal-header'>
+        <h4 class='modal-title'>
+          Événement
+          <small *ngIf='installationEvent'><samp>{{ installationEvent.id }}</samp></small>
+        </h4>
+      </div>
+
+      <div class='modal-body'>
+        <p class='empty' *ngIf='!installationEvent'><em>Chargement...</em></p>
+        <ng-container *ngIf='installationEvent'>
+          <dl class='dl-horizontal'>
+            <dt>Type</dt>
+            <dd>{{ installationEvent.type }}</dd>
+            <dt>Version</dt>
+            <dd>{{ installationEvent.version }}</dd>
+            <dt>Date</dt>
+            <dd>
+              {{ installationEvent.occurredAt | amDateFormat: 'LL' }}
+              {{ installationEvent.occurredAt | amDateFormat: 'HH:mm:ss' }}
+            </dd>
+          </dl>
+        </ng-container>
+      </div>
+
+      <table class='table properties' *ngIf='installationEvent'>
+        <thead>
+          <tr>
+            <th colspan=2>Propriétés</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class='empty' *ngIf='!installationEvent.propertiesArray.length'>
+            <td colspan=2>Aucune</td>
+          </tr>
+          <tr *ngFor='let item of installationEvent.propertiesArray'>
+            <th><code>{{ item.key }}</code></th>
+            <td><samp>{{ item.value | json }}</samp></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class='modal-footer'>
+        <div class='btn-group'>
+          <button type='button' class='btn btn-default' (click)='modal.hide()'>Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

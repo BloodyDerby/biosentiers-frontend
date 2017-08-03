@@ -20,6 +20,13 @@ export class InstallationEventsService {
       .map(res => new PaginatedResponse<InstallationEvent>(res, data => new InstallationEvent(data)));
   }
 
+  retrieve(id: string): Observable<InstallationEvent> {
+    return this.api
+      .get(`/installation-events/${id}`)
+      .execute()
+      .map(res => new InstallationEvent(res.json()));
+  }
+
 }
 
 export interface RetrieveInstallationEventParams {
