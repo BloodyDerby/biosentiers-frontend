@@ -11,9 +11,9 @@
       </div>
 
       <div class='form-group' [formGroupError]='excursionForm.get("name")'>
-        <label for='excursion-name' class='control-label'>Description (facultative)</label>
+        <label for='excursion-name' class='control-label'>Titre (facultatif)</label>
         <input type='text' id='excursion-name' class='form-control' formControlName='name' />
-        <bio-form-error [control]='excursionForm.get("name")' error='maxlength'>La description ne doit pas dépasser 60 caractères.</bio-form-error>
+        <bio-form-error [control]='excursionForm.get("name")' error='maxlength'>Le titre ne doit pas dépasser 60 caractères.</bio-form-error>
       </div>
 
       <div class='form-group'>

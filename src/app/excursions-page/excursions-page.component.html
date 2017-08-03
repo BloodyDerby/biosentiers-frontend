@@ -17,8 +17,8 @@
       <form id='excursion-table-filters' class='form-inline' [formGroup]='filters.form'>
         <div class='form-group'>
           <label class='sr-only' for='excursions-table-search'>Recherche</label>
-          <input *ngIf='auth.hasRole("admin")' type='text' class='form-control search' placeholder='Chercher par description ou nom/prénom du responsable' formControlName='search'>
-          <input *ngIf='!auth.hasRole("admin")' type='text' class='form-control search' placeholder='Chercher par description' formControlName='search'>
+          <input *ngIf='auth.hasRole("admin")' type='text' class='form-control search' placeholder='Chercher par titre ou nom/prénom du responsable' formControlName='search'>
+          <input *ngIf='!auth.hasRole("admin")' type='text' class='form-control search' placeholder='Chercher par titre' formControlName='search'>
         </div>
         <div class='form-group'>
           <my-date-range-picker class='date-range' [options]="dateRangePickerOptions" formControlName='plannedAtRange'></my-date-range-picker>
@@ -36,7 +36,7 @@
           </th>
           <th class='hidden-xs'>
             <bio-table-sort [manager]='tableManager' property='name'>
-              Description
+              Titre
             </bio-table-sort>
           </th>
           <th class='participants-count hidden-xs'>
