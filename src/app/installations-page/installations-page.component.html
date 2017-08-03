@@ -23,9 +23,15 @@
             Identifiant
           </th>
           <th>
-            <bio-table-sort [manager]='tableManager' property='createdAt'>
-              Enregistrée le
+            <bio-table-sort [manager]='tableManager' property='firstStartedAt'>
+              Première utilisation
             </bio-table-sort>
+          </th>
+          <th>
+            Événements
+          </th>
+          <th>
+            Dernier événement
           </th>
           <th>
             Actions
@@ -42,8 +48,19 @@
           <td class='id' routerLink='/installations/{{ installation.id }}'>
             <samp>{{ installation.id }}</samp>
           </td>
-          <td class='createdAt' routerLink='/installations/{{ installation.id }}'>
-            {{ installation.createdAt | amDateFormat: 'LLL' }}
+          <td class='created-at' routerLink='/installations/{{ installation.id }}'>
+            {{ installation.createdAt | amDateFormat: 'LL' }}
+          </td>
+          <td class='events-count' routerLink='/installations/{{ installation.id }}'>
+            <ng-container *ngIf='installation.eventsCount'>{{ installation.eventsCount | number }}</ng-container>
+            <em class='empty' *ngIf='!installation.eventsCount'>Aucun</em>
+          </td>
+          <td class='last-event-at' routerLink='/installations/{{ installation.id }}'>
+            <ng-container *ngIf='installation.lastEventAt'>
+              {{ installation.lastEventAt | amDateFormat: 'll' }}
+              {{ installation.lastEventAt | amDateFormat: 'HH:mm:ss' }}
+            </ng-container>
+            <em class='empty' *ngIf='!installation.lastEventAt'>-</em>
           </td>
           <td class='actions'>
             <div class='btn-group btn-group-xs'>

@@ -37,7 +37,7 @@ class InstallationsTableManager extends TableManager<Installation, Installations
     const original = super.getInitialState();
     original.sorts = [
       {
-        property: 'createdAt',
+        property: 'firstStartedAt',
         direction: 'desc'
       }
     ];

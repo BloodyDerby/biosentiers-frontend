@@ -52,7 +52,7 @@ class InstallationEventsTableManager extends TableManager<InstallationEvent, Ins
     const original = super.getInitialState();
     original.sorts = [
       {
-        property: 'createdAt',
+        property: 'occurredAt',
         direction: 'desc'
       }
     ];

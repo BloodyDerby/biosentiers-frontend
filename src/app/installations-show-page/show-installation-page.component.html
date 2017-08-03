@@ -7,17 +7,59 @@
     </div>
 
     <h1>
-      Événements
-      <small *ngIf='tableManager && tableManager.effectiveTotalObs | async'>{{ tableManager.effectiveTotalObs | async | number }} au total</small>
+      Installation
+      <small class='installation-id' *ngIf='installation'><samp>{{ installation.id }}</samp></small>
     </h1>
   </div>
 
-  <p class='empty' *ngIf='!tableManager'><em>Chargement...</em></p>
+  <p class='empty' *ngIf='!installation && !tableManager'><em>Chargement...</em></p>
 
-  <dl class='dl-horizontal' *ngIf='installation'>
-    <dt>Installation</dt>
-    <dd><samp>{{ installation.id }}</samp></dd>
-  </dl>
+  <div class='row' *ngIf='installation'>
+    <div class='col-xs-12 col-md-6'>
+      <dl class='dl-horizontal'>
+        <dt>Première utilisation</dt>
+        <dd>{{ installation.firstStartedAt | amDateFormat: 'LLLL' }}</dd>
+        <dt>Enregistrement</dt>
+        <dd>{{ installation.createdAt | amDateFormat: 'LLLL' }}</dd>
+        <dt>Dernière modification</dt>
+        <dd>{{ installation.updatedAt | amDateFormat: 'LLLL' }}</dd>
+        <dt>Nombre d'événements</dt>
+        <dd>
+          <ng-container *ngIf='installation.eventsCount'>{{ installation.eventsCount }}</ng-container>
+          <em class='empty' *ngIf='!installation.eventsCount'>Aucun</em>
+        </dd>
+        <dt>Dernier événement</dt>
+        <dd>
+          <ng-container *ngIf='installation.lastEventAt'>{{ installation.lastEventAt | amDateFormat: 'LLLL' }}</ng-container>
+          <em class='empty' *ngIf='!installation.lastEventAt'>-</em>
+        </dd>
+      </dl>
+    </div>
+
+    <div class='col-xs-12 col-md-6'>
+      <div class='panel panel-default properties'>
+        <div class='panel-heading'>
+          <h3 class='panel-title'>Propriétés</h3>
+        </div>
+        <table class='table'>
+          <tbody>
+            <tr class='empty' *ngIf='!installation.propertiesArray.length'>
+              <td colspan=2>Aucune</td>
+            </tr>
+            <tr *ngFor='let item of installation.propertiesArray'>
+              <th><code>{{ item.key }}</code></th>
+              <td><samp>{{ item.value | json }}</samp></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <h2>
+    Événements
+    <small *ngIf='tableManager && tableManager.effectiveTotalObs | async'>{{ tableManager.effectiveTotalObs | async | number }} au total</small>
+  </h2>
 
   <bio-table #table [manager]='tableManager' *ngIf='tableManager'>
     <bio-table-filters #filters [manager]='tableManager'>
