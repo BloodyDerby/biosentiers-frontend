@@ -28,6 +28,14 @@ export class BioExcursionsService {
       .map(res => new PaginatedResponse<Excursion>(res, data => new Excursion(data)));
   }
 
+  count(params: RetrieveExcursionParams = {}): Observable<PaginatedResponse<Excursion>> {
+    return this.api
+      .head(`/excursions`)
+      .modify(this.api.paramsModifier<RetrieveExcursionParams>(applyRetrieveExcursionParams, params))
+      .execute()
+      .map(res => PaginatedResponse.head<Excursion>(res));
+  }
+
   retrieve(id: string, params?: RetrieveExcursionParams): Observable<Excursion> {
     return this.api
       .get(`/excursions/${id}`)
@@ -47,6 +55,7 @@ export class BioExcursionsService {
 }
 
 export interface RetrieveExcursionParams {
+  creators?: string[];
   plannedAtGte?: Date;
   plannedAtLt?: Date;
   search?: string;
@@ -63,6 +72,10 @@ function applyRetrievePaginatedExcursionsParams(params: RetrievePaginatedExcursi
 }
 
 function applyRetrieveExcursionParams(params: RetrieveExcursionParams, options: RequestOptions) {
+  if (params.creators) {
+    params.creators.forEach(creator => options.search.append('creator', creator));
+  }
+
   if (params.plannedAtGte) {
     options.search.append('plannedAtGte', params.plannedAtGte.toISOString());
   }

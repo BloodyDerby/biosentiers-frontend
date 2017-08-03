@@ -1,6 +1,8 @@
-<form novalidate *ngIf='excursionForm' [formGroup]='excursionForm' (ngSubmit)='saveExcursion($event)'>
-  <div class='row'>
-    <div class='col-xs-offset-2 col-xs-8'>
+<div class='row'>
+  <div class='col-xs-12 col-md-offset-2 col-xs-8'>
+    <p class='lead'>Configurez les paramètres de votre sortie.</p>
+
+    <form novalidate *ngIf='excursionForm' [formGroup]='excursionForm' (ngSubmit)='saveExcursion($event)'>
       <div class='form-group'>
         <label for='excursion-trail-id'>Sentier</label>
         <ng-select id='excursion-trail-id' #trailHrefSelect *ngIf='!excursionForm.controls.id.value'
@@ -13,6 +15,7 @@
       <div class='form-group' [formGroupError]='excursionForm.get("name")'>
         <label for='excursion-name' class='control-label'>Titre (facultatif)</label>
         <input type='text' id='excursion-name' class='form-control' formControlName='name' />
+        <span class='help-block'>Le titre est indicatif. Il vous permettra de plus facilement retrouver la sortie par la suite.</span>
         <bio-form-error [control]='excursionForm.get("name")' error='maxlength'>Le titre ne doit pas dépasser 60 caractères.</bio-form-error>
       </div>
 
@@ -27,7 +30,11 @@
             </button>
           </span>
         </div>
+        <span class='help-block'>
+          Indiquez la date à laquelle vous comptez faire cette sortie.
+          Si vous n'êtes pas sûr, indiquez une date approximative ou laissez la date actuelle.
+        </span>
       </div>
-    </div>
+    </form>
   </div>
-</form>
+</div>

@@ -4,6 +4,7 @@
       <p>
         <img src='/assets/img/logo.png' width='200px' />
       </p>
+
       <p class='lead'>
         Le concept <a href='http://insit.heig-vd.ch/projets_de_recherche/biosentiers'>BioSentiers</a>
         est développé par une équipe interdisciplinaire de la HEIG-VD
@@ -11,6 +12,16 @@
         <a href='http://insit.heig-vd.ch'>INSIT</a>, alliant les technologies des
         médias à celles de l’information géographique.
       </p>
+
+      <ng-container *ngIf='createdExcursionsCount === 0'>
+        <p>
+          <a class='btn btn-success' routerLink='/excursions/new'>
+            <span class='glyphicon glyphicon-plus'></span>
+            Créez une sortie
+          </a>
+          personnalisée pour vous ballader sur le BioSentier.
+        </p>
+      </ng-container>
     </div>
   </div>
 </div>

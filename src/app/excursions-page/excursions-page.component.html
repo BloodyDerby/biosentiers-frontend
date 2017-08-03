@@ -12,6 +12,14 @@
     </h1>
   </div>
 
+  <p class='lead' *ngIf='(tableManager.resObs | async)?.pagination.total === 0'>
+    <a class='btn btn-success' routerLink='/excursions/new'>
+      <span class='glyphicon glyphicon-plus'></span>
+      Créez une sortie
+    </a>
+    personnalisée pour vous ballader sur le BioSentier.
+  </p>
+
   <bio-table #table [manager]='tableManager'>
     <bio-table-filters #filters [manager]='tableManager'>
       <form id='excursion-table-filters' class='form-inline' [formGroup]='filters.form'>
