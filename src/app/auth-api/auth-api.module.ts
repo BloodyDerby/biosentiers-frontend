@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 
 import { ApiModule } from '../api';
-import { TrailsService } from './trails.service';
+import { AuthApiService } from './auth-api.service';
 
 @NgModule({
   imports: [
     ApiModule
   ],
   providers: [
-    TrailsService
+    AuthApiService
   ]
 })
-export class TrailsModule { }
+export class AuthApiModule { }

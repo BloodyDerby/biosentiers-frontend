@@ -5,14 +5,14 @@ import { ObservableInterceptor, RequestBuilder, RequestBuilderService } from 'ng
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { Observable } from 'rxjs/Rx';
 
-import { BioAuthService } from '../auth/auth.service';
+import { AuthService } from '../auth';
 
 @Injectable()
-export class BioApiService implements ObservableInterceptor {
+export class ApiService implements ObservableInterceptor {
   private currentRequests: Observable<any>[];
   private completeProgressTimeout;
 
-  constructor(private auth: BioAuthService, private loadingBarService: SlimLoadingBarService, private requestBuilderService: RequestBuilderService) {
+  constructor(private auth: AuthService, private loadingBarService: SlimLoadingBarService, private requestBuilderService: RequestBuilderService) {
     this.currentRequests = [];
   }
 

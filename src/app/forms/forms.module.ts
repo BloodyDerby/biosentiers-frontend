@@ -17,4 +17,4 @@ import { FormGroupErrorDirective } from './form-group-error.directive';
     FormGroupErrorDirective
   ]
 })
-export class BioFormsModule { }
+export class FormsModule { }

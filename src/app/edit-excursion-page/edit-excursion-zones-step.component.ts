@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
 
-import { BioZonesService } from '../zones/zones.service';
+import { ZonesService } from '../zones';
 import { EditExcursionService } from './edit-excursion.service';
 import { Excursion, Zone } from '../models';
 
@@ -17,7 +17,7 @@ export class EditExcursionZonesStepComponent implements OnInit {
   zones: Zone[];
   initError: Error;
 
-  constructor(private editExcursionService: EditExcursionService, private zonesService: BioZonesService) {
+  constructor(private editExcursionService: EditExcursionService, private zonesService: ZonesService) {
   }
 
   ngOnInit() {

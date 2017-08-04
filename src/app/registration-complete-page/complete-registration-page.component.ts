@@ -3,7 +3,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
 
-import { BioAuthService, AuthApiService, AuthViewService } from '../auth';
+import { AuthService, AuthViewService } from '../auth';
+import { AuthApiService } from '../auth-api';
 import { waitForValidations } from '../forms';
 import { Invitation, User } from '../models';
 import { NotificationsService } from '../notifications';
@@ -23,7 +24,7 @@ export class CompleteRegistrationPageComponent implements OnInit {
   private passwordField: ElementRef;
   private passwordFieldFocused: boolean;
 
-  constructor(private authService: BioAuthService, private authApiService: AuthApiService, authViewService: AuthViewService, private formBuilder: FormBuilder, private notifications: NotificationsService, private route: ActivatedRoute, private router: Router, private usersService: UsersService) {
+  constructor(private authService: AuthService, private authApiService: AuthApiService, authViewService: AuthViewService, private formBuilder: FormBuilder, private notifications: NotificationsService, private route: ActivatedRoute, private router: Router, private usersService: UsersService) {
     this.auth = authViewService;
   }
 

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
-import { BioApiService } from '../api/api.service';
+import { ApiService } from '../api';
 import { Invitation, PasswordResetRequest } from '../models';
 
 @Injectable()
 export class AuthApiService {
 
-  constructor(private api: BioApiService) {
+  constructor(private api: ApiService) {
   }
 
   sendInvitation(invitation: Invitation): Observable<Invitation> {

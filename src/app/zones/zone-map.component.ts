@@ -8,8 +8,7 @@ import pull from 'lodash/pull';
 import { Observable } from 'rxjs/Rx';
 
 import { getEndPointMarker } from '../excursions';
-import { LatLngBounds } from '../models/lat-lng-bounds';
-import { Excursion, Trail, Zone } from '../models';
+import { Excursion, LatLngBounds, Trail, Zone } from '../models';
 import { GeoJsonFeature, GeoJsonFeatureCollection, toFeatureCollection } from '../utils/geojson';
 
 @Component({

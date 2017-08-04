@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
-import { BioApiService } from '../api/api.service';
-import { Trail } from '../models/trail';
+import { ApiService } from '../api';
+import { Trail } from '../models';
 
 @Injectable()
-export class BioTrailsService {
+export class TrailsService {
 
-  constructor(private api: BioApiService) {
+  constructor(private api: ApiService) {
   }
 
   retrieveAll(): Observable<Trail[]> {

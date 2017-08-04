@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MomentModule } from 'angular2-moment';
 
-import { BioAuthModule } from '../auth/auth.module';
+import { AuthModule } from '../auth';
 import { ProfilePageComponent } from './profile-page.component';
 import { UsersModule } from '../users';
 
 @NgModule({
   imports: [
-    BioAuthModule,
+    AuthModule,
     CommonModule,
     MomentModule,
     RouterModule,

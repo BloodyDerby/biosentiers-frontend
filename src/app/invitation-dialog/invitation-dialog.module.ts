@@ -7,15 +7,15 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { SelectModule } from 'ng-select';
 import { TooltipModule } from 'ngx-bootstrap';
 
-import { BioAuthModule } from '../auth';
-import { BioFormsModule } from '../forms';
+import { AuthApiModule } from '../auth-api';
+import { FormsModule as BioFormsModule } from '../forms';
 import { InvitationDialogComponent } from './invitation-dialog.component';
 import { NotificationsModule } from '../notifications';
 import { UsersModule } from '../users';
 
 @NgModule({
   imports: [
-    BioAuthModule,
+    AuthApiModule,
     BioFormsModule,
     ClipboardModule,
     CommonModule,

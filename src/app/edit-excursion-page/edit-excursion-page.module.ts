@@ -8,39 +8,41 @@ import { DatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TooltipModule } from 'ngx-bootstrap';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 
-import { BioExcursionsModule } from '../excursions/excursions.module';
-import { BioFormsModule } from '../forms';
-import { BioParticipantsModule } from '../participants/participants.module';
-import { BioThemesModule } from '../themes/themes.module';
-import { BioTrailsModule } from '../trails/trails.module';
-import { BioZonesModule } from '../zones/zones.module';
-import { EditExcursionPageComponent } from './edit-excursion-page.component';
-import { ParticipantFormComponent } from './participant-form.component';
-import { TruncatePipe } from '../common/truncate.pipe';
 import { EditExcursionDetailsStepComponent } from './edit-excursion-details-step.component';
 import { EditExcursionParticipantsStepComponent } from './edit-excursion-participants-step.component';
+import { EditExcursionPageComponent } from './edit-excursion-page.component';
 import { EditExcursionService } from './edit-excursion.service';
 import { EditExcursionThemesStepComponent } from './edit-excursion-themes-step.component';
 import { EditExcursionZonesStepComponent } from './edit-excursion-zones-step.component';
+import { ExcursionComponentsModule } from '../excursions-components';
+import { ExcursionsModule } from '../excursions';
+import { FormsModule } from '../forms';
+import { ParticipantFormComponent } from './participant-form.component';
+import { ParticipantsModule } from '../participants';
+import { ThemesModule } from '../themes';
+import { TrailsModule } from '../trails';
+import { ZonesModule } from '../zones';
+import { TruncatePipe } from '../common/truncate.pipe';
 import { WizardModule } from '../wizard/wizard.module';
 
 @NgModule({
   imports: [
-    BioExcursionsModule,
-    BioFormsModule,
-    BioParticipantsModule,
-    BioThemesModule,
-    BioTrailsModule,
-    BioZonesModule,
+    ExcursionsModule,
     CommonModule,
     DatepickerModule,
+    ExcursionComponentsModule,
+    FormsModule,
     MomentModule,
     NgxMyDatePickerModule,
+    ParticipantsModule,
     ReactiveFormsModule,
     RouterModule,
     SelectModule,
+    ThemesModule,
     TooltipModule,
-    WizardModule
+    TrailsModule,
+    WizardModule,
+    ZonesModule
   ],
   declarations: [
     EditExcursionDetailsStepComponent,

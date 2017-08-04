@@ -2,14 +2,14 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { LeafletModule } from '@asymmetrik/angular2-leaflet/dist';
 
-import { BioApiModule } from '../api/api.module';
+import { ApiModule } from '../api';
 import { ZoneListComponent } from './zone-list.component';
 import { ZoneMapComponent } from './zone-map.component';
-import { BioZonesService } from './zones.service';
+import { ZonesService } from './zones.service';
 
 @NgModule({
   imports: [
-    BioApiModule,
+    ApiModule,
     CommonModule,
     LeafletModule
   ],
@@ -22,7 +22,7 @@ import { BioZonesService } from './zones.service';
     ZoneMapComponent
   ],
   providers: [
-    BioZonesService
+    ZonesService
   ]
 })
-export class BioZonesModule { }
+export class ZonesModule { }

@@ -4,9 +4,8 @@ import times from 'lodash/times';
 import { Observable } from 'rxjs/Rx';
 
 import { EditExcursionService } from './edit-excursion.service';
-import { Participant } from '../models/participant';
-import { BioParticipantsService } from '../participants/participants.service';
-import { Excursion } from '../models/excursion';
+import { Excursion, Participant } from '../models';
+import { ParticipantsService } from '../participants';
 import { triggerObservable } from '../utils/async';
 
 @Component({
@@ -20,7 +19,7 @@ export class EditExcursionParticipantsStepComponent implements OnInit {
   excursionParticipantsForm: FormGroup;
   participants: Participant[];
 
-  constructor(private editExcursionService: EditExcursionService, private formBuilder: FormBuilder, private participantsService: BioParticipantsService) {
+  constructor(private editExcursionService: EditExcursionService, private formBuilder: FormBuilder, private participantsService: ParticipantsService) {
     this.participants = [];
   }
 

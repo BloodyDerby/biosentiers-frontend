@@ -4,9 +4,8 @@ import extend from 'lodash/extend';
 import pick from 'lodash/pick';
 import { Subscription } from 'rxjs/Rx';
 
-import { BioParticipantsService } from '../participants/participants.service';
-import { Excursion } from '../models/excursion';
-import { Participant } from '../models/participant';
+import { ParticipantsService } from '../participants';
+import { Excursion, Participant } from '../models';
 
 @Component({
   selector: 'bio-participant-form',
@@ -26,7 +25,7 @@ export class ParticipantFormComponent implements OnDestroy, OnInit {
 
   private subscriptions: Subscription[];
 
-  constructor(private formBuilder: FormBuilder, private participantsService: BioParticipantsService) {
+  constructor(private formBuilder: FormBuilder, private participantsService: ParticipantsService) {
     this.syncing = false;
     this.subscriptions = [];
   }

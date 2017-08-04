@@ -6,11 +6,11 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
 import { getRouteRequiredRoles } from './auth.utils';
-import { BioStorageService } from '../utils/storage/storage.service';
+import { StorageService } from '../storage';
 import { roles, User } from '../models';
 
 @Injectable()
-export class BioAuthService {
+export class AuthService {
 
   userObs: Observable<User>;
 
@@ -18,7 +18,7 @@ export class BioAuthService {
   private token: string;
   private userSubject: BehaviorSubject<User>;
 
-  constructor(private activatedRoute: ActivatedRoute, private http: Http, private router: Router, private storage: BioStorageService) {
+  constructor(private activatedRoute: ActivatedRoute, private http: Http, private router: Router, private storageService: StorageService) {
     this.userSubject = new BehaviorSubject(null);
     this.userObs = this.userSubject.asObservable();
     this.userObs.subscribe(user => this.currentUser = user);
@@ -107,14 +107,14 @@ export class BioAuthService {
   }
 
   private getAuthData() {
-    return this.storage.get('biosentiers.auth');
+    return this.storageService.get('biosentiers.auth');
   }
 
   private saveAuthData(authData: any) {
-    this.storage.set('biosentiers.auth', authData);
+    this.storageService.set('biosentiers.auth', authData);
   }
 
   private deleteAuthData() {
-    this.storage.remove('biosentiers.auth');
+    this.storageService.remove('biosentiers.auth');
   }
 }

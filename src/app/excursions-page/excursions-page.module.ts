@@ -6,7 +6,7 @@ import { MyDateRangePickerModule } from 'mydaterangepicker';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { CommonModule } from '../common/common.module';
-import { BioExcursionsModule } from '../excursions/excursions.module';
+import { ExcursionsModule } from '../excursions';
 import { ExcursionsPageComponent } from './excursions-page.component';
 import { TableComponent } from '../tables/table.component';
 import { TablesModule } from '../tables/tables.module';
@@ -14,7 +14,7 @@ import { TablesModule } from '../tables/tables.module';
 @NgModule({
   imports: [
     CommonModule,
-    BioExcursionsModule,
+    ExcursionsModule,
     MomentModule,
     MyDateRangePickerModule,
     ReactiveFormsModule,

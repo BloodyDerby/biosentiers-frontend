@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 import { environment } from '../../environments/environment';
-import { BioApiService } from '../api';
+import { ApiService } from '../api';
 import { ApiInfo } from '../models';
 
 @Component({
@@ -14,7 +14,7 @@ export class StatusPageComponent implements OnInit {
   apiInfo: ApiInfo;
   version: string;
 
-  constructor(private apiService: BioApiService) {
+  constructor(private apiService: ApiService) {
     this.version = environment.version;
   }
 

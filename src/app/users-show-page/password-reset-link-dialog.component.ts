@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Observable, Subscription } from 'rxjs/Rx';
 
-import { AuthApiService } from '../auth';
+import { AuthApiService } from '../auth-api';
 import { PasswordResetRequest, User } from '../models';
 
 @Component({

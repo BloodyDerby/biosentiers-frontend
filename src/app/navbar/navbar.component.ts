@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { BioAuthService, AuthViewService } from '../auth';
+import { AuthService, AuthViewService } from '../auth';
 import { LoginModalComponent } from '../login-modal/login-modal.component';
-import { User } from '../models/user';
+import { User } from '../models';
 
 @Component({
   selector: 'bio-navbar',
@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
 
   @ViewChild(LoginModalComponent) loginModal: LoginModalComponent;
 
-  constructor(authViewService: AuthViewService, private authService: BioAuthService, private route: ActivatedRoute, private router: Router) {
+  constructor(private authService: AuthService, authViewService: AuthViewService, private route: ActivatedRoute, private router: Router) {
     this.auth = authViewService;
   }
 

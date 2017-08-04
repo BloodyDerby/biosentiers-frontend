@@ -9,7 +9,7 @@ import some from 'lodash/some';
 import { Observable } from 'rxjs/Rx';
 
 import { hasError } from '../api';
-import { BioAuthService } from '../auth/auth.service';
+import { AuthService } from '../auth';
 import { AuthViewService } from '../auth/auth.view.service';
 import { reset, waitForValidations } from '../forms';
 import { roles, User } from '../models';
@@ -39,7 +39,7 @@ export class EditUserFormComponent implements OnInit {
   @Output()
   onUserUpdated: EventEmitter<User>;
 
-  constructor(private authService: BioAuthService, authViewService: AuthViewService, private formBuilder: FormBuilder, private notifications: NotificationsService, private usersService: UsersService) {
+  constructor(private authService: AuthService, authViewService: AuthViewService, private formBuilder: FormBuilder, private notifications: NotificationsService, private usersService: UsersService) {
     this.auth = authViewService;
     this.onUserUpdated = new EventEmitter<User>();
 

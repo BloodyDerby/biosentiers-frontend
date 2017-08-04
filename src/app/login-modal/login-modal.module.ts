@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
-import { BioAuthModule } from '../auth/auth.module';
+import { AuthModule } from '../auth';
+import { AuthApiModule } from '../auth-api';
 import { LoginModalComponent } from './login-modal.component';
 import { NotificationsModule } from '../notifications';
 
@@ -16,7 +17,8 @@ import { NotificationsModule } from '../notifications';
     LoginModalComponent
   ],
   imports: [
-    BioAuthModule,
+    AuthApiModule,
+    AuthModule,
     CommonModule,
     FormsModule,
     ModalModule,

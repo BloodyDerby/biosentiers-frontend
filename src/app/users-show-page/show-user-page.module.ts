@@ -5,7 +5,7 @@ import { MomentModule } from 'angular2-moment';
 import { ModalModule, TooltipModule } from 'ngx-bootstrap';
 import { ClipboardModule } from 'ngx-clipboard';
 
-import { BioAuthModule } from '../auth';
+import { AuthApiModule } from '../auth-api';
 import { NotificationsModule } from '../notifications';
 import { PasswordResetLinkDialogComponent } from './password-reset-link-dialog.component';
 import { ShowUserPageComponent } from './show-user-page.component';
@@ -13,7 +13,7 @@ import { UsersModule } from '../users';
 
 @NgModule({
   imports: [
-    BioAuthModule,
+    AuthApiModule,
     ClipboardModule,
     CommonModule,
     ModalModule,

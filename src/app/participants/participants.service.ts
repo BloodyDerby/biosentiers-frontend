@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
-import { BioApiService } from '../api/api.service';
-import { Excursion } from '../models/excursion';
-import { Participant } from '../models/participant';
+import { ApiService } from '../api';
+import { Excursion, Participant } from '../models';
 
 @Injectable()
-export class BioParticipantsService {
+export class ParticipantsService {
 
-  constructor(private api: BioApiService) {
+  constructor(private api: ApiService) {
   }
 
   create(excursion: Excursion, participant: Participant): Observable<Participant> {

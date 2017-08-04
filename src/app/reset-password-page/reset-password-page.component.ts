@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { AuthApiService } from '../auth';
+import { AuthApiService } from '../auth-api';
 import { waitForValidations } from '../forms';
 import { PasswordResetRequest, User } from '../models';
 import { NotificationsService } from '../notifications';

@@ -14,18 +14,10 @@ import moment from 'moment';
 import { IMyOptions } from 'ngx-mydatepicker';
 import { Observable } from 'rxjs/Rx';
 
-import { BioExcursionsService, RetrieveExcursionParams } from '../excursions/excursions.service';
-import { BioTrailsService } from '../trails/trails.service';
-import { Excursion } from '../models/excursion';
-import { Trail } from '../models/trail';
 import { EditExcursionService } from './edit-excursion.service';
+import { Excursion, Trail } from '../models';
 import { ComponentAddon } from '../utils/component-addon';
-import { WizardComponent } from '../wizard/wizard.component';
-import { WizardStep } from '../wizard/wizard.step';
-import { CanActivateStep } from '../wizard/wizard.step.can-activate';
-import { StepIsEnabled } from '../wizard/wizard.step.is-enabled';
-import { WizardStepOptions } from '../wizard/wizard.step.options';
-import { WizardStepRoute } from '../wizard/wizard.step.route';
+import { CanActivateStep, StepIsEnabled, WizardComponent, WizardStep, WizardStepOptions, WizardStepRoute } from '../wizard';
 
 @Component({
   selector: 'bio-edit-excursion-page',

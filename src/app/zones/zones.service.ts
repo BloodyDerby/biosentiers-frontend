@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import { RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
-import { BioApiService } from '../api/api.service';
-import { Trail } from '../models/trail';
-import { Zone } from '../models/zone';
+import { ApiService } from '../api';
+import { Trail, Zone } from '../models';
 
 @Injectable()
-export class BioZonesService {
+export class ZonesService {
 
-  constructor(private api: BioApiService) {
+  constructor(private api: ApiService) {
   }
 
   retrieveAll(trail: Trail, params: RetrieveZonesParams = {}): Observable<Zone[]> {

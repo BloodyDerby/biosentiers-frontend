@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
-import { BioApiService } from '../api/api.service';
-import { Theme } from '../models/theme';
+import { ApiService } from '../api';
+import { Theme } from '../models';
 
 @Injectable()
-export class BioThemesService {
+export class ThemesService {
 
-  constructor(private api: BioApiService) {
+  constructor(private api: ApiService) {
   }
 
   retrieveAll(params: RetrieveThemesParams = {}): Observable<Theme[]> {

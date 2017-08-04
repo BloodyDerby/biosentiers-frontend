@@ -4,22 +4,24 @@ import { RouterModule } from '@angular/router';
 import { MomentModule } from 'angular2-moment';
 import { TooltipModule } from 'ngx-bootstrap';
 
-import { BioExcursionsModule } from '../excursions/excursions.module';
-import { BioParticipantsModule } from '../participants';
+import { ExcursionsModule } from '../excursions';
+import { ParticipantsModule } from '../participants';
+import { ExcursionComponentsModule } from '../excursions-components';
 import { ShowExcursionPageComponent } from './show-excursion-page.component';
-import { BioThemesModule } from '../themes';
-import { BioZonesModule } from '../zones';
+import { ThemesModule } from '../themes';
+import { ZonesModule } from '../zones';
 
 @NgModule({
   imports: [
     CommonModule,
-    BioExcursionsModule,
-    BioParticipantsModule,
-    BioThemesModule,
-    BioZonesModule,
+    ExcursionsModule,
+    ExcursionComponentsModule,
     MomentModule,
+    ParticipantsModule,
     RouterModule,
-    TooltipModule
+    ThemesModule,
+    TooltipModule,
+    ZonesModule
   ],
   declarations: [
     ShowExcursionPageComponent

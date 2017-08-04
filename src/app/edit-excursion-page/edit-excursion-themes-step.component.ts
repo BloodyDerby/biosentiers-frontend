@@ -6,8 +6,8 @@ import { Observable, ReplaySubject, Subscription } from 'rxjs/Rx';
 
 import { EditExcursionService } from './edit-excursion.service';
 import { Excursion, Theme, Trail, Zone } from '../models';
-import { BioThemesService } from '../themes/themes.service';
-import { BioZonesService, RetrieveZonesParams } from '../zones/zones.service';
+import { ThemesService } from '../themes';
+import { RetrieveZonesParams, ZonesService } from '../zones/zones.service';
 import { spread } from '../utils/async';
 
 @Component({
@@ -25,7 +25,7 @@ export class EditExcursionThemesStepComponent implements OnInit, OnDestroy {
 
   private zonesLoadedSubject: ReplaySubject<Zone[]>;
 
-  constructor(private editExcursionService: EditExcursionService, private themesService: BioThemesService, private zonesService: BioZonesService) {
+  constructor(private editExcursionService: EditExcursionService, private themesService: ThemesService, private zonesService: ZonesService) {
     this.zonesLoadedSubject = new ReplaySubject<Zone[]>(1);
   }
 

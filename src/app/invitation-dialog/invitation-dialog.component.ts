@@ -3,7 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
-import { AuthApiService } from '../auth';
+import { AuthApiService } from '../auth-api';
 import { waitForValidations } from '../forms';
 import { Invitation, roles } from '../models';
 import { NotificationsService } from '../notifications';
@@ -22,7 +22,7 @@ export class InvitationDialogComponent implements OnInit {
   @ViewChild('email') private email: ElementRef;
   @ViewChild('modal') private modal: ModalDirective;
 
-  constructor(private authApi: AuthApiService, private formBuilder: FormBuilder, private notifications: NotificationsService, private userValidationsService: UserValidationsService) {
+  constructor(private authApiService: AuthApiService, private formBuilder: FormBuilder, private notifications: NotificationsService, private userValidationsService: UserValidationsService) {
     this.userRoleChoices = reduce(roles, (memo, role) => {
       memo.push({
         value: role,
@@ -59,7 +59,7 @@ export class InvitationDialogComponent implements OnInit {
       const invitation = new Invitation(this.invitationForm.value);
       invitation.sent = send;
 
-      return this.authApi
+      return this.authApiService
         .sendInvitation(invitation)
         .subscribe(createdInvitation => {
           if (send) {

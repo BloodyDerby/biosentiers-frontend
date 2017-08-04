@@ -2,17 +2,17 @@ import { NgModule } from '@angular/core';
 import { RequestBuilderModule } from 'ng-request-builder';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar/index';
 
-import { BioApiService } from './api.service';
-import { BioAuthModule } from '../auth/auth.module';
+import { ApiService } from './api.service';
+import { AuthModule } from '../auth';
 
 @NgModule({
   imports: [
-    BioAuthModule,
+    AuthModule,
     RequestBuilderModule,
     SlimLoadingBarModule
   ],
   providers: [
-    BioApiService
+    ApiService
   ]
 })
-export class BioApiModule { }
+export class ApiModule { }

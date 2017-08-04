@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
-import { BioApiService } from '../api';
+import { ApiService } from '../api';
 import { Installation } from '../models';
 import { applyPaginationParams, PaginatedResponse, PaginationParams } from '../utils/api';
 
 @Injectable()
 export class InstallationsService {
 
-  constructor(private api: BioApiService) {
+  constructor(private api: ApiService) {
   }
 
   retrievePaginated(params?: RetrievePaginatedInstallationsParams): Observable<PaginatedResponse<Installation>> {

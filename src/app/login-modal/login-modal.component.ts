@@ -4,7 +4,8 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import omit from 'lodash/omit';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
-import { BioAuthService, AuthApiService } from '../auth';
+import { AuthService } from '../auth';
+import { AuthApiService } from '../auth-api';
 import { reset, waitForValidations } from '../forms';
 import { PasswordResetRequest } from '../models';
 import { NotificationsService } from '../notifications';
@@ -23,7 +24,7 @@ export class LoginModalComponent implements OnInit {
   @ViewChild('email') private emailField: ElementRef;
   @ViewChild('password') private passwordField: ElementRef;
 
-  constructor(private authService: BioAuthService, private authApiService: AuthApiService, private formBuilder: FormBuilder, private notifications: NotificationsService, private router: Router) { }
+  constructor(private authService: AuthService, private authApiService: AuthApiService, private formBuilder: FormBuilder, private notifications: NotificationsService, private router: Router) { }
 
   ngOnInit() {
     this.initLoginForm();

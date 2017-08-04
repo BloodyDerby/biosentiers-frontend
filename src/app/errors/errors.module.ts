@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { BioAuthModule } from '../auth';
+import { AuthModule } from '../auth';
 import { ErrorComponent } from './error.component';
 
 @NgModule({
   imports: [
-    BioAuthModule,
+    AuthModule,
     CommonModule
   ],
   declarations: [

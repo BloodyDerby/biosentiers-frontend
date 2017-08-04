@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
-import { BioAuthService } from '../auth';
-import { BioExcursionsService } from '../excursions';
+import { AuthService } from '../auth';
+import { ExcursionsService } from '../excursions';
 import { User } from '../models';
 
 @Component({
@@ -13,7 +13,7 @@ import { User } from '../models';
 export class HomePageComponent implements OnInit {
   createdExcursionsCount: number;
 
-  constructor(private authService: BioAuthService, private excursionsService: BioExcursionsService) {
+  constructor(private authService: AuthService, private excursionsService: ExcursionsService) {
   }
 
   ngOnInit() {

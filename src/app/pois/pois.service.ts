@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
-import { BioApiService } from '../api/api.service';
+import { ApiService } from '../api';
 import { Poi, Trail } from '../models';
 import { applyPaginationParams, PaginatedResponse, PaginationParams, retrieveAllRecursive } from '../utils/api';
 
 @Injectable()
 export class PoisService {
 
-  constructor(private api: BioApiService) {
+  constructor(private api: ApiService) {
   }
 
   count(trail: Trail, params: RetrievePoiParams = {}): Observable<PaginatedResponse<Poi>> {

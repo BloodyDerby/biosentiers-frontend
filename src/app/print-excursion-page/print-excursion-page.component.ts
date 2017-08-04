@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { RetrieveExcursionParams, BioExcursionsService } from '../excursions/excursions.service';
+import { ExcursionsService, RetrieveExcursionParams } from '../excursions';
 import { Excursion, Participant, Zone } from '../models';
-import { BioParticipantsService } from '../participants/participants.service';
-import { BioZonesService, RetrieveZonesParams } from '../zones/zones.service';
+import { ParticipantsService } from '../participants';
+import { RetrieveZonesParams, ZonesService } from '../zones/zones.service';
 
 @Component({
   selector: 'bio-print-excursion-page',
@@ -18,7 +18,7 @@ export class PrintExcursionPageComponent implements OnInit {
   participants: Participant[];
   zones: Zone[];
 
-  constructor(private excursionsService: BioExcursionsService, private participantsService: BioParticipantsService, private route: ActivatedRoute, private zonesService: BioZonesService) {
+  constructor(private excursionsService: ExcursionsService, private participantsService: ParticipantsService, private route: ActivatedRoute, private zonesService: ZonesService) {
   }
 
   ngOnInit() {

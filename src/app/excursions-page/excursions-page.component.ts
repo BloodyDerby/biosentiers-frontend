@@ -7,7 +7,7 @@ import { IMyDrpOptions } from 'mydaterangepicker';
 import { Observable } from 'rxjs/Rx';
 
 import { AuthViewService } from '../auth/auth.view.service';
-import { BioExcursionsService, RetrieveExcursionParams } from '../excursions/excursions.service';
+import { ExcursionsService, RetrieveExcursionParams } from '../excursions/excursions.service';
 import { Excursion, User } from '../models';
 import { TableFilters, TableManager, TableState } from '../tables';
 import { PaginatedResponse } from '../utils/api';
@@ -23,7 +23,7 @@ export class ExcursionsPageComponent implements OnInit {
   dateRangePickerOptions: IMyDrpOptions;
   tableManager: ExcursionsTableManager;
 
-  constructor(auth: AuthViewService, private excursionsService: BioExcursionsService) {
+  constructor(auth: AuthViewService, private excursionsService: ExcursionsService) {
     this.auth = auth;
 
     this.dateRangePickerOptions = {
@@ -44,7 +44,7 @@ export class ExcursionsPageComponent implements OnInit {
 }
 
 class ExcursionsTableManager extends TableManager<Excursion, ExcursionsTableFilters> {
-  constructor(private excursionsService: BioExcursionsService, private params?: RetrieveExcursionParams) {
+  constructor(private excursionsService: ExcursionsService, private params?: RetrieveExcursionParams) {
     super();
   }
 

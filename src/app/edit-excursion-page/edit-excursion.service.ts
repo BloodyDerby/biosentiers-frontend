@@ -8,8 +8,8 @@ import omit from 'lodash/omit';
 import moment from 'moment';
 import { Observable, ReplaySubject, Subscription } from 'rxjs/Rx';
 
-import { BioExcursionsService, RetrieveExcursionParams } from '../excursions/excursions.service';
-import { Excursion } from '../models/excursion';
+import { ExcursionsService, RetrieveExcursionParams } from '../excursions';
+import { Excursion } from '../models';
 import { triggerObservable } from '../utils/async';
 
 const retrieveExcursionParams: RetrieveExcursionParams = {
@@ -26,7 +26,7 @@ export class EditExcursionService {
 
   private excursionStream: ReplaySubject<Excursion>;
 
-  constructor(private excursionsService: BioExcursionsService, private formBuilder: FormBuilder, private router: Router) {
+  constructor(private excursionsService: ExcursionsService, private formBuilder: FormBuilder, private router: Router) {
 
     this.excursionStream = new ReplaySubject(1);
     this.excursionObs = this.excursionStream.asObservable().filter(excursion => !!excursion);

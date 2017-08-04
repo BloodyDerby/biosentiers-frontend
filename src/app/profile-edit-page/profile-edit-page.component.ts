@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { BioAuthService } from '../auth/auth.service';
+import { AuthService } from '../auth';
 import { User } from '../models';
 
 @Component({
@@ -11,7 +11,7 @@ import { User } from '../models';
 export class ProfileEditPageComponent implements OnInit {
   user: User;
 
-  constructor(private authService: BioAuthService) {
+  constructor(private authService: AuthService) {
   }
 
   ngOnInit() {

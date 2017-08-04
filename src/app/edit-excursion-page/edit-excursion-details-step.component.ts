@@ -6,9 +6,8 @@ import reduce from 'lodash/reduce';
 import { INgxMyDpOptions } from 'ngx-mydatepicker';
 import { BehaviorSubject, Observable } from 'rxjs/Rx';
 
-import { BioTrailsService } from '../trails/trails.service';
-import { Excursion } from '../models/excursion';
-import { Trail } from '../models/trail';
+import { Excursion, Trail } from '../models';
+import { TrailsService } from '../trails';
 import { EditExcursionService } from './edit-excursion.service';
 
 @Component({
@@ -35,7 +34,7 @@ export class EditExcursionDetailsStepComponent implements AfterViewInit, OnInit 
     todayBtnTxt: 'Aujourd\'hui'
   };
 
-  constructor(private editExcursionService: EditExcursionService, private trailsService: BioTrailsService) {
+  constructor(private editExcursionService: EditExcursionService, private trailsService: TrailsService) {
     this.viewInitialized = new BehaviorSubject(false);
   }
 

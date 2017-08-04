@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { BioAuthService } from '../auth/auth.service';
+import { AuthService } from '../auth';
 import { User } from '../models';
 import { UsersService } from '../users';
 
@@ -14,7 +14,7 @@ import { UsersService } from '../users';
 export class EditUserPageComponent implements OnInit {
   user: User;
 
-  constructor(private authService: BioAuthService, private route: ActivatedRoute, private usersService: UsersService) {
+  constructor(private authService: AuthService, private route: ActivatedRoute, private usersService: UsersService) {
   }
 
   ngOnInit() {

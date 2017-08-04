@@ -9,11 +9,11 @@ import isEqual from 'lodash/isEqual';
 import reduce from 'lodash/reduce';
 import { Observable } from 'rxjs/Rx';
 
-import { getEndPointMarker } from './excursions.utils';
+import { getEndPointMarker } from '../excursions';
 import { Excursion, LatLngBounds, Poi, Theme, Zone } from '../models';
 import { PoisService, RetrievePoiParams } from '../pois';
 import { GeoJsonFeature, GeoJsonFeatureCollection, toFeatureCollection } from '../utils/geojson';
-import { BioZonesService } from '../zones';
+import { ZonesService } from '../zones/zones.service';
 
 const POI_FILL_OPACITY = 0.5;
 const POI_STROKE_OPACITY = 1;
@@ -39,7 +39,7 @@ export class ExcursionPoisMapComponent implements OnInit {
   private endPointMarker: LeafletMarker;
   private zones: Zone[];
 
-  constructor(private cdr: ChangeDetectorRef, private poisService: PoisService, private zonesService: BioZonesService) {
+  constructor(private cdr: ChangeDetectorRef, private poisService: PoisService, private zonesService: ZonesService) {
     this.poiMapViews = [];
     this.onZonesLoaded = new EventEmitter<Zone[]>();
   }

@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
-import { BioApiService } from '../api/api.service';
+import { ApiService } from '../api';
 import { User } from '../models';
 import { applyPaginationParams, PaginatedResponse, PaginationParams } from '../utils/api';
 
 @Injectable()
 export class UsersService {
 
-  constructor(private api: BioApiService) {
+  constructor(private api: ApiService) {
   }
 
   create(user: UserCreation, authToken?: string): Observable<User> {

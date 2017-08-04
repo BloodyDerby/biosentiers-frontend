@@ -4,17 +4,17 @@ import { MomentModule } from 'angular2-moment';
 import { RouterModule } from '@angular/router';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
-import { BioExcursionsModule } from '../excursions/excursions.module';
-import { BioParticipantsModule } from '../participants/participants.module';
+import { ExcursionsModule } from '../excursions';
+import { ParticipantsModule } from '../participants';
 import { ExcursionQrcodeComponent } from './excursion-qrcode.component';
 import { PrintExcursionPageComponent } from './print-excursion-page.component';
 
 @NgModule({
   imports: [
-    BioExcursionsModule,
-    BioParticipantsModule,
+    ExcursionsModule,
     CommonModule,
     MomentModule,
+    ParticipantsModule,
     RouterModule,
     TooltipModule
   ],

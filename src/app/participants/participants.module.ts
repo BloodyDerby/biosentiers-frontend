@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 
-import { BioApiModule } from '../api/api.module';
-import { BioParticipantsService } from './participants.service';
+import { ApiModule } from '../api';
+import { ParticipantsService } from './participants.service';
 
 @NgModule({
   imports: [
-    BioApiModule
+    ApiModule
   ],
   providers: [
-    BioParticipantsService
+    ParticipantsService
   ]
 })
-export class BioParticipantsModule { }
+export class ParticipantsModule { }

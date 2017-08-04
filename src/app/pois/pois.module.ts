@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 
-import { BioApiModule } from '../api/api.module';
+import { ApiModule } from '../api';
 import { PoisService } from './pois.service';
 
 @NgModule({
   imports: [
-    BioApiModule
+    ApiModule
   ],
   providers: [
     PoisService

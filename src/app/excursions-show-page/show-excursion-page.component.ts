@@ -2,11 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { BioExcursionsService, RetrieveExcursionParams } from '../excursions';
+import { ExcursionsService, RetrieveExcursionParams } from '../excursions';
 import { Excursion, Participant, Theme, Zone } from '../models';
-import { BioParticipantsService } from '../participants';
-import { BioThemesService } from '../themes';
-import { BioZonesService } from '../zones';
+import { ParticipantsService } from '../participants';
+import { ThemesService } from '../themes';
+import { ZonesService } from '../zones';
 
 @Component({
   selector: 'bio-show-excursion-page',
@@ -20,7 +20,7 @@ export class ShowExcursionPageComponent implements OnInit {
   zones: Zone[];
   initError: Error;
 
-  constructor(private excursionsService: BioExcursionsService, private route: ActivatedRoute, private participantsService: BioParticipantsService, private themesService: BioThemesService, private zonesService: BioZonesService) {
+  constructor(private excursionsService: ExcursionsService, private route: ActivatedRoute, private participantsService: ParticipantsService, private themesService: ThemesService, private zonesService: ZonesService) {
   }
 
   ngOnInit() {

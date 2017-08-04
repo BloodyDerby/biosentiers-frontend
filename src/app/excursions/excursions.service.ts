@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
-import { BioApiService } from '../api/api.service';
-import { Excursion } from '../models/excursion';
+import { ApiService } from '../api';
+import { Excursion } from '../models';
 import { applyPaginationParams, PaginationParams, PaginatedResponse } from '../utils/api';
 
 @Injectable()
-export class BioExcursionsService {
+export class ExcursionsService {
 
-  constructor(private api: BioApiService) {
+  constructor(private api: ApiService) {
   }
 
   create(excursion: Excursion, params?: RetrieveExcursionParams): Observable<Excursion> {

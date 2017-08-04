@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { BioApiModule } from '../api/api.module';
+import { ApiModule } from '../api';
 import { PoisModule } from '../pois';
 import { ThemeComponent } from './theme.component';
-import { BioThemesService } from './themes.service';
+import { ThemesService } from './themes.service';
 
 @NgModule({
   imports: [
-    BioApiModule,
+    ApiModule,
     CommonModule,
     PoisModule
   ],
@@ -19,7 +19,7 @@ import { BioThemesService } from './themes.service';
     ThemeComponent
   ],
   providers: [
-    BioThemesService
+    ThemesService
   ]
 })
-export class BioThemesModule { }
+export class ThemesModule { }

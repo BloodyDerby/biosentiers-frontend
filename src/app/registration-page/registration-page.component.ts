@@ -3,7 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
 
-import { BioAuthService, AuthApiService, AuthViewService } from '../auth';
+import { AuthService, AuthViewService } from '../auth';
+import { AuthApiService } from '../auth-api';
 import { waitForValidations } from '../forms';
 import { Invitation, User } from '../models';
 import { NotificationsService } from '../notifications';
@@ -20,7 +21,7 @@ export class RegistrationPageComponent implements OnInit {
   registered: boolean;
   registrationForm: FormGroup;
 
-  constructor(private authService: BioAuthService, private authApiService: AuthApiService, authViewService: AuthViewService, private formBuilder: FormBuilder, private notifications: NotificationsService, private router: Router, private userValidationsService: UserValidationsService) {
+  constructor(private authService: AuthService, private authApiService: AuthApiService, authViewService: AuthViewService, private formBuilder: FormBuilder, private notifications: NotificationsService, private router: Router, private userValidationsService: UserValidationsService) {
     this.auth = authViewService;
   }
 

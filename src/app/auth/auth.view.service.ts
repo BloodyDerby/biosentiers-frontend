@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Rx';
 
-import { BioAuthService } from './auth.service';
+import { AuthService } from './auth.service';
 import { User } from '../models';
 
 @Injectable()
@@ -11,7 +11,7 @@ export class AuthViewService implements OnDestroy {
 
   private userSubscription: Subscription;
 
-  constructor(private auth: BioAuthService) {
+  constructor(private auth: AuthService) {
     this.userSubscription = this.auth.userObs.subscribe(user => this.user = user);
   }
 
