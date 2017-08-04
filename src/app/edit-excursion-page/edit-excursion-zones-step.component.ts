@@ -26,6 +26,18 @@ export class EditExcursionZonesStepComponent implements OnInit {
       .subscribe(undefined, err => this.initError = err);
   }
 
+  selectAll() {
+    if (this.excursionForm.get('zoneHrefs').value.length < this.zones.length) {
+      this.excursionForm.get('zoneHrefs').setValue(this.zones.map(zone => zone.href));
+    }
+  }
+
+  unselectAll() {
+    if (this.excursionForm.get('zoneHrefs').value.length !== 0) {
+      this.excursionForm.get('zoneHrefs').setValue([]);
+    }
+  }
+
   private initExcursion(): Observable<Excursion> {
     return this.editExcursionService.excursionObs.first().do((excursion: Excursion) => {
       this.excursion = excursion;

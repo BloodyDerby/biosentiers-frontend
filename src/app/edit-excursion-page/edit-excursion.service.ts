@@ -169,6 +169,9 @@ export class EditExcursionService {
       values.plannedAt = moment(values.plannedAt.jsdate).startOf('day').toDate();
     }
 
+    values.themes = values.themes.sort();
+    values.zoneHrefs = values.zoneHrefs.sort();
+
     return values;
   }
 

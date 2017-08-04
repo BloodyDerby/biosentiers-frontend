@@ -58,6 +58,20 @@ export class EditExcursionThemesStepComponent implements OnInit, OnDestroy {
     this.excursionForm.controls.themes.setValue(this.getSelectedThemeNames());
   }
 
+  selectAll() {
+    if (this.excursionForm.get('themes').value.length < this.themeViews.length) {
+      this.excursionForm.get('themes').setValue(this.themeViews.map(themeView => themeView.name));
+      this.themeViews.forEach(themeView => themeView.selected = true);
+    }
+  }
+
+  unselectAll() {
+    if (this.excursionForm.get('themes').value.length !== 0) {
+      this.excursionForm.get('themes').setValue([]);
+      this.themeViews.forEach(themeView => themeView.selected = false);
+    }
+  }
+
   private initThemeViews(excursion: Excursion, zones: Zone[]): Observable<Theme[]> {
     return this.themesService.retrieveAll().do(themes => {
       this.themeViews = themes.map(theme => {

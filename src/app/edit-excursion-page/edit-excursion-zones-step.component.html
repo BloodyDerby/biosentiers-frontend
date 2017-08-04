@@ -1,6 +1,26 @@
 <p class='lead'>Sélectionnez les zones du sentier sur lesquelles vous voulez vous promener.</p>
 
 <form *ngIf='excursionForm' [formGroup]='excursionForm'>
-  <bio-zone-map *ngIf='excursion && zones' [zones]='zones' [trail]='excursion.trail' formControlName='zoneHrefs'></bio-zone-map>
-  <bio-zone-list *ngIf='excursion && zones' [zones]='zones' [trail]='excursion.trail' formControlName='zoneHrefs'></bio-zone-list>
+  <p class='empty' *ngIf='!excursion || !zones'><em>Chargement...</em></p>
+
+  <ng-container *ngIf='excursion && zones'>
+    <bio-zone-map [zones]='zones' [trail]='excursion.trail' formControlName='zoneHrefs'></bio-zone-map>
+
+    <div class='btn-group btn-group-justified controls'>
+      <div class='btn-group'>
+        <button type='button' class='btn btn-default' (click)='selectAll()'>
+          <span class='glyphicon glyphicon-ok-sign'></span>
+          Tout sélectionner
+        </button>
+      </div>
+      <div class='btn-group'>
+        <button type='button' class='btn btn-default' (click)='unselectAll()'>
+          <span class='glyphicon glyphicon-remove-sign'></span>
+          Tout désélectionner
+        </button>
+      </div>
+    </div>
+
+    <bio-zone-list [zones]='zones' [trail]='excursion.trail' formControlName='zoneHrefs'></bio-zone-list>
+  </ng-container>
 </form>
