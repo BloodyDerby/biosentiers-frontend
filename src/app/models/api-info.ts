@@ -1,9 +1,10 @@
-import { parsePropertiesInto } from '../utils/models';
+import { Model } from './abstract';
 
-export class ApiInfo {
+export class ApiInfo extends Model {
   version: string;
 
   constructor(data?: any) {
-    parsePropertiesInto(this, data, 'version');
+    super();
+    this.parseProperties(data, 'version');
   }
 }

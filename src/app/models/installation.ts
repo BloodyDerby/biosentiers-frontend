@@ -1,8 +1,8 @@
 import reduce from 'lodash/reduce';
 
-import { parsePropertiesInto } from '../utils/models';
+import { Model } from './abstract';
 
-export class Installation {
+export class Installation extends Model {
   id: string;
   href: string;
   properties: { [key: string]: string };
@@ -13,7 +13,8 @@ export class Installation {
   lastEventAt: Date;
 
   constructor(data?: any) {
-    parsePropertiesInto(this, data, 'id', 'href', 'properties', 'eventsCount', 'createdAt', 'updatedAt', 'firstStartedAt', 'lastEventAt');
+    super();
+    this.parseProperties(data, 'id', 'href', 'properties', 'eventsCount', 'createdAt', 'updatedAt', 'firstStartedAt', 'lastEventAt');
   }
 
   get propertiesArray() {

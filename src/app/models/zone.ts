@@ -1,3 +1,4 @@
+import { Model } from './abstract';
 import { LatLng } from './lat-lng';
 import { LatLngBounds } from './lat-lng-bounds';
 import get from 'lodash/get';
@@ -8,10 +9,9 @@ import reduce from 'lodash/reduce';
 import sortBy from 'lodash/sortBy';
 import { Trail } from './trail';
 import { GeoJsonGeometry } from '../utils/geojson';
-import { parsePropertiesInto } from '../utils/models';
 import { ZonePoint } from './zone-point';
 
-export class Zone implements GeoJsonGeometry {
+export class Zone extends Model implements GeoJsonGeometry {
   static getEndPointInTrail(trail: Trail, zones: Zone[]): ZonePoint {
 
     const lastZone = last(sortBy(zones, zone => zone.getPositionInTrail(trail)));
@@ -38,7 +38,8 @@ export class Zone implements GeoJsonGeometry {
   trailHrefs: { [key: string]: ZoneTrailData };
 
   constructor(data?: any) {
-    parsePropertiesInto(this, data, 'id', 'href', 'type', 'description', 'natureType', 'createdAt');
+    super();
+    this.parseProperties(data, 'id', 'href', 'type', 'description', 'natureType', 'createdAt');
 
     this.polygon = data['geometry']['coordinates'][0].map(LatLng.fromGeoJson);
     this.bounds = LatLngBounds.fromCoordinates(this.polygon);
@@ -83,10 +84,11 @@ export class Zone implements GeoJsonGeometry {
   }
 }
 
-class ZoneTrailData {
+class ZoneTrailData extends Model {
   position: number;
 
   constructor(data?: any) {
-    parsePropertiesInto(this, data, 'position');
+    super();
+    this.parseProperties(data, 'position');
   }
 }

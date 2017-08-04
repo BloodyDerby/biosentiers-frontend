@@ -1,6 +1,6 @@
-import { parsePropertiesInto } from '../utils/models';
+import { Model } from './abstract';
 
-export class Invitation {
+export class Invitation extends Model {
   email: string;
   role: string;
   firstName: string;
@@ -11,6 +11,7 @@ export class Invitation {
   expiresAt: Date;
 
   constructor(data?: any) {
-    parsePropertiesInto(this, data, 'email', 'role', 'firstName', 'lastName', 'link', 'sent', 'createdAt', 'expiresAt');
+    super();
+    this.parseProperties(data, 'email', 'role', 'firstName', 'lastName', 'link', 'sent', 'createdAt', 'expiresAt');
   }
 }

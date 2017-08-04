@@ -1,12 +1,10 @@
-import extend from 'lodash/extend';
 import moment from 'moment';
 
+import { Model } from './abstract';
 import { Trail } from './trail';
 import { User } from './user';
-import { parsePropertiesInto, parseRelationshipInto, toJson } from '../utils/models';
 
-export class Excursion {
-
+export class Excursion extends Model {
   id: string;
   href: string;
   name: string;
@@ -17,14 +15,14 @@ export class Excursion {
   plannedAt: Date;
   createdAt: Date;
   updatedAt: Date;
-
   creator: User;
   trail: Trail;
 
   constructor(data?: any) {
-    parsePropertiesInto(this, data, 'id', 'href', 'name', 'trailHref', 'participantsCount', 'themes', 'zoneHrefs', 'plannedAt', 'createdAt', 'updatedAt');
-    parseRelationshipInto(this, 'creator', User, data);
-    parseRelationshipInto(this, 'trail', Trail, data);
+    super();
+    this.parseProperties(data, 'id', 'href', 'name', 'trailHref', 'participantsCount', 'themes', 'zoneHrefs', 'plannedAt', 'createdAt', 'updatedAt');
+    this.parseRelationship('creator', User, data);
+    this.parseRelationship('trail', Trail, data);
   }
 
   isComplete(): boolean {
@@ -32,7 +30,7 @@ export class Excursion {
   }
 
   toJson(): any {
-    return toJson(this, 'name', 'trailHref', 'themes', 'zoneHrefs', {
+    return this.propertiesToJson('name', 'trailHref', 'themes', 'zoneHrefs', {
       plannedAt: () => moment(this.plannedAt).format()
     });
   }

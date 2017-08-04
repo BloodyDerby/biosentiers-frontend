@@ -1,11 +1,11 @@
 import compact from 'lodash/compact';
 import includes from 'lodash/includes';
 
-import { parsePropertiesInto } from '../utils/models';
+import { Model } from './abstract';
 
 export const roles: ReadonlyArray<string> = Object.freeze([ 'user', 'admin' ]);
 
-export class User {
+export class User extends Model {
   id: string;
   email: string;
   firstName: string;
@@ -20,7 +20,8 @@ export class User {
   updatedAt: Date;
 
   constructor(data?: any) {
-    parsePropertiesInto(this, data, 'id', 'email', 'firstName', 'lastName', 'role', 'active', 'loginCount', 'firstActivatedAt', 'lastActiveAt', 'lastLoginAt', 'createdAt', 'updatedAt');
+    super();
+    this.parseProperties(data, 'id', 'email', 'firstName', 'lastName', 'role', 'active', 'loginCount', 'firstActivatedAt', 'lastActiveAt', 'lastLoginAt', 'createdAt', 'updatedAt');
   }
 
   get fullName(): string {

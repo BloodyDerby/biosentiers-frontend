@@ -1,8 +1,8 @@
 import reduce from 'lodash/reduce';
 
-import { parsePropertiesInto } from '../utils/models';
+import { Model } from './abstract';
 
-export class InstallationEvent {
+export class InstallationEvent extends Model {
   id: string;
   href: string;
   type: string;
@@ -12,7 +12,8 @@ export class InstallationEvent {
   occurredAt: Date;
 
   constructor(data?: any) {
-    parsePropertiesInto(this, data, 'id', 'href', 'type', 'version', 'properties', 'createdAt', 'occurredAt');
+    super();
+    this.parseProperties(data, 'id', 'href', 'type', 'version', 'properties', 'createdAt', 'occurredAt');
   }
 
   get propertiesArray() {

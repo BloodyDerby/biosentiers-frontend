@@ -1,4 +1,4 @@
-import { parsePropertiesInto } from '../utils/models';
+import { Model } from './abstract';
 
 const COLORS = {
   bird: '#3f95e9',
@@ -7,7 +7,7 @@ const COLORS = {
   tree: '#35c05b'
 };
 
-export class Theme {
+export class Theme extends Model {
   static color(theme: string | Theme): string {
     return COLORS[theme instanceof Theme ? theme.name : theme];
   }
@@ -16,6 +16,7 @@ export class Theme {
   description: string;
 
   constructor(data?: any) {
-    parsePropertiesInto(this, data, 'name', 'description');
+    super();
+    this.parseProperties(data, 'name', 'description');
   }
 }

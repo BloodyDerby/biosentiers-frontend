@@ -1,7 +1,6 @@
-import { parsePropertiesInto } from '../utils/models';
+import { Model } from './abstract';
 
-export class Trail {
-
+export class Trail extends Model {
   id: string;
   href: string;
   name: string;
@@ -9,6 +8,7 @@ export class Trail {
   updatedAt: Date;
 
   constructor(data?: any) {
-    parsePropertiesInto(this, data, 'id', 'href', 'name', 'createdAt', 'updatedAt');
+    super();
+    this.parseProperties(data, 'id', 'href', 'name', 'createdAt', 'updatedAt');
   }
 }

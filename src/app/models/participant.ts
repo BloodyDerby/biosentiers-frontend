@@ -1,11 +1,11 @@
-import { parsePropertiesInto } from '../utils/models';
+import { Model } from './abstract';
 
-export class Participant {
-
+export class Participant extends Model {
   id: string;
   name: string;
 
   constructor(data?: any) {
-    parsePropertiesInto(this, data, 'id', 'name');
+    super();
+    this.parseProperties(data, 'id', 'name');
   }
 }

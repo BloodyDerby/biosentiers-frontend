@@ -1,14 +1,15 @@
+import { Model } from './abstract';
 import { LatLng } from './lat-lng';
 import { GeoJsonGeometry } from '../utils/geojson';
-import { parsePropertiesInto } from '../utils/models';
 
-export class ZonePoint implements GeoJsonGeometry {
+export class ZonePoint extends Model implements GeoJsonGeometry {
   type: string;
   location: LatLng;
   createdAt: Date;
 
   constructor(data?: any) {
-    parsePropertiesInto(this, data, 'type', 'location', 'createdAt');
+    super();
+    this.parseProperties(data, 'type', 'location', 'createdAt');
     this.location = LatLng.fromGeoJson(data['geometry']['coordinates']);
   }
 

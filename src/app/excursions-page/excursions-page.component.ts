@@ -11,7 +11,6 @@ import { ExcursionsService, RetrieveExcursionParams } from '../excursions';
 import { Excursion, User } from '../models';
 import { TableFilters, TableManager, TableState } from '../tables';
 import { PaginatedResponse } from '../utils/api';
-import { parsePropertiesInto } from '../utils/models';
 
 @Component({
   selector: 'bio-excursions-page',
@@ -98,7 +97,7 @@ class ExcursionsTableFilters implements TableFilters {
   search?: string;
 
   constructor(values?: any) {
-    parsePropertiesInto(this, values, 'search');
+    extend(this, pick(values, 'search'));
 
     if (values && values.plannedAtRange) {
       const beginDate = values.plannedAtRange.beginDate;

@@ -11,7 +11,6 @@ import { ShowInstallationEventDialogComponent } from '../installation-events-sho
 import { Installation, InstallationEvent } from '../models';
 import { TableFilters, TableManager, TableState } from '../tables';
 import { PaginatedResponse } from '../utils/api';
-import { parsePropertiesInto } from '../utils/models';
 
 @Component({
   selector: 'bio-show-installation-page',
@@ -111,14 +110,10 @@ class InstallationEventsTableManager extends TableManager<InstallationEvent, Ins
 }
 
 class InstallationEventsTableFilters implements TableFilters {
-  //search?: string;
-
   constructor(values?: any) {
-    parsePropertiesInto(this, values/*, 'search'*/);
   }
 
   isEmpty(): boolean {
-    //return !this.search || !this.search.length;
     return true;
   }
 }

@@ -9,7 +9,6 @@ import { TableFilters, TableManager, TableState } from '../tables';
 import { RetrieveUserParams, UsersService } from '../users';
 import { User } from '../models';
 import { PaginatedResponse } from '../utils/api';
-import { parsePropertiesInto } from '../utils/models';
 
 @Component({
   selector: 'bio-users-page',
@@ -71,7 +70,7 @@ class UsersTableFilters implements TableFilters {
   search?: string;
 
   constructor(values?: any) {
-    parsePropertiesInto(this, values, 'search');
+    extend(this, pick(values, 'search'));
   }
 
   isEmpty(): boolean {

@@ -8,7 +8,6 @@ import { RetrieveInstallationParams, InstallationsService } from '../installatio
 import { Installation } from '../models';
 import { TableFilters, TableManager, TableState } from '../tables';
 import { PaginatedResponse } from '../utils/api';
-import { parsePropertiesInto } from '../utils/models';
 
 @Component({
   selector: 'bio-installations-page',
@@ -64,7 +63,7 @@ class InstallationsTableFilters implements TableFilters {
   search?: string;
 
   constructor(values?: any) {
-    parsePropertiesInto(this, values, 'search');
+    extend(this, pick(values, 'search'));
   }
 
   isEmpty(): boolean {
