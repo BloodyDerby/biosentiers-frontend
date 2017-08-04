@@ -1,15 +1,15 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { LeafletDirective } from '@asymmetrik/angular2-leaflet';
-import { geoJSON, Layer as LeafletLayer, Map as LeafletMap, tileLayer } from 'leaflet';
+import { geoJSON as createLeafletGeoJsonLayer, tileLayer as createLeafletTileLayer, Layer as LeafletLayer, Map as LeafletMap, Marker as LeafletMarker } from 'leaflet';
 import find from 'lodash/find';
 import includes from 'lodash/includes';
 import pull from 'lodash/pull';
 import { Observable } from 'rxjs/Rx';
 
-import { Excursion } from '../models/excursion';
+import { getEndPointMarker } from '../excursions';
 import { LatLngBounds } from '../models/lat-lng-bounds';
-import { Trail, Zone } from '../models';
+import { Excursion, Trail, Zone } from '../models';
 import { GeoJsonFeature, GeoJsonFeatureCollection, toFeatureCollection } from '../utils/geojson';
 
 @Component({
@@ -39,6 +39,7 @@ export class ZoneMapComponent implements ControlValueAccessor, OnInit {
   private selectedZones: string[];
   private touched: boolean;
   private zoneViews: ZoneView[];
+  private endPointMarker: LeafletMarker;
 
   constructor() {
     this.touched = false;
@@ -58,6 +59,7 @@ export class ZoneMapComponent implements ControlValueAccessor, OnInit {
   writeValue(value: string[]) {
     this.selectedZones = value;
     this.updateZoneStyles();
+    this.updateEndPointMarker();
   }
 
   registerOnChange(onChange: (value: string[]) => void) {
@@ -71,6 +73,7 @@ export class ZoneMapComponent implements ControlValueAccessor, OnInit {
 
   onMapReady(map: LeafletMap) {
     this.map = map;
+    this.updateEndPointMarker();
   }
 
   private isZoneSelected(zoneView: ZoneView): boolean {
@@ -98,7 +101,23 @@ export class ZoneMapComponent implements ControlValueAccessor, OnInit {
     }
 
     this.updateZoneStyle(zoneView);
+    this.updateEndPointMarker();
     this.onChange(this.selectedZones);
+  }
+
+  private updateEndPointMarker() {
+    if (!this.map || !this.trail || !this.zones) {
+      return;
+    } else if (this.endPointMarker) {
+      this.map.removeLayer(this.endPointMarker);
+      delete this.endPointMarker;
+    }
+
+    const selectedZones = this.zoneViews.filter(view => this.isZoneSelected(view)).map(view => view.zone);
+    this.endPointMarker = getEndPointMarker(this.trail, selectedZones);
+    if (this.endPointMarker) {
+      this.endPointMarker.addTo(this.map);
+    }
   }
 
   private initZoneViews() {
@@ -117,8 +136,8 @@ export class ZoneMapComponent implements ControlValueAccessor, OnInit {
     this.mapData.options = {
       scrollWheelZoom: false,
       layers: [
-        tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
-        geoJSON(this.getZonesFeatureCollection(), {
+        createLeafletTileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
+        createLeafletGeoJsonLayer(this.getZonesFeatureCollection(), {
           style: (feature: GeoJsonFeature) => {
             return this.getZoneLayerStyle(this.getZoneView(feature));
           },
@@ -175,7 +194,6 @@ export class ZoneMapComponent implements ControlValueAccessor, OnInit {
 class ZoneView {
   layer: LeafletLayer;
   zone: Zone;
-  selected: boolean;
 
   constructor(zone: Zone) {
     this.zone = zone;

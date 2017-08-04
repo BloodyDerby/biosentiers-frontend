@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import Color from 'color';
-import { FeatureGroup as LeafletFeatureGroup, geoJSON as leafletGeoJsonLayer, Layer as LeafletLayer, Map as LeafletMap, tileLayer as leafletTileLayer } from 'leaflet';
+import { tileLayer as createLeafletTileLayer, geoJSON as createLeafletGeoJsonLayer, FeatureGroup as LeafletFeatureGroup, Layer as LeafletLayer, Map as LeafletMap, Marker as LeafletMarker } from 'leaflet';
 import each from 'lodash/each';
 import find from 'lodash/find';
 import includes from 'lodash/includes';
@@ -9,6 +9,7 @@ import isEqual from 'lodash/isEqual';
 import reduce from 'lodash/reduce';
 import { Observable } from 'rxjs/Rx';
 
+import { getEndPointMarker } from './excursions.utils';
 import { Excursion, LatLngBounds, Poi, Theme, Zone } from '../models';
 import { PoisService, RetrievePoiParams } from '../pois';
 import { GeoJsonFeature, GeoJsonFeatureCollection, toFeatureCollection } from '../utils/geojson';
@@ -35,6 +36,8 @@ export class ExcursionPoisMapComponent implements OnInit {
   onZonesLoaded: EventEmitter<Zone[]>;
 
   private currentThemeNames: string[];
+  private endPointMarker: LeafletMarker;
+  private zones: Zone[];
 
   constructor(private cdr: ChangeDetectorRef, private poisService: PoisService, private zonesService: BioZonesService) {
     this.poiMapViews = [];
@@ -48,7 +51,7 @@ export class ExcursionPoisMapComponent implements OnInit {
       throw new Error('Excursion input must have an associated trail');
     }
 
-    this.loadZones()
+    this.initZones()
       .do(zones => this.initMap(zones))
       .subscribe(undefined, err => this.initError = err);
   }
@@ -64,6 +67,7 @@ export class ExcursionPoisMapComponent implements OnInit {
 
   onMapReady(map: LeafletMap) {
     this.map = map;
+    this.updateEndPointMarker();
     this.cdr.detectChanges();
   }
 
@@ -71,10 +75,13 @@ export class ExcursionPoisMapComponent implements OnInit {
     this.poiMapViews.forEach(mapView => mapView.setVisible(includes(this.currentThemeNames, mapView.themeName)));
   }
 
-  private loadZones(): Observable<Zone[]> {
+  private initZones(): Observable<Zone[]> {
     return this.zonesService.retrieveAll(this.excursion.trail, {
       hrefs: this.excursion.zoneHrefs
-    }).do(zones => this.onZonesLoaded.emit(zones));
+    }).do(zones => {
+      this.zones = zones;
+      this.onZonesLoaded.emit(zones);
+    });
   }
 
   private loadMissingPois() {
@@ -106,7 +113,7 @@ export class ExcursionPoisMapComponent implements OnInit {
   private addPoiMapViews(poiMapViews: PoisMapView[]) {
     poiMapViews.forEach(mapView => {
 
-      mapView.layer = leafletGeoJsonLayer(toFeatureCollection<Poi>(mapView.pois), {
+      mapView.layer = createLeafletGeoJsonLayer(toFeatureCollection<Poi>(mapView.pois), {
         pointToLayer: (feature: GeoJsonFeature, latLng) => {
           return L.circleMarker(latLng);
         },
@@ -120,6 +127,20 @@ export class ExcursionPoisMapComponent implements OnInit {
     });
   }
 
+  private updateEndPointMarker() {
+    if (!this.map || !this.excursion || !this.zones) {
+      return;
+    } else if (this.endPointMarker) {
+      this.map.removeLayer(this.endPointMarker);
+      delete this.endPointMarker;
+    }
+
+    this.endPointMarker = getEndPointMarker(this.excursion.trail, this.zones);
+    if (this.endPointMarker) {
+      this.endPointMarker.addTo(this.map);
+    }
+  }
+
   private initMap(zones: Zone[]) {
 
     this.mapData = {};
@@ -130,12 +151,12 @@ export class ExcursionPoisMapComponent implements OnInit {
       padding: [ 20, 20 ]
     };
 
-    const zonesLayer = leafletGeoJsonLayer(toFeatureCollection<Zone>(zones), {
+    const zonesLayer = createLeafletGeoJsonLayer(toFeatureCollection<Zone>(zones), {
       style: (feature: GeoJsonFeature) => this.getZoneLayerStyle(feature)
     });
 
     const mapLayers = [
-      leafletTileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
+      createLeafletTileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
       zonesLayer
     ];
 

@@ -12,3 +12,4 @@ export * from './theme';
 export * from './trail';
 export * from './user';
 export * from './zone';
+export * from './zone-point';
