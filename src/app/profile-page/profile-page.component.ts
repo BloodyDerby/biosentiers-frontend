@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AuthViewService } from '../auth/auth.view.service';
+import { AuthViewService } from '../auth';
 
 @Component({
   selector: 'bio-profile-page',

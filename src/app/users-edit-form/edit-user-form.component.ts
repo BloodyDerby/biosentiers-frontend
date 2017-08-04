@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { hasError } from '../api';
 import { AuthService } from '../auth';
-import { AuthViewService } from '../auth/auth.view.service';
+import { AuthViewService } from '../auth';
 import { reset, waitForValidations } from '../forms';
 import { roles, User } from '../models';
 import { NotificationsService } from '../notifications';

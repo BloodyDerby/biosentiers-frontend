@@ -4,7 +4,7 @@ import extend from 'lodash/extend';
 import pick from 'lodash/pick';
 import { Observable } from 'rxjs/Rx';
 
-import { InvitationDialogComponent } from '../invitation-dialog/invitation-dialog.component';
+import { InvitationDialogComponent } from '../invitation-dialog';
 import { TableFilters, TableManager, TableState } from '../tables';
 import { RetrieveUserParams, UsersService } from '../users';
 import { User } from '../models';

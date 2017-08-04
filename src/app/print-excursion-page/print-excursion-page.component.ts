@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Rx';
 import { ExcursionsService, RetrieveExcursionParams } from '../excursions';
 import { Excursion, Participant, Zone } from '../models';
 import { ParticipantsService } from '../participants';
-import { RetrieveZonesParams, ZonesService } from '../zones/zones.service';
+import { RetrieveZonesParams, ZonesService } from '../zones';
 
 @Component({
   selector: 'bio-print-excursion-page',

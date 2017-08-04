@@ -13,7 +13,7 @@ import { getEndPointMarker } from '../excursions';
 import { Excursion, LatLngBounds, Poi, Theme, Zone } from '../models';
 import { PoisService, RetrievePoiParams } from '../pois';
 import { GeoJsonFeature, GeoJsonFeatureCollection, toFeatureCollection } from '../utils/geojson';
-import { ZonesService } from '../zones/zones.service';
+import { ZonesService } from '../zones';
 
 const POI_FILL_OPACITY = 0.5;
 const POI_STROKE_OPACITY = 1;

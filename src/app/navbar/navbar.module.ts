@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { BsDropdownModule  } from 'ngx-bootstrap/dropdown';
 
 import { AuthModule } from '../auth';
-import { LoginModalModule } from '../login-modal/login-modal.module';
+import { LoginModalModule } from '../login-modal';
 import { NavbarComponent } from './navbar.component';
 
 @NgModule({

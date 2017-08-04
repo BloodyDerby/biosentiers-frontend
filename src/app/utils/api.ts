@@ -2,7 +2,7 @@ import { Headers, RequestOptions, Response } from '@angular/http';
 import { RequestBuilder } from 'ng-request-builder';
 import { Observable } from 'rxjs/Rx';
 
-import { TableSort } from '../tables/table.manager';
+import { TableSort } from '../tables';
 
 export interface PaginationParams {
   offset?: number;

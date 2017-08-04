@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { AuthService, AuthViewService } from '../auth';
-import { LoginModalComponent } from '../login-modal/login-modal.component';
+import { LoginModalComponent } from '../login-modal';
 import { User } from '../models';
 
 @Component({

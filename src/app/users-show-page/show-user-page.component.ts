@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { PasswordResetLinkDialogComponent } from './';
+import { PasswordResetLinkDialogComponent } from './password-reset-link-dialog.component';
 import { User } from '../models';
 import { NotificationsService } from '../notifications';
 import { UserActivation, UsersService } from '../users';

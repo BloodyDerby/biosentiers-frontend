@@ -6,8 +6,8 @@ import moment from 'moment';
 import { IMyDrpOptions } from 'mydaterangepicker';
 import { Observable } from 'rxjs/Rx';
 
-import { AuthViewService } from '../auth/auth.view.service';
-import { ExcursionsService, RetrieveExcursionParams } from '../excursions/excursions.service';
+import { AuthViewService } from '../auth';
+import { ExcursionsService, RetrieveExcursionParams } from '../excursions';
 import { Excursion, User } from '../models';
 import { TableFilters, TableManager, TableState } from '../tables';
 import { PaginatedResponse } from '../utils/api';

@@ -22,8 +22,8 @@ import { ParticipantsModule } from '../participants';
 import { ThemesModule } from '../themes';
 import { TrailsModule } from '../trails';
 import { ZonesModule } from '../zones';
-import { TruncatePipe } from '../common/truncate.pipe';
-import { WizardModule } from '../wizard/wizard.module';
+import { TruncatePipe } from '../common';
+import { WizardModule } from '../wizard';
 
 @NgModule({
   imports: [

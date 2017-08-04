@@ -7,7 +7,7 @@ import { Observable, ReplaySubject, Subscription } from 'rxjs/Rx';
 import { EditExcursionService } from './edit-excursion.service';
 import { Excursion, Theme, Trail, Zone } from '../models';
 import { ThemesService } from '../themes';
-import { RetrieveZonesParams, ZonesService } from '../zones/zones.service';
+import { RetrieveZonesParams, ZonesService } from '../zones';
 import { spread } from '../utils/async';
 
 @Component({
