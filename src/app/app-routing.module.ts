@@ -13,7 +13,8 @@ import { InstallationsPageComponent } from './installations-page';
 import { PrintExcursionPageComponent } from './print-excursion-page/print-excursion-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { ProfileEditPageComponent } from './profile-edit-page/profile-edit-page.component';
-import { RegistrationPageComponent } from './registration-page/registration-page.component';
+import { RegistrationPageComponent } from './registration-page';
+import { CompleteRegistrationPageComponent } from './registration-complete-page/complete-registration-page.component';
 import { ResetPasswordPageComponent } from './reset-password-page/reset-password-page.component';
 import { StatusPageComponent } from './status-page';
 import { UsersPageComponent } from './users-page/users-page.component';
@@ -32,6 +33,10 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegistrationPageComponent
+  },
+  {
+    path: 'register/complete',
+    component: CompleteRegistrationPageComponent
   },
   {
     path: 'resetPassword',

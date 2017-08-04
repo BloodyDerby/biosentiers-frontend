@@ -10,6 +10,7 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { CompleteRegistrationPageModule } from './registration-complete-page/complete-registration-page.module';
 import { EditExcursionPageModule } from './edit-excursion-page/edit-excursion-page.module';
 import { EditUserPageModule } from './users-edit-page';
 import { ExcursionsPageModule } from './excursions-page/excursions-page.module';
@@ -20,7 +21,7 @@ import { NavbarModule } from './navbar/navbar.module';
 import { PrintExcursionPageModule } from './print-excursion-page/print-excursion-page.module';
 import { ProfilePageModule } from './profile-page/profile-page.module';
 import { ProfileEditPageModule } from './profile-edit-page/profile-edit-page.module';
-import { RegistrationPageModule } from './registration-page/registration-page.module';
+import { RegistrationPageModule } from './registration-page';
 import { ResetPasswordPageModule } from './reset-password-page/reset-password-page.module';
 import { StatusPageModule } from './status-page';
 import { UsersPageModule } from './users-page/users-page.module';
@@ -50,6 +51,7 @@ import 'rxjs/add/operator/take';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    CompleteRegistrationPageModule,
     FormsModule,
     HttpModule,
     ModalModule.forRoot(),

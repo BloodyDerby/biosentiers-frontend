@@ -50,12 +50,20 @@
             {{ auth.user.fullName }}
           </a>
         </li>
-        <li *ngIf='!auth.user'>
-          <a (click)='openLoginModal($event)'>
-            <span class='glyphicon glyphicon-log-in'></span>
-            Connexion
-          </a>
-        </li>
+        <ng-container *ngIf='!auth.user'>
+          <li>
+            <a (click)='register()'>
+              <span class='glyphicon glyphicon-user'></span>
+              Inscription
+            </a>
+          </li>
+          <li>
+            <a (click)='openLoginModal($event)'>
+              <span class='glyphicon glyphicon-log-in'></span>
+              Connexion
+            </a>
+          </li>
+        </ng-container>
         <li *ngIf='auth.user'>
           <a (click)='logOut($event)'>
             <span class='glyphicon glyphicon-log-out'></span>

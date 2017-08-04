@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { BioAuthService, AuthViewService } from '../auth';
 import { LoginModalComponent } from '../login-modal/login-modal.component';
@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
 
   @ViewChild(LoginModalComponent) loginModal: LoginModalComponent;
 
-  constructor(authViewService: AuthViewService, private authService: BioAuthService, private route: ActivatedRoute) {
+  constructor(authViewService: AuthViewService, private authService: BioAuthService, private route: ActivatedRoute, private router: Router) {
     this.auth = authViewService;
   }
 
@@ -29,13 +29,15 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  openLoginModal(event) {
-    event.preventDefault();
+  openLoginModal() {
     this.loginModal.open();
   }
 
-  logOut(event) {
-    event.preventDefault();
+  register() {
+    this.router.navigate([ '/register' ]);
+  }
+
+  logOut() {
     this.authService.unauthenticate();
   }
 

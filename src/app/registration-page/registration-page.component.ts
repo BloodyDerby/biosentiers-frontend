@@ -7,7 +7,7 @@ import { BioAuthService, AuthApiService, AuthViewService } from '../auth';
 import { waitForValidations } from '../forms';
 import { Invitation, User } from '../models';
 import { NotificationsService } from '../notifications';
-import { passwordConfirmationMustMatch, UsersService } from '../users';
+import { UserValidationsService } from '../users';
 
 @Component({
   selector: 'bio-registration-page',
@@ -15,26 +15,17 @@ import { passwordConfirmationMustMatch, UsersService } from '../users';
   styleUrls: ['./registration-page.component.styl']
 })
 export class RegistrationPageComponent implements OnInit {
-
   auth: AuthViewService;
-  invitationInvalid: boolean;
+  invitation: Invitation;
+  registered: boolean;
   registrationForm: FormGroup;
 
-  constructor(private authService: BioAuthService, private authApiService: AuthApiService, authViewService: AuthViewService, private formBuilder: FormBuilder, private notifications: NotificationsService, private route: ActivatedRoute, private router: Router, private usersService: UsersService) {
+  constructor(private authService: BioAuthService, private authApiService: AuthApiService, authViewService: AuthViewService, private formBuilder: FormBuilder, private notifications: NotificationsService, private router: Router, private userValidationsService: UserValidationsService) {
     this.auth = authViewService;
   }
 
   ngOnInit() {
-    this.retrieveInvitation().subscribe(invitation => {
-      this.initRegistrationForm();
-      this.registrationForm.patchValue({
-        email: invitation.email,
-        firstName: invitation.firstName,
-        lastName: invitation.lastName
-      });
-    }, err => {
-      this.invitationInvalid = true;
-    });
+    this.initRegistrationForm();
   }
 
   invite() {
@@ -43,27 +34,26 @@ export class RegistrationPageComponent implements OnInit {
         return;
       }
 
-      this.createUser()
-        .switchMap(user => this.autoLogIn(user))
-        .subscribe(() => {
-          this.notifications.success('Bienvenue sur le site BioSentiers !');
-          this.goToHome();
-        }, err => {
-          this.notifications.error("Votre compte n'a pas pu être créé");
-        });
-    })
+      const invitation = new Invitation(this.registrationForm.value);
+      invitation.sent = true;
+
+      this.authApiService.sendInvitation(invitation).subscribe(createdInvitation => {
+        this.invitation = createdInvitation;
+      }, err => {
+        this.notifications.error("Votre demande d'inscription n'a pas pu être prise en compte. Veuillez réessayer plus tard.");
+      });
+    });
   }
 
   private initRegistrationForm() {
     this.registrationForm = this.formBuilder.group({
-      email: new FormControl({ value: '', disabled: true }, Validators.required),
-      password: [
+      email: [
         '',
-        Validators.required
-      ],
-      passwordConfirmation: [
-        '',
-        Validators.required
+        Validators.compose([
+          Validators.required,
+          Validators.email
+        ]),
+        this.userValidationsService.emailAvailable()
       ],
       firstName: [
         '',
@@ -79,28 +69,7 @@ export class RegistrationPageComponent implements OnInit {
           Validators.maxLength(20)
         ])
       ]
-    }, {
-      validator: passwordConfirmationMustMatch()
     });
-  }
-
-  private retrieveInvitation(): Observable<Invitation> {
-    return this.authApiService.retrieveInvitation(this.route.snapshot.queryParams.invitation);
-  }
-
-  private createUser(): Observable<User> {
-    return this.usersService.create(this.registrationForm.value, this.route.snapshot.queryParams.invitation);
-  }
-
-  private autoLogIn(user) {
-    return this.authService.authenticate({
-      email: user.email,
-      password: this.registrationForm.get('password').value
-    });
-  }
-
-  private goToHome() {
-    this.router.navigate([ '/' ]);
   }
 
 }
