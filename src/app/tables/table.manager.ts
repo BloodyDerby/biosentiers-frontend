@@ -2,8 +2,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import isEmpty from 'lodash/isEmpty';
 import { Observable, ReplaySubject, Subject } from 'rxjs/Rx';
 
-import { PaginatedResponse } from '../utils/api';
-import { triggerObservable } from '../utils/async';
+import { PaginatedResponse } from '../api';
 
 export abstract class TableManager<T,F extends TableFilters> {
   initialized: boolean;
@@ -78,7 +77,9 @@ export abstract class TableManager<T,F extends TableFilters> {
 
     this.stateSubject.next(this.state);
 
-    return triggerObservable<PaginatedResponse<T>>(this.retrieveCurrentPage());
+    const obs = this.retrieveCurrentPage().share();
+    obs.subscribe();
+    return obs;
   }
 
   retrieveCurrentPage(): Observable<PaginatedResponse<T>> {

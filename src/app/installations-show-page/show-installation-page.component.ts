@@ -5,12 +5,12 @@ import extend from 'lodash/extend';
 import pick from 'lodash/pick';
 import { Observable } from 'rxjs/Rx';
 
+import { ApiQueryParams, PaginatedResponse, tableStateToApiQueryParams } from '../api';
 import { InstallationsService } from '../installations';
 import { RetrieveInstallationEventParams, InstallationEventsService } from '../installation-events';
 import { ShowInstallationEventDialogComponent } from '../installation-events-show-dialog';
 import { Installation, InstallationEvent } from '../models';
 import { TableFilters, TableManager, TableState } from '../tables';
-import { PaginatedResponse } from '../utils/api';
 
 @Component({
   selector: 'bio-show-installation-page',
@@ -105,15 +105,19 @@ class InstallationEventsTableManager extends TableManager<InstallationEvent, Ins
   }
 
   retrievePage(state: TableState<InstallationEventsTableFilters>): Observable<PaginatedResponse<InstallationEvent>> {
-    return this.installationEventsService.retrievePaginated(this.installation, extend({}, this.params, pick(state, 'offset', 'limit', 'sorts'), state.filters));
+    return this.installationEventsService.retrievePaginated(this.installation, extend({}, this.params, tableStateToApiQueryParams(state)));
   }
 }
 
-class InstallationEventsTableFilters implements TableFilters {
+class InstallationEventsTableFilters implements ApiQueryParams, TableFilters {
   constructor(values?: any) {
   }
 
   isEmpty(): boolean {
     return true;
+  }
+
+  toParams() {
+    return {};
   }
 }

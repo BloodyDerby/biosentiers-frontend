@@ -1,4 +1,3 @@
-import flatten from 'lodash/flatten';
 import isFunction from 'lodash/isFunction';
 import { Observable } from 'rxjs/Rx';
 
@@ -20,8 +19,4 @@ export function toObservable<T>(value: Observable<T> | Promise<T> | T): Observab
   } else {
     return Observable.of(value);
   }
-}
-
-export function triggerObservable<T>(obs: Observable<T>) {
-  return Observable.fromPromise(obs.toPromise());
 }

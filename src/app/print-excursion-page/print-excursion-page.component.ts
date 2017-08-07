@@ -52,11 +52,9 @@ export class PrintExcursionPageComponent implements OnInit {
   }
 
   retrieveZones(excursion: Excursion): Observable<Zone[]> {
-    const params: RetrieveZonesParams = {
-      hrefs: excursion.zoneHrefs
-    };
-
-    return this.zonesService.retrieveAll(excursion.trail, params);
+    return this.zonesService.retrieveAll(excursion.trail, {
+      href: excursion.zoneHrefs
+    });
   }
 
 }

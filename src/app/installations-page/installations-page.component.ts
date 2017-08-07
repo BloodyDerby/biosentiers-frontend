@@ -4,10 +4,10 @@ import extend from 'lodash/extend';
 import pick from 'lodash/pick';
 import { Observable } from 'rxjs/Rx';
 
+import { ApiQueryParams, PaginatedResponse, tableStateToApiQueryParams } from '../api';
 import { RetrieveInstallationParams, InstallationsService } from '../installations';
 import { Installation } from '../models';
 import { TableFilters, TableManager, TableState } from '../tables';
-import { PaginatedResponse } from '../utils/api';
 
 @Component({
   selector: 'bio-installations-page',
@@ -55,11 +55,11 @@ class InstallationsTableManager extends TableManager<Installation, Installations
   }
 
   retrievePage(state: TableState<InstallationsTableFilters>): Observable<PaginatedResponse<Installation>> {
-    return this.installationsService.retrievePaginated(extend({}, this.params, pick(state, 'offset', 'limit', 'sorts'), state.filters));
+    return this.installationsService.retrievePaginated(extend({}, this.params, tableStateToApiQueryParams(state)));
   }
 }
 
-class InstallationsTableFilters implements TableFilters {
+class InstallationsTableFilters implements ApiQueryParams, TableFilters {
   search?: string;
 
   constructor(values?: any) {
@@ -68,5 +68,9 @@ class InstallationsTableFilters implements TableFilters {
 
   isEmpty(): boolean {
     return !this.search || !this.search.length;
+  }
+
+  toParams() {
+    return pick(this, 'search');
   }
 }

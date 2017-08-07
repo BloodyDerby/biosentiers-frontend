@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { TableFilters, TableManager } from './table.manager';
-import { PaginatedResponse } from '../utils/api';
 
 @Component({
   selector: 'bio-table',

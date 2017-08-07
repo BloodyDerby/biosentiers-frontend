@@ -10,7 +10,6 @@ import { Observable, ReplaySubject, Subscription } from 'rxjs/Rx';
 
 import { ExcursionsService, RetrieveExcursionParams } from '../excursions';
 import { Excursion } from '../models';
-import { triggerObservable } from '../utils/async';
 
 const retrieveExcursionParams: RetrieveExcursionParams = {
   includeCreator: true,
@@ -74,9 +73,9 @@ export class EditExcursionService {
       obs = this.excursionsService.create(excursion, retrieveExcursionParams);
     }
 
-    obs = obs.do((excursion) => this.setExcursion(excursion));
-
-    return triggerObservable<Excursion>(obs);
+    obs = obs.do((excursion) => this.setExcursion(excursion)).share();
+    obs.subscribe();
+    return obs;
   }
 
   stopEditing() {

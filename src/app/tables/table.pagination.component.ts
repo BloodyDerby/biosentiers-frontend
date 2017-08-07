@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 import { TableFilters, TableManager } from './table.manager';
-import { PaginatedResponse } from '../utils/api';
+import { PaginatedResponse } from '../api';
 
 const NUMBER_OF_PAGES = 5;
 

@@ -58,8 +58,8 @@ export class ThemeComponent implements OnInit {
 
   private updatePoisCount() {
     return this.poisService.count(this.trail, {
-      themes: [ this.theme.name ],
-      zones: map(this.zones || [], 'href')
+      theme: [ this.theme.name ],
+      zone: map(this.zones || [], 'href')
     })
       .map(res => res.pagination.effectiveTotal)
       .subscribe(count => this.poisCount = count);

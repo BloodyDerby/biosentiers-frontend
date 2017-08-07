@@ -6,11 +6,11 @@ import moment from 'moment';
 import { IMyDrpOptions } from 'mydaterangepicker';
 import { Observable } from 'rxjs/Rx';
 
+import { ApiQueryParams, ComparisonOperator, DateComparisonParam, PaginatedResponse, tableStateToApiQueryParams } from '../api';
 import { AuthViewService } from '../auth';
 import { ExcursionsService, RetrieveExcursionParams } from '../excursions';
 import { Excursion, User } from '../models';
 import { TableFilters, TableManager, TableState } from '../tables';
-import { PaginatedResponse } from '../utils/api';
 
 @Component({
   selector: 'bio-excursions-page',
@@ -87,27 +87,35 @@ class ExcursionsTableManager extends TableManager<Excursion, ExcursionsTableFilt
   }
 
   retrievePage(state: TableState<ExcursionsTableFilters>): Observable<PaginatedResponse<Excursion>> {
-    return this.excursionsService.retrievePaginated(extend({}, this.params, pick(state, 'offset', 'limit', 'sorts'), state.filters));
+    return this.excursionsService.retrievePaginated(extend({}, this.params, tableStateToApiQueryParams(state)));
   }
 }
 
-class ExcursionsTableFilters implements TableFilters {
-  plannedAtGte?: Date;
-  plannedAtLt?: Date;
+class ExcursionsTableFilters implements ApiQueryParams, TableFilters {
+  plannedAt?: DateComparisonParam[];
   search?: string;
 
   constructor(values?: any) {
     extend(this, pick(values, 'search'));
 
     if (values && values.plannedAtRange) {
-      const beginDate = values.plannedAtRange.beginDate;
-      this.plannedAtGte = moment(`${beginDate.year}-${beginDate.month}-${beginDate.day}`, 'YYYY-MM-DD').startOf('day').toDate();
-      const endDate = values.plannedAtRange.endDate;
-      this.plannedAtLt = moment(`${endDate.year}-${endDate.month}-${endDate.day}`, 'YYYY-MM-DD').add(1, 'day').startOf('day').toDate();
+      this.plannedAt = [];
+
+      const beginDateObject = values.plannedAtRange.beginDate;
+      const beginDate = moment(`${beginDateObject.year}-${beginDateObject.month}-${beginDateObject.day}`, 'YYYY-MM-DD').startOf('day').toDate();
+      this.plannedAt.push(new DateComparisonParam(ComparisonOperator.GreaterThanOrEqualTo, beginDate));
+
+      const endDateObject = values.plannedAtRange.endDate;
+      const endDate = moment(`${endDateObject.year}-${endDateObject.month}-${endDateObject.day}`, 'YYYY-MM-DD').add(1, 'day').startOf('day').toDate();
+      this.plannedAt.push(new DateComparisonParam(ComparisonOperator.LessThan, endDate));
     }
   }
 
   isEmpty(): boolean {
-    return !this.plannedAtGte && !this.plannedAtLt && (!this.search || !this.search.length);
+    return (!this.plannedAt || !this.plannedAt.length) && (!this.search || !this.search.length);
+  }
+
+  toParams(): any {
+    return pick(this, 'plannedAt', 'search');
   }
 }

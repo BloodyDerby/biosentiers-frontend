@@ -77,7 +77,7 @@ export class ExcursionPoisMapComponent implements OnInit {
 
   private initZones(): Observable<Zone[]> {
     return this.zonesService.retrieveAll(this.excursion.trail, {
-      hrefs: this.excursion.zoneHrefs
+      href: this.excursion.zoneHrefs
     }).do(zones => {
       this.zones = zones;
       this.onZonesLoaded.emit(zones);
@@ -99,8 +99,8 @@ export class ExcursionPoisMapComponent implements OnInit {
     }
 
     this.poisService.retrieveAll(this.excursion.trail, {
-      themes: missing.map(mapView => mapView.themeName),
-      zones: this.excursion.zoneHrefs
+      theme: missing.map(mapView => mapView.themeName),
+      zone: this.excursion.zoneHrefs
     }).subscribe(pois => {
       each(missing, mapView => {
         mapView.pois = pois.filter(poi => poi.theme === mapView.themeName);

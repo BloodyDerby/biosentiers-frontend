@@ -16,7 +16,6 @@ import { Observable } from 'rxjs/Rx';
 
 import { EditExcursionService } from './edit-excursion.service';
 import { Excursion, Trail } from '../models';
-import { ComponentAddon } from '../utils/component-addon';
 import { CanActivateStep, StepIsEnabled, WizardComponent, WizardStep, WizardStepOptions, WizardStepRoute } from '../wizard';
 
 @Component({
@@ -120,13 +119,21 @@ export class EditExcursionPageComponent implements OnInit, OnDestroy {
 
 }
 
-class ParticipantsStepIsEnabled extends ComponentAddon<EditExcursionPageComponent> implements StepIsEnabled {
+export abstract class EditExcursionPageAddon {
+  component: EditExcursionPageComponent;
+
+  constructor(component: EditExcursionPageComponent) {
+    this.component = component;
+  }
+}
+
+class ParticipantsStepIsEnabled extends EditExcursionPageAddon implements StepIsEnabled {
   isEnabled(): boolean {
     return this.component.excursionIsValid();
   }
 }
 
-class CanActivateParticipantsStep extends ComponentAddon<EditExcursionPageComponent> implements CanActivateStep {
+class CanActivateParticipantsStep extends EditExcursionPageAddon implements CanActivateStep {
   canActivate(): Observable<boolean> {
     if (!this.component.excursionIsValid()) {
       return Observable.of(false);
@@ -136,13 +143,13 @@ class CanActivateParticipantsStep extends ComponentAddon<EditExcursionPageCompon
   }
 }
 
-class ZonesStepIsEnabled extends ComponentAddon<EditExcursionPageComponent> implements StepIsEnabled {
+class ZonesStepIsEnabled extends EditExcursionPageAddon implements StepIsEnabled {
   isEnabled(): Observable<boolean> {
     return this.component.getExcursion().map(excursion => excursion.participantsCount >= 1);
   }
 }
 
-class ThemesStepIsEnabled extends ComponentAddon<EditExcursionPageComponent> implements StepIsEnabled {
+class ThemesStepIsEnabled extends EditExcursionPageAddon implements StepIsEnabled {
   isEnabled(): Observable<boolean> {
     return this.component.getExcursion().map(excursion => !!excursion.zoneHrefs.length);
   }

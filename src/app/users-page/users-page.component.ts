@@ -4,11 +4,11 @@ import extend from 'lodash/extend';
 import pick from 'lodash/pick';
 import { Observable } from 'rxjs/Rx';
 
+import { ApiQueryParams, PaginatedResponse, tableStateToApiQueryParams } from '../api';
 import { InvitationDialogComponent } from '../invitation-dialog';
 import { TableFilters, TableManager, TableState } from '../tables';
 import { RetrieveUserParams, UsersService } from '../users';
 import { User } from '../models';
-import { PaginatedResponse } from '../utils/api';
 
 @Component({
   selector: 'bio-users-page',
@@ -62,11 +62,11 @@ class UsersTableManager extends TableManager<User, UsersTableFilters> {
   }
 
   retrievePage(state: TableState<UsersTableFilters>): Observable<PaginatedResponse<User>> {
-    return this.usersService.retrievePaginated(extend({}, this.params, pick(state, 'offset', 'limit', 'sorts'), state.filters));
+    return this.usersService.retrievePaginated(extend({}, this.params, tableStateToApiQueryParams(state)));
   }
 }
 
-class UsersTableFilters implements TableFilters {
+class UsersTableFilters implements ApiQueryParams, TableFilters {
   search?: string;
 
   constructor(values?: any) {
@@ -75,5 +75,9 @@ class UsersTableFilters implements TableFilters {
 
   isEmpty(): boolean {
     return !this.search || !this.search.length;
+  }
+
+  toParams() {
+    return pick(this, 'search');
   }
 }

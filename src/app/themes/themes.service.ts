@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
-import { ApiService } from '../api';
+import { apiQueryParamsModifier, ApiService } from '../api';
 import { Theme } from '../models';
 
 @Injectable()
@@ -11,10 +11,10 @@ export class ThemesService {
   constructor(private api: ApiService) {
   }
 
-  retrieveAll(params: RetrieveThemesParams = {}): Observable<Theme[]> {
+  retrieveAll(params?: RetrieveThemesParams): Observable<Theme[]> {
     return this.api
       .get('/themes')
-      .modify(applyRetrieveThemesParams.bind(undefined, params))
+      .modify(apiQueryParamsModifier(params))
       .execute()
       .map(res => res.json().map(data => new Theme(data)));
   }
@@ -22,12 +22,5 @@ export class ThemesService {
 }
 
 export interface RetrieveThemesParams {
-  names?: string[];
-}
-
-// TODO: investigate decorators to auto-generate this
-function applyRetrieveThemesParams(params: RetrieveThemesParams, options: RequestOptions) {
-  if (params.names) {
-    params.names.forEach(name => options.search.append('name', name));
-  }
+  name?: string | string[];
 }

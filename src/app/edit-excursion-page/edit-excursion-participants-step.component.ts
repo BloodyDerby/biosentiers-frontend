@@ -6,7 +6,6 @@ import { Observable } from 'rxjs/Rx';
 import { EditExcursionService } from './edit-excursion.service';
 import { Excursion, Participant } from '../models';
 import { ParticipantsService } from '../participants';
-import { triggerObservable } from '../utils/async';
 
 @Component({
   selector: 'bio-edit-excursion-participants-step',
@@ -70,9 +69,10 @@ export class EditExcursionParticipantsStepComponent implements OnInit {
       return this.editExcursionService.patchExcursion({
         participantsCount: excursion.participantsCount + value
       });
-    })
+    }).share();
 
-    return triggerObservable<Excursion>(obs);
+    obs.subscribe();
+    return obs;
   }
 
 }

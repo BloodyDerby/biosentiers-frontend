@@ -56,7 +56,7 @@ export class ShowExcursionPageComponent implements OnInit {
     }
 
     return this.themesService.retrieveAll({
-      names: excursion.themes
+      name: excursion.themes
     }).do(themes => this.themes = themes);
   }
 }
