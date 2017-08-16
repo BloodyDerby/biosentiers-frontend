@@ -5,11 +5,11 @@ import { RouterModule } from '@angular/router';
 import { MomentModule } from 'angular2-moment';
 import { TooltipModule } from 'ngx-bootstrap';
 
-import { InvitationDialogModule } from '../invitation-dialog';
 import { TablesModule } from '../tables';
 import { TitleModule } from '../title';
 import { UsersPageComponent } from './users-page.component';
 import { UsersModule } from '../users';
+import { InvitationDialogModule } from '../users-invitation-dialog';
 
 @NgModule({
   imports: [

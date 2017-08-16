@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { CanAccessPage } from './auth';
-import { EditExcursionDetailsStepComponent, EditExcursionPageComponent, EditExcursionParticipantsStepComponent, EditExcursionThemesStepComponent, EditExcursionZonesStepComponent } from './edit-excursion-page';
+import { EditExcursionDetailsStepComponent, EditExcursionPageComponent, EditExcursionParticipantsStepComponent, EditExcursionThemesStepComponent, EditExcursionZonesStepComponent } from './excursions-edit-page';
 import { ExcursionsPageComponent } from './excursions-page';
+import { PrintExcursionPageComponent } from './excursions-print-page';
 import { HomePageComponent } from './home-page';
 import { InstallationsPageComponent } from './installations-page';
-import { PrintExcursionPageComponent } from './print-excursion-page';
 import { ProfilePageComponent } from './profile-page';
 import { ProfileEditPageComponent } from './profile-edit-page';
 import { RegistrationPageComponent } from './registration-page';

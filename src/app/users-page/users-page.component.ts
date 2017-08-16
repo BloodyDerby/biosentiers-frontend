@@ -5,11 +5,11 @@ import pick from 'lodash/pick';
 import { Observable } from 'rxjs/Rx';
 
 import { ApiQueryParams, PaginatedResponse, tableStateToApiQueryParams } from '../api';
-import { InvitationDialogComponent } from '../invitation-dialog';
 import { TableFilters, TableManager, TableState } from '../tables';
 import { RetrieveUserParams, UsersService } from '../users';
 import { User } from '../models';
 import { TitleService } from '../title';
+import { InvitationDialogComponent } from '../users-invitation-dialog';
 
 @Component({
   selector: 'bio-users-page',
