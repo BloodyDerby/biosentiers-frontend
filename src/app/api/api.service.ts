@@ -12,7 +12,7 @@ export class ApiService implements ObservableInterceptor {
   private currentRequests: Observable<any>[];
   private completeProgressTimeout;
 
-  constructor(private auth: AuthService, private loadingBarService: SlimLoadingBarService, private requestBuilderService: RequestBuilderService) {
+  constructor(private authService: AuthService, private loadingBarService: SlimLoadingBarService, private requestBuilderService: RequestBuilderService) {
     this.currentRequests = [];
   }
 
@@ -37,17 +37,21 @@ export class ApiService implements ObservableInterceptor {
   }
 
   onRequest(observable: Observable<Response>): Observable<Response> {
+
     this.startProgress(observable);
+
+    const checkAuthentication = this.checkAuthentication.bind(this);
     const completeProgress = this.completeProgress.bind(this, observable);
-    return observable.do(completeProgress, completeProgress, completeProgress);
+
+    return observable
+      .do(undefined, checkAuthentication)
+      .do(completeProgress, completeProgress, completeProgress);
   }
 
-  paramsModifier<T>(func: (params: T, options: RequestOptions) => any, params?: T) {
-    return function(options: RequestOptions) {
-      if (params) {
-        func(params, options);
-      }
-    };
+  private checkAuthentication(res: Response) {
+    if (res.status == 401) {
+      this.authService.unauthenticate();
+    }
   }
 
   private startProgress(observable: Observable<any>) {
@@ -77,7 +81,7 @@ export class ApiService implements ObservableInterceptor {
   }
 
   private configure(builder: RequestBuilder): RequestBuilder {
-    this.auth.addAuthorization(builder);
+    this.authService.addAuthorization(builder);
     return builder.interceptor(this);
   }
 
