@@ -7,8 +7,33 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <style>
+    body {
+      padding: 70px 0;
+    }
+
+    .starting-app {
+      text-align: center;
+    }
+
+    .starting-app .loading {
+      margin-top: 1em;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 21px;
+      font-weight: 300;
+      color: #c0c0c0;
+      line-height: 1.4;
+    }
+  </style>
 </head>
 <body>
-  <bio-root>Loading...</bio-root>
+  <bio-root>
+    <div class='starting-app'>
+      <img src='/assets/img/logo.png' width='200px' />
+      <p class='loading'>Chargement...</p>
+      <img src='/assets/loading.svg' width='150px' />
+    </div>
+  </bio-root>
 </body>
 </html>
