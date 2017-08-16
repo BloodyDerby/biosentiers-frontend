@@ -8,6 +8,7 @@ import { ExcursionsModule } from '../excursions';
 import { ParticipantsModule } from '../participants';
 import { ExcursionQrcodeComponent } from './excursion-qrcode.component';
 import { PrintExcursionPageComponent } from './print-excursion-page.component';
+import { TitleModule } from '../title';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { PrintExcursionPageComponent } from './print-excursion-page.component';
     MomentModule,
     ParticipantsModule,
     RouterModule,
+    TitleModule,
     TooltipModule
   ],
   declarations: [

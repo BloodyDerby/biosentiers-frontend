@@ -38,8 +38,9 @@ export class EditExcursionPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     this.editExcursionService.edit(this.route.snapshot.params['id']);
-    // TODO: watch excursion changes to update page title
+
     this.editExcursionService.excursionObs.first().subscribe((excursion) => {
       this.excursion = excursion;
       this.initWizard();

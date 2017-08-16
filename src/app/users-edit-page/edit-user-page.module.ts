@@ -5,6 +5,7 @@ import { TooltipModule } from 'ngx-bootstrap';
 
 import { AuthModule } from '../auth';
 import { EditUserPageComponent } from './edit-user-page.component';
+import { TitleModule } from '../title';
 import { UsersModule } from '../users';
 import { EditUserFormModule } from '../users-edit-form';
 
@@ -14,6 +15,7 @@ import { EditUserFormModule } from '../users-edit-form';
     CommonModule,
     EditUserFormModule,
     RouterModule,
+    TitleModule,
     TooltipModule,
     UsersModule
   ],

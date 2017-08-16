@@ -9,6 +9,7 @@ import { AuthApiModule } from '../auth-api';
 import { NotificationsModule } from '../notifications';
 import { PasswordResetLinkDialogComponent } from './password-reset-link-dialog.component';
 import { ShowUserPageComponent } from './show-user-page.component';
+import { TitleModule } from '../title';
 import { UsersModule } from '../users';
 
 @NgModule({
@@ -20,6 +21,7 @@ import { UsersModule } from '../users';
     MomentModule,
     NotificationsModule,
     RouterModule,
+    TitleModule,
     TooltipModule,
     UsersModule
   ],

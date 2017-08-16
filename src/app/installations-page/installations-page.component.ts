@@ -8,6 +8,7 @@ import { ApiQueryParams, PaginatedResponse, tableStateToApiQueryParams } from '.
 import { RetrieveInstallationParams, InstallationsService } from '../installations';
 import { Installation } from '../models';
 import { TableFilters, TableManager, TableState } from '../tables';
+import { TitleService } from '../title';
 
 @Component({
   selector: 'bio-installations-page',
@@ -17,10 +18,11 @@ import { TableFilters, TableManager, TableState } from '../tables';
 export class InstallationsPageComponent implements OnInit {
   tableManager: InstallationsTableManager;
 
-  constructor(private installationsService: InstallationsService) {
+  constructor(private installationsService: InstallationsService, private titleService: TitleService) {
   }
 
   ngOnInit() {
+    this.titleService.setTitle([ 'Installations' ]);
     this.tableManager = new InstallationsTableManager(this.installationsService);
   }
 

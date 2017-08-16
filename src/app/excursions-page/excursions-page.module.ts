@@ -9,6 +9,7 @@ import { CommonModule } from '../common';
 import { ExcursionsModule } from '../excursions';
 import { ExcursionsPageComponent } from './excursions-page.component';
 import { TablesModule } from '../tables';
+import { TitleModule } from '../title';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { TablesModule } from '../tables';
     ReactiveFormsModule,
     RouterModule,
     TablesModule,
+    TitleModule,
     TooltipModule
   ],
   declarations: [

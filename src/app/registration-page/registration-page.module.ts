@@ -7,6 +7,7 @@ import { AuthApiModule } from '../auth-api';
 import { FormsModule } from '../forms';
 import { NotificationsModule } from '../notifications';
 import { RegistrationPageComponent } from './registration-page.component';
+import { TitleModule } from '../title';
 import { UsersModule } from '../users';
 
 @NgModule({
@@ -17,6 +18,7 @@ import { UsersModule } from '../users';
     FormsModule,
     NotificationsModule,
     ReactiveFormsModule,
+    TitleModule,
     UsersModule
   ],
   declarations: [

@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 
 import { AuthModule } from '../auth';
 import { ProfileEditPageComponent } from './profile-edit-page.component';
+import { TitleModule } from '../title';
 import { EditUserFormModule } from '../users-edit-form';
 
 @NgModule({
@@ -11,7 +12,8 @@ import { EditUserFormModule } from '../users-edit-form';
     AuthModule,
     CommonModule,
     EditUserFormModule,
-    RouterModule
+    RouterModule,
+    TitleModule
   ],
   declarations: [
     ProfileEditPageComponent

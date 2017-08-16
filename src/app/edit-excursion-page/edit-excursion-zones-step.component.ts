@@ -21,6 +21,8 @@ export class EditExcursionZonesStepComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.editExcursionService.setTitle('Zones');
+
     this.initExcursion()
       .switchMap(excursion => this.initZones(excursion))
       .subscribe(undefined, err => this.initError = err);

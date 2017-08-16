@@ -7,6 +7,7 @@ import { AuthApiModule } from '../auth-api';
 import { FormsModule } from '../forms';
 import { NotificationsModule } from '../notifications';
 import { ResetPasswordPageComponent } from './reset-password-page.component';
+import { TitleModule } from '../title';
 import { UsersModule } from '../users';
 
 @NgModule({
@@ -17,6 +18,7 @@ import { UsersModule } from '../users';
     NotificationsModule,
     ReactiveFormsModule,
     RouterModule,
+    TitleModule,
     UsersModule
   ],
   declarations: [

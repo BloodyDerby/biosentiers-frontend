@@ -5,13 +5,15 @@ import { RouterModule } from '@angular/router';
 import { AuthModule } from '../auth';
 import { ExcursionsModule } from '../excursions';
 import { HomePageComponent } from './home-page.component';
+import { TitleModule } from '../title';
 
 @NgModule({
   imports: [
     AuthModule,
     CommonModule,
     ExcursionsModule,
-    RouterModule
+    RouterModule,
+    TitleModule
   ],
   declarations: [
     HomePageComponent

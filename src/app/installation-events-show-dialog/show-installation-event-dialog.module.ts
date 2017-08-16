@@ -4,12 +4,14 @@ import { MomentModule } from 'angular2-moment';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { ShowInstallationEventDialogComponent } from './show-installation-event-dialog.component';
+import { TitleModule } from '../title';
 
 @NgModule({
   imports: [
     CommonModule,
     ModalModule,
-    MomentModule
+    MomentModule,
+    TitleModule
   ],
   declarations: [
     ShowInstallationEventDialogComponent

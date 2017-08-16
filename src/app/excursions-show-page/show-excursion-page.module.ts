@@ -9,6 +9,7 @@ import { ParticipantsModule } from '../participants';
 import { ExcursionComponentsModule } from '../excursions-components';
 import { ShowExcursionPageComponent } from './show-excursion-page.component';
 import { ThemesModule } from '../themes';
+import { TitleModule } from '../title';
 import { ZonesModule } from '../zones';
 
 @NgModule({
@@ -20,6 +21,7 @@ import { ZonesModule } from '../zones';
     ParticipantsModule,
     RouterModule,
     ThemesModule,
+    TitleModule,
     TooltipModule,
     ZonesModule
   ],

@@ -25,6 +25,10 @@ export class Excursion extends Model {
     this.parseRelationship('trail', Trail, data);
   }
 
+  get pageTitle() {
+    return this.name || moment(this.plannedAt).format('ll');
+  }
+
   isComplete(): boolean {
     return !!this.id && !!this.participantsCount && !!this.themes.length && !! this.zoneHrefs.length;
   }

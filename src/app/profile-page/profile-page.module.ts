@@ -5,6 +5,7 @@ import { MomentModule } from 'angular2-moment';
 
 import { AuthModule } from '../auth';
 import { ProfilePageComponent } from './profile-page.component';
+import { TitleModule } from '../title';
 import { UsersModule } from '../users';
 
 @NgModule({
@@ -13,6 +14,7 @@ import { UsersModule } from '../users';
     CommonModule,
     MomentModule,
     RouterModule,
+    TitleModule,
     UsersModule
   ],
   declarations: [

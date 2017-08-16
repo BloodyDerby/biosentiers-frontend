@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { AuthService } from '../auth';
 import { User } from '../models';
+import { TitleService } from '../title';
 import { UsersService } from '../users';
 
 @Component({
@@ -14,11 +15,14 @@ import { UsersService } from '../users';
 export class EditUserPageComponent implements OnInit {
   user: User;
 
-  constructor(private authService: AuthService, private route: ActivatedRoute, private usersService: UsersService) {
+  constructor(private authService: AuthService, private route: ActivatedRoute, private titleService: TitleService, private usersService: UsersService) {
   }
 
   ngOnInit() {
-    this.loadUser().subscribe(user => this.user = user);
+    this.loadUser().subscribe(user => {
+      this.user = user;
+      this.titleService.setTitle([ 'Utilisateurs', user.fullName, 'Édition' ]);
+    });
   }
 
   onUserUpdated(updatedUser: User) {

@@ -9,6 +9,7 @@ import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import { Excursion, Trail } from '../models';
 import { TrailsService } from '../trails';
 import { EditExcursionService } from './edit-excursion.service';
+import { TitleService } from '../title';
 
 @Component({
   selector: 'bio-edit-excursion-details-step',
@@ -34,7 +35,7 @@ export class EditExcursionDetailsStepComponent implements AfterViewInit, OnInit 
     todayBtnTxt: 'Aujourd\'hui'
   };
 
-  constructor(private editExcursionService: EditExcursionService, private trailsService: TrailsService) {
+  constructor(private editExcursionService: EditExcursionService, private titleService: TitleService, private trailsService: TrailsService) {
     this.viewInitialized = new BehaviorSubject(false);
   }
 
@@ -44,6 +45,12 @@ export class EditExcursionDetailsStepComponent implements AfterViewInit, OnInit 
     const initObs = this.editExcursionService.excursionObs.first().do((excursion: Excursion) => {
       this.excursion = excursion;
       this.excursionForm = this.editExcursionService.excursionForm;
+
+      if (this.excursion.id) {
+        this.editExcursionService.setTitle('Détails');
+      } else {
+        this.titleService.setTitle([ 'Nouvelle sortie' ]);
+      }
     });
 
     // Select a default trail once the view & form have been initialized and the list of trails has been loaded

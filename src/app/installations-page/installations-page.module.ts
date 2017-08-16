@@ -8,6 +8,7 @@ import { TooltipModule } from 'ngx-bootstrap';
 import { InstallationsModule } from '../installations';
 import { InstallationsPageComponent } from './installations-page.component';
 import { TablesModule } from '../tables';
+import { TitleModule } from '../title';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { TablesModule } from '../tables';
     ReactiveFormsModule,
     RouterModule,
     TablesModule,
+    TitleModule,
     TooltipModule
   ],
   declarations: [

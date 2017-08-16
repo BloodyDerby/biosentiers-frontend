@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import each from 'lodash/each';
 import extend from 'lodash/extend';
+import isArray from 'lodash/isArray';
 import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
 import moment from 'moment';
@@ -10,6 +11,7 @@ import { Observable, ReplaySubject, Subscription } from 'rxjs/Rx';
 
 import { ExcursionsService, RetrieveExcursionParams } from '../excursions';
 import { Excursion } from '../models';
+import { TitleService } from '../title';
 
 const retrieveExcursionParams: RetrieveExcursionParams = {
   includeCreator: true,
@@ -25,7 +27,7 @@ export class EditExcursionService {
 
   private excursionStream: ReplaySubject<Excursion>;
 
-  constructor(private excursionsService: ExcursionsService, private formBuilder: FormBuilder, private router: Router) {
+  constructor(private excursionsService: ExcursionsService, private formBuilder: FormBuilder, private router: Router, private titleService: TitleService) {
 
     this.excursionStream = new ReplaySubject(1);
     this.excursionObs = this.excursionStream.asObservable().filter(excursion => !!excursion);
@@ -96,6 +98,10 @@ export class EditExcursionService {
       this.excursionStream.next(excursion);
       return this.excursionObs.first();
     });
+  }
+
+  setTitle(titleData: string | string[]) {
+    this.titleService.setTitle(this.excursionObs.first().map(excursion => [ 'Sorties', excursion.pageTitle, ...(isArray(titleData) ? titleData : [ titleData ]) ]));
   }
 
   private initExcursionForm() {

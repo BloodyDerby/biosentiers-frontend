@@ -23,6 +23,8 @@ export class EditExcursionParticipantsStepComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.editExcursionService.setTitle('Participants');
+
     this.excursionParticipantsForm = this.formBuilder.group({
       participantsIncrement: [ '1' ]
     });

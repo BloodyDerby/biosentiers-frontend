@@ -4,9 +4,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AuthModule } from '../auth';
 import { AuthApiModule } from '../auth-api';
+import { CompleteRegistrationPageComponent } from './complete-registration-page.component';
 import { FormsModule } from '../forms';
 import { NotificationsModule } from '../notifications';
-import { CompleteRegistrationPageComponent } from './complete-registration-page.component';
+import { TitleModule } from '../title';
 import { UsersModule } from '../users';
 
 @NgModule({
@@ -17,6 +18,7 @@ import { UsersModule } from '../users';
     FormsModule,
     NotificationsModule,
     ReactiveFormsModule,
+    TitleModule,
     UsersModule
   ],
   declarations: [

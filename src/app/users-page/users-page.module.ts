@@ -7,6 +7,7 @@ import { TooltipModule } from 'ngx-bootstrap';
 
 import { InvitationDialogModule } from '../invitation-dialog';
 import { TablesModule } from '../tables';
+import { TitleModule } from '../title';
 import { UsersPageComponent } from './users-page.component';
 import { UsersModule } from '../users';
 
@@ -18,6 +19,7 @@ import { UsersModule } from '../users';
     ReactiveFormsModule,
     RouterModule,
     TablesModule,
+    TitleModule,
     TooltipModule,
     UsersModule
   ],

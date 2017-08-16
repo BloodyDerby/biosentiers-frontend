@@ -3,12 +3,13 @@ import { RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
 import { apiQueryParamsModifier, ApiService, DateComparisonParam, PaginatedResponse, PaginationParams } from '../api';
+import { AuthService } from '../auth';
 import { Excursion } from '../models';
 
 @Injectable()
 export class ExcursionsService {
 
-  constructor(private api: ApiService) {
+  constructor(private api: ApiService, private authService: AuthService) {
   }
 
   create(excursion: Excursion, params?: RetrieveExcursionParams): Observable<Excursion> {
@@ -49,6 +50,18 @@ export class ExcursionsService {
       .modify(apiQueryParamsModifier(params))
       .execute()
       .map(res => new Excursion(res.json()));
+  }
+
+  getExcursionPageTitle(excursion: Excursion): string[] {
+
+    const titleData = [ 'Sorties' ];
+    if (this.authService.hasRole('admin')) {
+      titleData.push(`${excursion.pageTitle} (${excursion.creator.fullName})`);
+    } else {
+      titleData.push(excursion.pageTitle);
+    }
+
+    return titleData;
   }
 
 }

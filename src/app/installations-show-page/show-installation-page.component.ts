@@ -11,6 +11,7 @@ import { RetrieveInstallationEventParams, InstallationEventsService } from '../i
 import { ShowInstallationEventDialogComponent } from '../installation-events-show-dialog';
 import { Installation, InstallationEvent } from '../models';
 import { TableFilters, TableManager, TableState } from '../tables';
+import { TitleService } from '../title';
 
 @Component({
   selector: 'bio-show-installation-page',
@@ -24,11 +25,15 @@ export class ShowInstallationPageComponent implements OnInit {
 
   @ViewChild(ShowInstallationEventDialogComponent) showInstallationEventDialog: ShowInstallationEventDialogComponent;
 
-  constructor(private installationsService: InstallationsService, private installationEventsService: InstallationEventsService, private route: ActivatedRoute, private router: Router) {
+  constructor(private installationsService: InstallationsService, private installationEventsService: InstallationEventsService, private route: ActivatedRoute, private router: Router, private titleService: TitleService) {
   }
 
   ngOnInit() {
-    this.initInstallation()
+
+    const installationObs = this.initInstallation();
+    this.titleService.setTitle(installationObs.first().map(installation => [ 'Installations', installation.id ]));
+
+    installationObs
       .switchMap(() => {
         this.initTable();
         return this.initEventDialog();
@@ -37,7 +42,7 @@ export class ShowInstallationPageComponent implements OnInit {
   }
 
   showEvent(installationEvent: InstallationEvent) {
-    this.showInstallationEventDialog.open(installationEvent);
+    this.showInstallationEventDialog.open(this.installation, installationEvent);
     this.router.navigate([], {
       queryParams: {
         eventId: installationEvent.id

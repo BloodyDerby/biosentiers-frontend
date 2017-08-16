@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Rx';
 import { PasswordResetLinkDialogComponent } from './password-reset-link-dialog.component';
 import { User } from '../models';
 import { NotificationsService } from '../notifications';
+import { TitleService } from '../title';
 import { UserActivation, UsersService } from '../users';
 
 @Component({
@@ -18,11 +19,14 @@ export class ShowUserPageComponent implements OnInit {
   @ViewChild(PasswordResetLinkDialogComponent)
   passwordResetLinkDialog: PasswordResetLinkDialogComponent;
 
-  constructor(private notifications: NotificationsService, private route: ActivatedRoute, private usersService: UsersService) {
+  constructor(private notifications: NotificationsService, private route: ActivatedRoute, private titleService: TitleService, private usersService: UsersService) {
   }
 
   ngOnInit() {
-    this.loadUser().subscribe(user => this.user = user);
+    this.loadUser().subscribe(user => {
+      this.user = user;
+      this.titleService.setTitle([ 'Utilisateurs', user.fullName ]);
+    });
   }
 
   openPasswordResetLinkDialog() {

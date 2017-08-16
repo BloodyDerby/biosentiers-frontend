@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import extend from 'lodash/extend';
 import pick from 'lodash/pick';
 import moment from 'moment';
@@ -11,6 +12,7 @@ import { AuthViewService } from '../auth';
 import { ExcursionsService, RetrieveExcursionParams } from '../excursions';
 import { Excursion, User } from '../models';
 import { TableFilters, TableManager, TableState } from '../tables';
+import { TitleService } from '../title';
 
 @Component({
   selector: 'bio-excursions-page',
@@ -22,7 +24,7 @@ export class ExcursionsPageComponent implements OnInit {
   dateRangePickerOptions: IMyDrpOptions;
   tableManager: ExcursionsTableManager;
 
-  constructor(auth: AuthViewService, private excursionsService: ExcursionsService) {
+  constructor(auth: AuthViewService, private excursionsService: ExcursionsService, private titleService: TitleService) {
     this.auth = auth;
 
     this.dateRangePickerOptions = {
@@ -39,6 +41,8 @@ export class ExcursionsPageComponent implements OnInit {
     this.tableManager = new ExcursionsTableManager(this.excursionsService, {
       includeCreator: true
     });
+
+    this.titleService.setTitle([ 'Sorties' ]);
   }
 }
 

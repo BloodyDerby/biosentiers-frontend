@@ -2,10 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
+import { AuthService } from '../auth';
 import { ExcursionsService, RetrieveExcursionParams } from '../excursions';
 import { Excursion, Participant, Theme, Zone } from '../models';
 import { ParticipantsService } from '../participants';
 import { ThemesService } from '../themes';
+import { TitleService } from '../title';
 import { ZonesService } from '../zones';
 
 @Component({
@@ -20,11 +22,16 @@ export class ShowExcursionPageComponent implements OnInit {
   zones: Zone[];
   initError: Error;
 
-  constructor(private excursionsService: ExcursionsService, private route: ActivatedRoute, private participantsService: ParticipantsService, private themesService: ThemesService, private zonesService: ZonesService) {
+  constructor(private excursionsService: ExcursionsService, private route: ActivatedRoute, private participantsService: ParticipantsService, private themesService: ThemesService, private titleService: TitleService, private zonesService: ZonesService) {
   }
 
   ngOnInit() {
-    this.initExcursion()
+
+    const excursionObs = this.initExcursion();
+
+    this.titleService.setTitle(excursionObs.map(excursion => this.excursionsService.getExcursionPageTitle(excursion)));
+
+    excursionObs
       .switchMap(excursion => Observable.forkJoin(
         this.initParticipants(excursion),
         this.initThemes(excursion)

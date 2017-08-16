@@ -30,6 +30,7 @@ export class EditExcursionThemesStepComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.editExcursionService.setTitle('Thèmes');
 
     const excursionObs = this.editExcursionService.excursionObs.first().do(excursion => {
       this.excursionForm = this.editExcursionService.excursionForm;

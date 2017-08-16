@@ -8,6 +8,7 @@ import { DatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TooltipModule } from 'ngx-bootstrap';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 
+import { TruncatePipe } from '../common';
 import { EditExcursionDetailsStepComponent } from './edit-excursion-details-step.component';
 import { EditExcursionParticipantsStepComponent } from './edit-excursion-participants-step.component';
 import { EditExcursionPageComponent } from './edit-excursion-page.component';
@@ -20,10 +21,10 @@ import { FormsModule } from '../forms';
 import { ParticipantFormComponent } from './participant-form.component';
 import { ParticipantsModule } from '../participants';
 import { ThemesModule } from '../themes';
+import { TitleModule } from '../title';
 import { TrailsModule } from '../trails';
-import { ZonesModule } from '../zones';
-import { TruncatePipe } from '../common';
 import { WizardModule } from '../wizard';
+import { ZonesModule } from '../zones';
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import { WizardModule } from '../wizard';
     RouterModule,
     SelectModule,
     ThemesModule,
+    TitleModule,
     TooltipModule,
     TrailsModule,
     WizardModule,

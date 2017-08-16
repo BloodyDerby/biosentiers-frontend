@@ -8,6 +8,7 @@ import { AuthApiService } from '../auth-api';
 import { waitForValidations } from '../forms';
 import { Invitation, User } from '../models';
 import { NotificationsService } from '../notifications';
+import { TitleService } from '../title';
 import { UserValidationsService } from '../users';
 
 @Component({
@@ -21,11 +22,12 @@ export class RegistrationPageComponent implements OnInit {
   registered: boolean;
   registrationForm: FormGroup;
 
-  constructor(private authService: AuthService, private authApiService: AuthApiService, authViewService: AuthViewService, private formBuilder: FormBuilder, private notifications: NotificationsService, private router: Router, private userValidationsService: UserValidationsService) {
+  constructor(private authService: AuthService, private authApiService: AuthApiService, authViewService: AuthViewService, private formBuilder: FormBuilder, private notifications: NotificationsService, private router: Router, private titleService: TitleService, private userValidationsService: UserValidationsService) {
     this.auth = authViewService;
   }
 
   ngOnInit() {
+    this.titleService.setTitle([ 'Inscription' ]);
     this.initRegistrationForm();
   }
 

@@ -9,6 +9,7 @@ import { InvitationDialogComponent } from '../invitation-dialog';
 import { TableFilters, TableManager, TableState } from '../tables';
 import { RetrieveUserParams, UsersService } from '../users';
 import { User } from '../models';
+import { TitleService } from '../title';
 
 @Component({
   selector: 'bio-users-page',
@@ -20,10 +21,11 @@ export class UsersPageComponent implements OnInit {
 
   @ViewChild(InvitationDialogComponent) invitationDialog: InvitationDialogComponent;
 
-  constructor(private usersService: UsersService) {
+  constructor(private titleService: TitleService, private usersService: UsersService) {
   }
 
   ngOnInit() {
+    this.titleService.setTitle([ 'Utilisateurs' ]);
     this.tableManager = new UsersTableManager(this.usersService);
   }
 

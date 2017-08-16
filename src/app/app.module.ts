@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -77,6 +78,8 @@ import 'rxjs/add/operator/take';
     TooltipModule.forRoot(),
     UsersPageModule
   ],
-  providers: []
+  providers: [
+    Title
+  ]
 })
 export class AppModule { }

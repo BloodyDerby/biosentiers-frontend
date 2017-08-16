@@ -8,6 +8,7 @@ import { AuthApiService } from '../auth-api';
 import { waitForValidations } from '../forms';
 import { Invitation, User } from '../models';
 import { NotificationsService } from '../notifications';
+import { TitleService } from '../title';
 import { passwordConfirmationMustMatch, UsersService } from '../users';
 
 @Component({
@@ -24,11 +25,13 @@ export class CompleteRegistrationPageComponent implements OnInit {
   private passwordField: ElementRef;
   private passwordFieldFocused: boolean;
 
-  constructor(private authService: AuthService, private authApiService: AuthApiService, authViewService: AuthViewService, private formBuilder: FormBuilder, private notifications: NotificationsService, private route: ActivatedRoute, private router: Router, private usersService: UsersService) {
+  constructor(private authService: AuthService, private authApiService: AuthApiService, authViewService: AuthViewService, private formBuilder: FormBuilder, private notifications: NotificationsService, private route: ActivatedRoute, private router: Router, private titleService: TitleService, private usersService: UsersService) {
     this.auth = authViewService;
   }
 
   ngOnInit() {
+    this.titleService.setTitle([ 'Inscription' ]);
+
     this.retrieveInvitation().subscribe(invitation => {
       this.initRegistrationForm();
       this.registrationForm.patchValue({

@@ -3,11 +3,11 @@
     <h1>Nouveau compte</h1>
   </div>
 
-  <p class='lead'>
-    Choisissez le mot de passe de votre nouveau compte BioSentiers.
-  </p>
-
   <div class='col-lg-4 col-md-6 col-sm-8 col-xs-12' *ngIf='registrationForm && !auth.user'>
+    <p class='lead'>
+      Choisissez le mot de passe de votre nouveau compte BioSentiers.
+    </p>
+
     <form novalidate [formGroup]='registrationForm' (ngSubmit)='invite($event)'>
 
       <div class='form-group'>

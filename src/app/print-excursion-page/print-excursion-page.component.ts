@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Rx';
 import { ExcursionsService, RetrieveExcursionParams } from '../excursions';
 import { Excursion, Participant, Zone } from '../models';
 import { ParticipantsService } from '../participants';
+import { TitleService } from '../title';
 import { RetrieveZonesParams, ZonesService } from '../zones';
 
 @Component({
@@ -18,13 +19,17 @@ export class PrintExcursionPageComponent implements OnInit {
   participants: Participant[];
   zones: Zone[];
 
-  constructor(private excursionsService: ExcursionsService, private participantsService: ParticipantsService, private route: ActivatedRoute, private zonesService: ZonesService) {
+  constructor(private excursionsService: ExcursionsService, private participantsService: ParticipantsService, private route: ActivatedRoute, private titleService: TitleService, private zonesService: ZonesService) {
   }
 
   ngOnInit() {
 
     const excursionObs = this.retrieveExcursion()
       .do(excursion => this.excursion = excursion);
+
+    this.titleService.setTitle(excursionObs.map(excursion => {
+      return [ ...this.excursionsService.getExcursionPageTitle(excursion), 'Impression' ];
+    }));
 
     excursionObs
       .switchMap((excursion: Excursion) => {

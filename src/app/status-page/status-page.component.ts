@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import { environment } from '../../environments/environment';
 import { ApiService } from '../api';
 import { ApiInfo } from '../models';
+import { TitleService } from '../title';
 
 @Component({
   selector: 'bio-status-page',
@@ -14,11 +15,12 @@ export class StatusPageComponent implements OnInit {
   apiInfo: ApiInfo;
   version: string;
 
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService, private titleService: TitleService) {
     this.version = environment.version;
   }
 
   ngOnInit() {
+    this.titleService.setTitle([ 'Status' ]);
     this.initApiMetadata().subscribe();
   }
 

@@ -7,6 +7,7 @@ import { AuthApiService } from '../auth-api';
 import { waitForValidations } from '../forms';
 import { PasswordResetRequest, User } from '../models';
 import { NotificationsService } from '../notifications';
+import { TitleService } from '../title';
 import { passwordConfirmationMustMatch, UsersService } from '../users';
 
 @Component({
@@ -19,10 +20,12 @@ export class ResetPasswordPageComponent implements OnInit {
   passwordResetRequest: PasswordResetRequest;
   passwordResetRequestInvalid: boolean;
 
-  constructor(private authApiService: AuthApiService, private formBuilder: FormBuilder, private notifications: NotificationsService, private route: ActivatedRoute, private router: Router, private usersService: UsersService) {
+  constructor(private authApiService: AuthApiService, private formBuilder: FormBuilder, private notifications: NotificationsService, private route: ActivatedRoute, private router: Router, private titleService: TitleService, private usersService: UsersService) {
   }
 
   ngOnInit() {
+    this.titleService.setTitle([ 'Changement de mot de passe' ]);
+
     this.loadPasswordResetRequest()
       .subscribe(passwordResetRequest => {
         this.passwordResetRequest = passwordResetRequest;

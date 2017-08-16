@@ -1,7 +1,8 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
-import { InstallationEvent } from '../models';
+import { Installation, InstallationEvent } from '../models';
+import { TitleChange, TitleService } from '../title';
 
 @Component({
   selector: 'bio-show-installation-event-dialog',
@@ -20,7 +21,9 @@ export class ShowInstallationEventDialogComponent implements OnInit {
   @ViewChild('modal')
   private modal: ModalDirective;
 
-  constructor() {
+  private titleChange: TitleChange;
+
+  constructor(private titleService: TitleService) {
     this.onClose = new EventEmitter<InstallationEvent>();
     this.onClosed = new EventEmitter<InstallationEvent>();
   }
@@ -29,6 +32,11 @@ export class ShowInstallationEventDialogComponent implements OnInit {
   }
 
   onModalHide() {
+    if (this.titleChange) {
+      this.titleChange.changeBack();
+      this.titleChange = undefined;
+    }
+
     this.onClose.emit(this.installationEvent);
   }
 
@@ -37,9 +45,14 @@ export class ShowInstallationEventDialogComponent implements OnInit {
     delete this.installationEvent;
   }
 
-  open(installationEvent: InstallationEvent) {
+  open(installation: Installation, installationEvent: InstallationEvent) {
     this.installationEvent = installationEvent;
     this.modal.show();
+
+    this.titleService
+      .changeTitle([ 'Installations', installation.id, 'Événement', this.installationEvent.id ])
+      .first()
+      .subscribe(titleChange => this.titleChange = titleChange);
   }
 
   close() {
