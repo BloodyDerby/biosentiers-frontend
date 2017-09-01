@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { TooltipModule } from 'ngx-bootstrap';
 
 import { ApiModule } from '../api';
+import { CommonModule } from '../common';
+import { StatusModule } from '../status';
 import { StatusPageComponent } from './status-page.component';
 import { TitleModule } from '../title';
 
@@ -9,7 +11,9 @@ import { TitleModule } from '../title';
   imports: [
     ApiModule,
     CommonModule,
-    TitleModule
+    StatusModule,
+    TitleModule,
+    TooltipModule
   ],
   declarations: [
     StatusPageComponent

@@ -3,13 +3,89 @@
     <h1>Status</h1>
   </div>
 
-  <dl class='dl-horizontal'>
-    <dt>Backend version</dt>
-    <dd>
-      <em class='empty' *ngIf='!apiInfo'>Chargement...</em>
-      <code *ngIf='apiInfo'>{{ apiInfo.version }}</code>
-    </dd>
-    <dt>Frontend version</dt>
-    <dd><code>{{ version }}</code></dd>
-  </dl>
+  <div class='col-md-6 col-xs-12'>
+    <div class='panel panel-info'>
+      <div class='panel-heading'>
+        <h3 class='panel-title'>Informations</h3>
+      </div>
+      <table class='table table-hover'>
+        <tbody>
+          <tr>
+            <th>Version du frontend</th>
+            <td>
+              <code>{{ version }}</code>
+            </td>
+          </tr>
+          <tr>
+            <th>Version du backend</th>
+            <td>
+              <em class='empty' *ngIf='!apiInfo'>Chargement...</em>
+              <code *ngIf='apiInfo'>{{ apiInfo.version }}</code>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class='col-md-6 col-xs-12'>
+    <div class='database-stats panel panel-info'>
+      <div class='panel-heading'>
+        <h3 class='panel-title'>
+          <span *ngIf='stats' class='total-size-tooltip glyphicon glyphicon-question-sign pull-right' tooltip='Taille totale'></span>
+          <span *ngIf='stats' class='total-size pull-right'>{{ stats.database.size | prettyBytes }}</span>
+          Base de données
+        </h3>
+      </div>
+      <div *ngIf='!stats' class='panel-body'>
+        <p class='empty'><em>Chargement...</em></p>
+      </div>
+      <table *ngIf='stats' class='table table-condensed table-hover'>
+        <thead>
+          <tr>
+            <th>Table</th>
+            <th>Lignes</th>
+            <th>Taille</th>
+            <th>
+              Taille totale
+              <span class='glyphicon glyphicon-question-sign' tooltip='Avec indices & métadonnées'></span>
+            </th>
+            <th>%</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container>
+            <tr *ngFor='let tableStats of stats.database.tablesList'>
+              <td><code>{{ tableStats.table }}</code></td>
+              <td>{{ tableStats.rows | number }}</td>
+              <td>{{ tableStats.size | prettyBytes }}</td>
+              <td>{{ tableStats.totalSize | prettyBytes }}</td>
+              <td>{{ tableStats.totalSizeRatio | percent: '1.1-1' }}</td>
+            </tr>
+          </ng-container>
+          <tr>
+            <td>Total des {{ stats.database.tablesList.length | number }} tables</td>
+            <td>{{ stats.database.tableRows | number }}</td>
+            <td>{{ stats.database.tableSize | prettyBytes }}</td>
+            <td>{{ stats.database.totalTableSize | prettyBytes }}</td>
+            <td>{{ stats.database.totalTableSize / stats.database.size | percent: '1.1-1' }}</td>
+          </tr>
+          <tr>
+            <td>Autres</td>
+            <td>-</td>
+            <td>-</td>
+            <td>{{ stats.database.extraSize | prettyBytes }}</td>
+            <td>{{ stats.database.extraSize / stats.database.size | percent: '1.1-1' }}</td>
+          </tr>
+          <tr>
+            <th>Base de données</th>
+            <td>{{ stats.database.tableRows | number }}</td>
+            <td>{{ stats.database.tableSize | prettyBytes }}</td>
+            <td>{{ stats.database.size | prettyBytes }}</td>
+            <td>{{ 1 | percent: '1.0-0' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

@@ -8,6 +8,7 @@ export * from './lat-lng-bounds';
 export * from './participant';
 export * from './password-reset-request';
 export * from './poi';
+export * from './stats';
 export * from './theme';
 export * from './trail';
 export * from './user';
