@@ -4,8 +4,13 @@ import isPlainObject from 'lodash/isPlainObject';
 import pick from 'lodash/pick';
 import moment from 'moment';
 
+export type ModelSerializer<T> = (model: T, result: any) => void;
+export type ModelValueSerializer<T> = (model: T) => any;
+export type ModelPropertySerializers<T> = { [key: string]: string | ModelValueSerializer<T> };
+export type ModelJsonSerializer<T> = string | ModelSerializer<T> | ModelPropertySerializers<T>;
+
 export abstract class Model {
-  propertiesToJson(...properties) {
+  propertiesToJson(...properties: ModelJsonSerializer<this>[]): any {
 
     const result = {};
     each(properties, property => {
@@ -31,7 +36,7 @@ export abstract class Model {
     return result;
   }
 
-  parseProperties(data?: any, ...properties) {
+  parseProperties(data?: any, ...properties: string[]) {
     each(pick(data || {}, ...properties), (value, key) => {
       if (key.toString().match(/[a-z]At$/)) {
         this[key] = moment(data[key]).toDate();
@@ -41,7 +46,7 @@ export abstract class Model {
     });
   }
 
-  parseRelationship(relation, relationModel, data?: any) {
+  parseRelationship<T>(relation: string, relationModel: new(data?: any) => T, data?: any) {
     if (data && data[relation]) {
       this[relation] = new relationModel(data[relation]);
     }
