@@ -29,6 +29,16 @@
   </div>
 
   <div class='col-md-6 col-xs-12'>
+    <canvas baseChart
+            [datasets]="lineChartData"
+            [labels]="lineChartLabels"
+            [options]="lineChartOptions"
+            [colors]="lineChartColors"
+            [legend]="lineChartLegend"
+            [chartType]="lineChartType"></canvas>
+  </div>
+
+  <div class='col-xs-12'>
     <div class='database-stats panel panel-info'>
       <div class='panel-heading'>
         <h3 class='panel-title'>

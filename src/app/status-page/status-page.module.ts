@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { ChartsModule  } from 'ng2-charts';
 import { TooltipModule } from 'ngx-bootstrap';
 
 import { ApiModule } from '../api';
@@ -10,6 +11,7 @@ import { TitleModule } from '../title';
 @NgModule({
   imports: [
     ApiModule,
+    ChartsModule,
     CommonModule,
     StatusModule,
     TitleModule,

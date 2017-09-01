@@ -22,6 +22,7 @@
         "styles.styl"
       ],
       "scripts": [
+        "../node_modules/chart.js/dist/Chart.min.js",
         "../node_modules/urijs/src/URI.min.js",
         "../node_modules/qrcode/build/qrcode.min.js",
         "../node_modules/@mediacomem/biosentiers-qrcode/dist/biosentiers-qrcode.min.js"
